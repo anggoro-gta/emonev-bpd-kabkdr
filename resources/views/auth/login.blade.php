@@ -23,15 +23,15 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input id="email"
-                        type="email"
+                        type="text"
                         class="form-control"
-                        name="email"
+                        name="username"
                         tabindex="1"
                         required
                         value="{{ old('email') }}"
                         autofocus>
                     <div class="invalid-feedback">
-                        Please fill in your email
+                        Please fill in your username
                     </div>
                 </div>
 

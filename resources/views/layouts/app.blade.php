@@ -24,6 +24,10 @@
             background-color: #fc544b !important;
         }
     </style>
+    <link rel="stylesheet"
+        href="{{ asset('library/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('library/selectric/public/selectric.css') }}">
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
@@ -71,6 +75,7 @@
     <!-- Template JS File -->
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     {{-- <script src="{{ asset('library/sweetalert/dist/sweetalert.min.js') }}"></script>
 
     <!-- Page Specific JS File -->

@@ -53,7 +53,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input type="text" class="form-control" placeholder="Nama" name="name" value="{{ $data->user->name ?? old('name') }}">
+                                        <input required type="text" class="form-control" placeholder="Nama" name="name" value="{{ $data->user->name ?? old('name') }}">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputPassword4">
@@ -62,7 +62,30 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input type="text" class="form-control" placeholder="Email" name="email" value="{{ $data->user->email ??old('email') }}">
+                                        <input required type="text" class="form-control" placeholder="Email" name="email" value="{{ $data->user->email ??old('email') }}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">
+                                            Username
+                                            @error('username')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control" placeholder="Username" name="username" value="{{ $data->user->username ??old('username') }}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">
+                                            Sub Unit
+                                            @error('fk_skpd_unit_id')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <select class="form-control select2" name="fk_skpd_unit_id" required>
+                                            <option value="">Pilih Sub Unit</option>
+                                            @foreach ($data->subUnit as $item)
+                                                <option {{ isset($data->user) && $data->user->fk_skpd_unit_id==$item->id ? 'selected':''  }} value="{{ $item->id }}">{{ $item->nama_unit }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -85,6 +108,27 @@
                                             @enderror
                                         </label>
                                         <input type="password" class="form-control" placeholder="Konfirmasi Password" name="password_confirmation">
+                                    </div>
+                                    <h5>Roles</h5>
+                                    @csrf
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless">
+                                            @foreach ($data->groupedRoles as $group)
+                                            <tr>
+                                                @foreach ($group as $role)
+                                                <td>
+                                                    <label class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="roles[]" id="" class="custom-control-input" value="{{ $role->name }}" {{ isset($data->user) && in_array($role->id,$data->user->roles->pluck('id')->toArray()) ? 'checked':'' }}>
+                                                        <span class="custom-control-label">{{ $role->name }}</span>
+                                                    </label>
+                                                </td>
+                                                @if (count($data->roles) < 4) <td>
+                                                    </td>
+                                                    @endif
+                                                @endforeach
+                                            </tr>
+                                            @endforeach
+                                        </table>
                                     </div>
                                 </div>
                             </div>

@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'fk_skpd_unit_id'
     ];
 
     /**
@@ -46,7 +48,7 @@ class User extends Authenticatable
        $query->when(request('q'), function ($query) {
             $query->where(function ($query) {
                 $param = '%' . request('q') . '%';
-                $query->where('name', 'like', $param)->orWhere('email', 'like', $param);
+                $query->where('username', 'like', $param)->where('name', 'like', $param)->orWhere('email', 'like', $param);
             });
         });
     }

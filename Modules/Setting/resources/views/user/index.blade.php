@@ -60,6 +60,7 @@
                                         <tr>
                                             <th width="5%">No</th>
                                             <th>Nama</th>
+                                            <th>Username</th>
                                             <th>Email</th>
                                             <th>Role</th>
                                             <th>Aksi</th>
@@ -70,6 +71,7 @@
                                         <tr>
                                             <td>{{ ++$key }}</td>
                                             <td>{{ $item->name }}</td>
+                                            <td>{{ $item->username }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td>{{ $item->roles->pluck('name')->implode(',') }}</td>
                                             <td>

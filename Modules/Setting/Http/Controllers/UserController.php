@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Modules\Master\Models\MsSKPDUnit;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -54,10 +55,15 @@ class UserController extends Controller
     public function create()
     {
         $this->authorize('setting.user.create');
+        $role = Role::get();
+        $groupedRoles = $role->split(ceil($role->count() / 4));
         $data =  (object)[
             'type_menu' => $this->type_menu,
             'action' => route('setting.user.store'),
-            'method' => 'POST'
+            'method' => 'POST',
+            'roles' => $role,
+            'groupedRoles' => $groupedRoles,
+            'subUnit' => MsSKPDUnit::all()
         ];
         return view('setting::user.form', compact('data'));
     }
@@ -97,11 +103,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validator($request->all())->validate();
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $request->username,
+            'fk_skpd_unit_id' => $request->fk_skpd_unit_id,
             'password' => Hash::make($request->password),
         ]);
+        if ($user->roles->isEmpty() == false) {
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
+        }
+        $user->assignRole($request->roles);
         return redirect(route('setting.user.index'))
             ->with('flash_message', "Data berhasil disimpan")
             ->with('flash_type', 'primary');
@@ -120,12 +134,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-         $this->authorize('setting.user.update');
+        $this->authorize('setting.user.update');
+        $role = Role::get();
+        $groupedRoles = $role->split(ceil($role->count() / 4));
         $data =  (object)[
             'type_menu' => $this->type_menu,
             'user' => User::find($id),
-            'action' => route('setting.user.update',$id),
-            'method' => 'PUT'
+            'action' => route('setting.user.update', $id),
+            'method' => 'PUT',
+            'roles' => $role,
+            'groupedRoles' => $groupedRoles,
+            'subUnit' => MsSKPDUnit::all()
         ];
         return view('setting::user.form', compact('data'));
     }
@@ -138,10 +157,18 @@ class UserController extends Controller
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->fk_skpd_unit_id = $request->fk_skpd_unit_id;
+        $user->username = $request->username;
         if ($request->password) {
             $user->password = $request->password;
         }
         $user->save();
+        if ($user->roles->isEmpty() == false) {
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
+        }
+        $user->assignRole($request->roles);
         return redirect(route('setting.user.index'))
             ->with('flash_message', "Data berhasil disimpan")
             ->with('flash_type', 'primary');
@@ -158,21 +185,23 @@ class UserController extends Controller
             ->with('flash_message', "Data berhasil dihapus")
             ->with('flash_type', 'primary');
     }
-    function assignRole($id) {
+    function assignRole($id)
+    {
 
         $role = Role::get();
         $groupedRoles = $role->split(ceil($role->count() / 4));
         $data =  (object)[
             'type_menu' => $this->type_menu,
             'user' => User::find($id),
-            'action' => route('setting.user.assign-role',$id),
+            'action' => route('setting.user.assign-role', $id),
             'method' => 'PUT',
             'roles' => $role,
-            'groupedRoles'=> $groupedRoles,
+            'groupedRoles' => $groupedRoles,
         ];
         return view('setting::user.assign-role', compact('data'));
     }
-    function updateRole(Request $request,$id) {
+    function updateRole(Request $request, $id)
+    {
         $user = User::find($id);
         if ($user->roles->isEmpty() == false) {
             foreach ($user->roles as $role) {
@@ -184,5 +213,4 @@ class UserController extends Controller
             ->with('flash_message', 'User successfully edited.')
             ->with('flash_type', 'success');
     }
-
 }
