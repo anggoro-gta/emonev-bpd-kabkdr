@@ -22,27 +22,42 @@
                     </li>
                 </ul>
             </li>
+            @canany(['setting.user.read', 'setting.permission.read', 'setting.role.read'])
             <li class="nav-item dropdown {{ isset($data->type_menu) && $data->type_menu === 'setting' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-gear"></i> <span>Setting</span></a>
                 <ul class="dropdown-menu">
 
                     @can('setting.user.read')
-                    <li class="{{ Request::is('auth-forgot-password') ? 'active' : '' }}">
+                    <li class="{{ Request::is('setting/user') ? 'active' : '' }}">
                         <a href="{{ route('setting.user.index') }}">User</a>
                     </li>
                     @endcan
                     @can('setting.permission.read')
-                    <li class="{{ Request::is('auth-login') ? 'active' : '' }}">
+                    <li class="{{ Request::is('setting/permission') ? 'active' : '' }}">
                         <a href="{{ route('setting.permission.index') }}">Permission</a>
                     </li>
                     @endcan
                     @can('setting.role.read')
-                    <li class="{{ Request::is('auth-login2') ? 'active' : '' }}">
+                    <li class="{{ Request::is('setting/role') ? 'active' : '' }}">
                         <a class="beep beep-sidebar"
                             href="{{ route('setting.role.index') }}">Role</a>
                     </li>
                     @endcan
+                </ul>
+            </li>
+            @endcanany
+
+            <li class="nav-item dropdown {{ isset($data->type_menu) && $data->type_menu === 'master' ? 'active' : '' }}">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-gear"></i> <span>Master</span></a>
+                <ul class="dropdown-menu">
+
+                    {{-- @can('master.urusan.read') --}}
+                    <li class="{{ Request::is('amaster/urusan') ? 'active' : '' }}">
+                        <a href="{{ route('master.urusan.index') }}">Urusan</a>
+                    </li>
+                    {{-- @endcan --}}
                 </ul>
             </li>
         </ul>
