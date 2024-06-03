@@ -26,18 +26,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        $unit = MsSKPDUnit::all();
-        foreach ($unit as $key => $value) {
-            $user  = User::create([
-                'fk_skpd_unit_id' => $value->id,
-                'name' => $value->nama_unit,
-                'email' => $value->username.'@sgmail.com',
-                'username' => $value->username,
-                'password' => bcrypt('password'),
-            ]);
-            $user->assignRole(2);
-        }
         return view('pages.dashboard-general-dashboard', ['type_menu' => 'dashboard']);
     }
 }
