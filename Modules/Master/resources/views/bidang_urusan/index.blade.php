@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'OPD Unit')
+@section('title', 'Bidang Urusan')
 
 @push('style')
 <!-- CSS Libraries -->
@@ -24,9 +24,9 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>OPD Unit</h1>
+            <h1>Bidang Urusan</h1>
             <div class="section-header-breadcrumb">
-                <a href="{{ route('master.skpd_unit.create') }}" class="btn btn-success" title="Tambah User"><i class="fas fa-plus"></i></a>
+                <a href="{{ route('master.bidang_urusan.create') }}" class="btn btn-success" title="Tambah User"><i class="fas fa-plus"></i></a>
             </div>
         </div>
 
@@ -56,27 +56,27 @@
                                     <thead>
                                         <tr>
                                             <th width="5%">No</th>
-                                            <th>OPD</th>
-                                            <th>Kode Unit</th>
-                                            <th>Nama Unit</th>
+                                            <th>Urusan</th>
+                                            <th>Kode Bidang Urusan</th>
+                                            <th>Nama Bidang Urusan</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($data->skpd_unit as $key => $item)
+                                        @foreach ($data->bidang_urusan as $key => $item)
                                         <tr>
                                             <td>{{ ++$key }}</td>
-                                            <td>{{ $item->skpd->nama_skpd }}</td>
-                                            <td>{{ $item->kode_unit }}</td>
-                                            <td>{{ $item->nama_unit }}</td>
+                                            <td>{{ $item->urusan->nama_urusan }}</td>
+                                            <td>{{ $item->kode_bidang_urusan }}</td>
+                                            <td>{{ $item->nama_bidang_urusan }}</td>
                                             <td>
                                                 @can('setting.user.update')
-                                                <a href="{{ route('master.skpd_unit.edit',$item->id) }}"
-                                                    class="btn btn-primary" title="Edit skpd"><i
+                                                <a href="{{ route('master.bidang_urusan.edit',$item->id) }}"
+                                                    class="btn btn-primary" title="Edit Bidang Urusan"><i
                                                         class="fas fa-pencil"></i></a>
                                                 @endcan
                                                 @can('setting.user.destroy')
-                                                    <a data-url="{{ route('master.skpd_unit.destroy',$item->id) }}" title="Hapus"
+                                                    <a data-url="{{ route('master.bidang_urusan.destroy',$item->id) }}" title="Hapus"
                                                         class="btn btn-danger delete">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
@@ -89,7 +89,7 @@
                                 </table>
                             </div>
                             <div class="card-footer text-right">
-                                {{ $data->skpd_unit->appends(['q' => old('q')])->links('vendor.pagination.bootstrap-5') }}
+                                {{ $data->bidang_urusan->appends(['q' => old('q')])->links('vendor.pagination.bootstrap-5') }}
                             </div>
                         </div>
                     </div>

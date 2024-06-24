@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Master\App\Http\Controllers\BidangUrusanController;
 use Modules\Master\App\Http\Controllers\MasterController;
 use Modules\Master\App\Http\Controllers\SkpdController;
 use Modules\Master\App\Http\Controllers\SkpdUnitController;
@@ -19,6 +20,7 @@ use Modules\Master\App\Http\Controllers\UrusanController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'master', 'as' => 'master.'], function () {
     Route::resource('/urusan', UrusanController::class);
+    Route::resource('/bidang_urusan', BidangUrusanController::class);
     Route::resource('/skpd', SkpdController::class);
     Route::resource('/skpd_unit', SkpdUnitController::class);
 });
