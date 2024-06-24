@@ -54,9 +54,17 @@
                 <ul class="dropdown-menu">
 
                     {{-- @can('master.urusan.read') --}}
-                    <li class="{{ Request::is('amaster/urusan') ? 'active' : '' }}">
-                        <a href="{{ route('master.urusan.index') }}">Urusan</a>
-                    </li>
+                    @if (Auth::user()->hasRole('Admin'))
+                        <li class="{{ Request::is('master/skpd') ? 'active' : '' }}">
+                            <a href="{{ route('master.skpd.index') }}">OPD</a>
+                        </li>
+                        <li class="{{ Request::is('master/skpd_unit') ? 'active' : '' }}">
+                            <a href="{{ route('master.skpd_unit.index') }}">OPD Unit</a>
+                        </li>
+                        <li class="{{ Request::is('master/urusan') ? 'active' : '' }}">
+                            <a href="{{ route('master.urusan.index') }}">Urusan</a>
+                        </li>
+                    @endif
                     {{-- @endcan --}}
                 </ul>
             </li>
