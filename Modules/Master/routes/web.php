@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Master\App\Http\Controllers\BidangUrusanController;
+use Modules\Master\App\Http\Controllers\KegiatanController;
 use Modules\Master\App\Http\Controllers\MasterController;
 use Modules\Master\App\Http\Controllers\ProgramController;
 use Modules\Master\App\Http\Controllers\SkpdController;
@@ -25,4 +26,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master', 'as' => 'master.']
     Route::resource('/skpd', SkpdController::class);
     Route::resource('/skpd_unit', SkpdUnitController::class);
     Route::resource('/program', ProgramController::class);
+    Route::resource('/kegiatan', KegiatanController::class);
 });

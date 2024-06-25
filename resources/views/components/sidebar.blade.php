@@ -70,6 +70,9 @@
                         <li class="{{ Request::is('master/program') ? 'active' : '' }}">
                             <a href="{{ route('master.program.index') }}">Program</a>
                         </li>
+                        <li class="{{ Request::is('master/kegiatan') ? 'active' : '' }}">
+                            <a href="{{ route('master.kegiatan.index') }}">Kegiatan</a>
+                        </li>
                     @endif
                     {{-- @endcan --}}
                 </ul>
