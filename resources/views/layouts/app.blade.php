@@ -71,7 +71,32 @@
     <script src="{{ asset('js/stisla.js') }}"></script>
 
     @stack('scripts')
+    <script>
 
+    $(document).on('change', '#TahunSession', function () {
+        let TahunSession = $(this).val()
+        let csrf_token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: '/home/tahun-session',
+            type: "POST",
+            data: {
+                '_token': csrf_token,
+                '_method': 'POST',
+                'TahunSession' :TahunSession
+            },
+            success: function(data) {
+                window.open("{{ url('home') }}","_self");
+            },
+            error: function(data) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: data.msg
+                });
+            }
+        });
+    })
+    </script>
     <!-- Template JS File -->
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>

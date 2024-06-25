@@ -56,6 +56,17 @@
                         please fill in your password
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="tahun">Tahun</label>
+                    <select name="tahunSession" class="form-control">
+                        @for ($i = 2020; $i < 2031; $i++)
+                            <option {{ date('Y')==$i ? 'selected':'' }} value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                    <div class="invalid-feedback">
+                        Please fill in your username
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <button type="submit"

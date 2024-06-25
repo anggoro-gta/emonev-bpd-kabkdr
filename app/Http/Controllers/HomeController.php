@@ -28,4 +28,9 @@ class HomeController extends Controller
     {
         return view('pages.dashboard-general-dashboard', ['type_menu' => 'dashboard']);
     }
+    function tahunSession(Request $request) {
+        session([
+            'tahunSession' => $request->TahunSession,
+        ]);
+    }
 }

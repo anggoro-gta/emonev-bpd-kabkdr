@@ -266,3 +266,4 @@ Route::middleware(['auth'])->group(function () {
     Route::redirect('/', '/home');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/home/tahun-session', [App\Http\Controllers\HomeController::class, 'tahunSession']);
