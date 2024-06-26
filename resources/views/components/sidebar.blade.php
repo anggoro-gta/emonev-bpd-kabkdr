@@ -74,6 +74,11 @@
                             <a href="{{ route('master.kegiatan.index') }}">Kegiatan</a>
                         </li>
                     @endif
+                    @can('master.sub_kegiatan.update')
+                        <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
+                            <a href="{{ route('master.sub_kegiatan.index') }}">Sub Kegiatan</a>
+                        </li>
+                    @endcan
                     {{-- @endcan --}}
                 </ul>
             </li>

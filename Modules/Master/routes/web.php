@@ -7,6 +7,7 @@ use Modules\Master\App\Http\Controllers\MasterController;
 use Modules\Master\App\Http\Controllers\ProgramController;
 use Modules\Master\App\Http\Controllers\SkpdController;
 use Modules\Master\App\Http\Controllers\SkpdUnitController;
+use Modules\Master\App\Http\Controllers\SubKegiatanController;
 use Modules\Master\App\Http\Controllers\UrusanController;
 
 /*
@@ -27,4 +28,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master', 'as' => 'master.']
     Route::resource('/skpd_unit', SkpdUnitController::class);
     Route::resource('/program', ProgramController::class);
     Route::resource('/kegiatan', KegiatanController::class);
+    Route::resource('/sub_kegiatan', SubKegiatanController::class);
 });

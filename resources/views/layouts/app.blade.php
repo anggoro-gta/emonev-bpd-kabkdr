@@ -23,11 +23,13 @@
         .navbar-bg {
             background-color: #fc544b !important;
         }
+
+        /* .nominal {
+            text-align: right;
+        } */
     </style>
-    <link rel="stylesheet"
-        href="{{ asset('library/select2/dist/css/select2.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('library/selectric/public/selectric.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
@@ -69,33 +71,42 @@
     <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('js/stisla.js') }}"></script>
+    <script src="{{ asset('js/autoNumeric.js') }}"></script>
 
     @stack('scripts')
     <script>
-
-    $(document).on('change', '#TahunSession', function () {
-        let TahunSession = $(this).val()
-        let csrf_token = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            url: '/home/tahun-session',
-            type: "POST",
-            data: {
-                '_token': csrf_token,
-                '_method': 'POST',
-                'TahunSession' :TahunSession
-            },
-            success: function(data) {
-                window.open("{{ url('home') }}","_self");
-            },
-            error: function(data) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: data.msg
-                });
-            }
+        $(".nominal").autoNumeric("init", {
+            vMax: 9999999999999,
+            vMin: -9999999999999
         });
-    })
+        $(".dec").autoNumeric("init", {
+            vMax: 9999999999999,
+            vMin: -9999999999999,
+            mDec: 2
+        });
+        $(document).on('change', '#TahunSession', function () {
+            let TahunSession = $(this).val()
+            let csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '/home/tahun-session',
+                type: "POST",
+                data: {
+                    '_token': csrf_token,
+                    '_method': 'POST',
+                    'TahunSession' :TahunSession
+                },
+                success: function(data) {
+                    window.open("{{ url('home') }}","_self");
+                },
+                error: function(data) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: data.msg
+                    });
+                }
+            });
+        })
     </script>
     <!-- Template JS File -->
     <script src="{{ asset('js/scripts.js') }}"></script>
