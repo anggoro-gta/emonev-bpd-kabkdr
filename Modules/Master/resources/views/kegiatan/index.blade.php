@@ -70,7 +70,7 @@
                                             <td>{{ $item->kode_kegiatan }}</td>
                                             <td>{{ $item->nama_kegiatan }}</td>
                                             <td>
-                                                @can('setting.user.update')
+                                                @can('master.update')
                                                 <a href="{{ route('master.kegiatan.edit',$item->id) }}"
                                                     class="btn btn-primary" title="Edit Kegiatan"><i
                                                         class="fas fa-pencil"></i></a>
@@ -89,7 +89,7 @@
                                 </table>
                             </div>
                             <div class="card-footer text-right">
-                                {{ $data->kegiatan->appends(['q' => old('q')])->links('vendor.pagination.bootstrap-5') }}
+                                {{ $data->kegiatan->appends(['q' =>request()->q])->links('vendor.pagination.bootstrap-5') }}
                             </div>
                         </div>
                     </div>

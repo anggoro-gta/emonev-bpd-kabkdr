@@ -16,7 +16,7 @@ class MsKegiatan extends Model
         $query->when(request('q'), function ($query) {
             $query->where(function ($query) {
                 $param = '%' . request('q') . '%';
-                $query->where('nama_kegiatan', 'like', $param)->orWhere('nama_kegiatan', 'like', $param);
+                $query->where('kode_kegiatan', 'like', $param)->orWhere('nama_kegiatan', 'like', $param);
             });
         });
     }

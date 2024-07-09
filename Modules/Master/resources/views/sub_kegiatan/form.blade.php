@@ -52,12 +52,17 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <select class="form-control select2" name="fk_kegiatan_id" required>
-                                            <option value="">Pilih Kegiatan</option>
-                                            @foreach ($data->kegiatan as $item)
-                                                <option {{ isset($data->sub_kegiatan) && $data->sub_kegiatan->fk_kegiatan_id==$item->id ? 'selected':''  }} value="{{ $item->id }}">{{ $item->kode_kegiatan }} {{ $item->nama_kegiatan }}</option>
-                                            @endforeach
-                                        </select>
+                                        @if(auth()->user()->hasRole('OPD'))
+                                            <input type="hidden" class="form-control" placeholder="Kode Sub Kegiatan" name="fk_kegiatan_id" value="{{ $data->sub_kegiatan->kegiatan->id ?? old('kode_sub_kegiatan') }}">
+                                            <input required @if(auth()->user()->hasRole('OPD')) readonly @endif type="text" class="form-control" placeholder="Kode Sub Kegiatan" value="{{ $data->sub_kegiatan->kegiatan->nama_kegiatan ?? old('kode_sub_kegiatan') }}">
+                                        @else
+                                            <select class="form-control select2" name="fk_kegiatan_id" required @if(auth()->user()->hasRole('OPD')) readonly @endif>
+                                                <option value="">Pilih Kegiatan</option>
+                                                @foreach ($data->kegiatan as $item)
+                                                    <option {{ isset($data->sub_kegiatan) && $data->sub_kegiatan->fk_kegiatan_id==$item->id ? 'selected':''  }} value="{{ $item->id }}">{{ $item->kode_kegiatan }} {{ $item->nama_kegiatan }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="inputPassword4">
@@ -66,7 +71,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input required type="text" class="form-control" placeholder="Kode Sub Kegiatan" name="kode_sub_kegiatan" value="{{ $data->sub_kegiatan->kode_sub_kegiatan ?? old('kode_sub_kegiatan') }}">
+                                        <input required @if(auth()->user()->hasRole('OPD')) readonly @endif type="text" class="form-control" placeholder="Kode Sub Kegiatan" name="kode_sub_kegiatan" value="{{ $data->sub_kegiatan->kode_sub_kegiatan ?? old('kode_sub_kegiatan') }}">
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="inputPassword4">
@@ -75,7 +80,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input required type="text" class="form-control" placeholder="Nama Sub Kegiatan" name="nama_sub_kegiatan" value="{{ $data->sub_kegiatan->nama_sub_kegiatan ??old('nama_sub_kegiatan') }}">
+                                        <input required @if(auth()->user()->hasRole('OPD')) readonly @endif type="text" class="form-control" placeholder="Nama Sub Kegiatan" name="nama_sub_kegiatan" value="{{ $data->sub_kegiatan->nama_sub_kegiatan ??old('nama_sub_kegiatan') }}">
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -86,7 +91,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input required type="text" class="form-control dec" placeholder="Anggaran Murni" name="anggaran_murni" value="{{ $data->sub_kegiatan->anggaran_murni ??old('anggaran_murni') }}">
+                                        <input type="text" class="form-control dec" placeholder="Anggaran Murni" name="anggaran_murni" value="{{ $data->sub_kegiatan->anggaran_murni ??old('anggaran_murni') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -95,7 +100,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input required type="text" class="form-control dec" placeholder="Perubahan Perbup 1" name="perubahan_perbup1" value="{{ $data->sub_kegiatan->perubahan_perbup1 ??old('perubahan_perbup1') }}">
+                                        <input type="text" class="form-control dec" placeholder="Perubahan Perbup 1" name="perubahan_perbup1" value="{{ $data->sub_kegiatan->perubahan_perbup1 ??old('perubahan_perbup1') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -104,7 +109,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input required type="text" class="form-control dec" placeholder="Perubahan Perbup 2" name="perubahan_perbup2" value="{{ $data->sub_kegiatan->perubahan_perbup2 ??old('perubahan_perbup2') }}">
+                                        <input type="text" class="form-control dec" placeholder="Perubahan Perbup 2" name="perubahan_perbup2" value="{{ $data->sub_kegiatan->perubahan_perbup2 ??old('perubahan_perbup2') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -113,7 +118,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input required type="text" class="form-control dec" placeholder="Perubahan Perbup 3" name="perubahan_perbup3" value="{{ $data->sub_kegiatan->perubahan_perbup3 ??old('perubahan_perbup3') }}">
+                                        <input type="text" class="form-control dec" placeholder="Perubahan Perbup 3" name="perubahan_perbup3" value="{{ $data->sub_kegiatan->perubahan_perbup3 ??old('perubahan_perbup3') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -122,7 +127,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input required type="text" class="form-control dec" placeholder="Perubahan Perbup 4" name="perubahan_perbup4" value="{{ $data->sub_kegiatan->perubahan_perbup4 ??old('perubahan_perbup4') }}">
+                                        <input type="text" class="form-control dec" placeholder="Perubahan Perbup 4" name="perubahan_perbup4" value="{{ $data->sub_kegiatan->perubahan_perbup4 ??old('perubahan_perbup4') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -131,7 +136,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input required type="text" class="form-control dec" placeholder="Perubahan Anggaran" name="perubahan_anggaran" value="{{ $data->sub_kegiatan->perubahan_anggaran ??old('perubahan_anggaran') }}">
+                                        <input type="text" class="form-control dec" placeholder="Perubahan Anggaran" name="perubahan_anggaran" value="{{ $data->sub_kegiatan->perubahan_anggaran ??old('perubahan_anggaran') }}">
                                     </div>
                                 </div>
                             </div>

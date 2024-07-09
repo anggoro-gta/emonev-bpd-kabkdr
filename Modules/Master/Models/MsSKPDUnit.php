@@ -16,7 +16,7 @@ class MsSKPDUnit extends Model
         $query->when(request('q'), function ($query) {
             $query->where(function ($query) {
                 $param = '%' . request('q') . '%';
-                $query->where('nama_unit', 'like', $param)->orWhere('nama_unit', 'like', $param);
+                $query->where('kode_unit', 'like', $param)->orWhere('nama_unit', 'like', $param);
             });
         });
     }

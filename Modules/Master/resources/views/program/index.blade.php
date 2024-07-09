@@ -74,7 +74,7 @@
                                             <td>{{ $item->kode_program }}</td>
                                             <td>{{ $item->nama_program }}</td>
                                             <td>
-                                                @can('setting.user.update')
+                                                @can('master.update')
                                                 <a href="{{ route('master.program.edit',$item->id) }}"
                                                     class="btn btn-primary" title="Edit skpd"><i
                                                         class="fas fa-pencil"></i></a>
@@ -93,7 +93,7 @@
                                 </table>
                             </div>
                             <div class="card-footer text-right">
-                                {{ $data->program->appends(['q' => old('q')])->links('vendor.pagination.bootstrap-5') }}
+                                {{ $data->program->appends(['q' =>request()->q])->links('vendor.pagination.bootstrap-5') }}
                             </div>
                         </div>
                     </div>

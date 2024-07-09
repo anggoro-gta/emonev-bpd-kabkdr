@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'OPD')
+@section('title', 'OPD Unit')
 
 @push('style')
 <!-- CSS Libraries -->

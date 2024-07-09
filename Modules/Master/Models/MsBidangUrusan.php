@@ -16,7 +16,7 @@ class MsBidangUrusan extends Model
         $query->when(request('q'), function ($query) {
             $query->where(function ($query) {
                 $param = '%' . request('q') . '%';
-                $query->where('nama_bidang_urusan', 'like', $param)->orWhere('nama_bidang_urusan', 'like', $param);
+                $query->where('kode_bidang_urusan', 'like', $param)->orWhere('nama_bidang_urusan', 'like', $param);
             });
         });
     }

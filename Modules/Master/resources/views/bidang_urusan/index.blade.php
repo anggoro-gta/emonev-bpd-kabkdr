@@ -89,7 +89,7 @@
                                 </table>
                             </div>
                             <div class="card-footer text-right">
-                                {{ $data->bidang_urusan->appends(['q' => old('q')])->links('vendor.pagination.bootstrap-5') }}
+                                {{ $data->bidang_urusan->appends(['q' =>request()->q])->links('vendor.pagination.bootstrap-5') }}
                             </div>
                         </div>
                     </div>

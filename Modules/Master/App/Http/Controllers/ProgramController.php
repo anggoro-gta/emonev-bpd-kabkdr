@@ -76,7 +76,7 @@ class ProgramController extends Controller
      */
     public function edit($id)
     {
-        // $this->authorize('master.program.update');
+        $this->authorize('master.update');
         $data =  (object)[
             'type_menu' => $this->type_menu,
             'program' => MsProgram::find($id),

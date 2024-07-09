@@ -87,7 +87,7 @@
                                 </table>
                             </div>
                             <div class="card-footer text-right">
-                                {{ $data->skpd->appends(['q' => old('q')])->links('vendor.pagination.bootstrap-5') }}
+                                {{ $data->skpd->appends(['q' => request()->q])->links('vendor.pagination.bootstrap-5') }}
                             </div>
                         </div>
                     </div>

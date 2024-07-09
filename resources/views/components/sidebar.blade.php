@@ -40,8 +40,7 @@
                     @endcan
                     @can('setting.role.read')
                     <li class="{{ Request::is('setting/role') ? 'active' : '' }}">
-                        <a class="beep beep-sidebar"
-                            href="{{ route('setting.role.index') }}">Role</a>
+                        <a href="{{ route('setting.role.index') }}">Role</a>
                     </li>
                     @endcan
                 </ul>
@@ -67,14 +66,14 @@
                         <li class="{{ Request::is('master/bidang_urusan') ? 'active' : '' }}">
                             <a href="{{ route('master.bidang_urusan.index') }}">Bidang Urusan</a>
                         </li>
+                    @endif
+                    @if (Auth::user()->hasRole(['Admin','OPD']))
                         <li class="{{ Request::is('master/program') ? 'active' : '' }}">
                             <a href="{{ route('master.program.index') }}">Program</a>
                         </li>
                         <li class="{{ Request::is('master/kegiatan') ? 'active' : '' }}">
                             <a href="{{ route('master.kegiatan.index') }}">Kegiatan</a>
                         </li>
-                    @endif
-                    @can('master.sub_kegiatan.update')
                         <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
                             <a href="{{ route('master.sub_kegiatan.index') }}">Sub Kegiatan</a>
                         </li>

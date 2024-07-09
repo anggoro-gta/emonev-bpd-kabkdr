@@ -26,6 +26,10 @@ class SubKegiatanController extends Controller
             'type_menu' => $this->type_menu,
             'sub_kegiatan' => MsSubKegiatan::with('kegiatan.program')->whereHas('kegiatan.program', function($q){
                 $q->where('tahun', '=', session('tahunSession'));
+
+                if (auth()->user()->hasRole("OPD")) {
+                    $q->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
+                }
             })->filter()->paginate(10)
         ];
         return view('master::sub_kegiatan.index', compact('data'));
@@ -46,23 +50,26 @@ class SubKegiatanController extends Controller
         ];
         return view('master::sub_kegiatan.form', compact('data'));
     }
+    function inputData($request) {
+        return [
+            'fk_kegiatan_id' => $request->fk_kegiatan_id,
+            'kode_sub_kegiatan' => $request->kode_sub_kegiatan,
+            'nama_sub_kegiatan' => $request->nama_sub_kegiatan,
+            'anggaran_murni' => $request->anggaran_murni ? str_replace(',', '', $request->anggaran_murni):null,
+            'perubahan_perbup1' => $request->perubahan_perbup1 ? str_replace(',', '', $request->perubahan_perbup1):null,
+            'perubahan_perbup2' => $request->perubahan_perbup2 ? str_replace(',', '', $request->perubahan_perbup2):null,
+            'perubahan_perbup3' => $request->perubahan_perbup3 ? str_replace(',', '', $request->perubahan_perbup3):null,
+            'perubahan_perbup4' => $request->perubahan_perbup4 ? str_replace(',', '', $request->perubahan_perbup4):null,
+            'perubahan_anggaran' => $request->perubahan_anggaran ? str_replace(',', '', $request->perubahan_anggaran):null,
+        ];
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        MsSubKegiatan::create([
-            'fk_kegiatan_id' => $request->fk_kegiatan_id,
-            'kode_sub_kegiatan' => $request->kode_sub_kegiatan,
-            'nama_sub_kegiatan' => $request->nama_sub_kegiatan,
-            'anggaran_murni' => str_replace(',', '', $request->anggaran_murni),
-            'perubahan_perbup1' => str_replace(',', '', $request->perubahan_perbup1),
-            'perubahan_perbup2' => str_replace(',', '', $request->perubahan_perbup2),
-            'perubahan_perbup3' => str_replace(',', '', $request->perubahan_perbup3),
-            'perubahan_perbup4' => str_replace(',', '', $request->perubahan_perbup4),
-            'perubahan_anggaran' => str_replace(',', '', $request->perubahan_anggaran),
-        ]);
+        MsSubKegiatan::create($this->inputData($request));
         return redirect(route('master.sub_kegiatan.index'))
             ->with('flash_message', "Data berhasil disimpan")
             ->with('flash_type', 'primary');
@@ -81,7 +88,7 @@ class SubKegiatanController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('master.sub_kegiatan.update');
+        $this->authorize('master.update');
         $data =  (object)[
             'type_menu' => $this->type_menu,
             'sub_kegiatan' => MsSubKegiatan::find($id),
@@ -99,17 +106,7 @@ class SubKegiatanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $sub_kegiatan = MsSubKegiatan::find($id);
-        $sub_kegiatan->fk_kegiatan_id = $request->fk_kegiatan_id;
-        $sub_kegiatan->kode_sub_kegiatan = $request->kode_sub_kegiatan;
-        $sub_kegiatan->nama_sub_kegiatan = $request->nama_sub_kegiatan;
-        $sub_kegiatan->anggaran_murni = str_replace(',', '', $request->anggaran_murni);
-        $sub_kegiatan->perubahan_perbup1 = str_replace(',', '', $request->perubahan_perbup1);
-        $sub_kegiatan->perubahan_perbup2 = str_replace(',', '', $request->perubahan_perbup2);
-        $sub_kegiatan->perubahan_perbup3 = str_replace(',', '', $request->perubahan_perbup3);
-        $sub_kegiatan->perubahan_perbup4 = str_replace(',', '', $request->perubahan_perbup4);
-        $sub_kegiatan->perubahan_anggaran = str_replace(',', '', $request->perubahan_anggaran);
-        $sub_kegiatan->save();
+        MsSubKegiatan::where('Id', $id)->update($this->inputData($request));
         return redirect(route('master.sub_kegiatan.index'))
             ->with('flash_message', "Data berhasil disimpan")
             ->with('flash_type', 'primary');

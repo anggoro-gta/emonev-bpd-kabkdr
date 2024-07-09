@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Master\Models\MsSKPDUnit;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -51,5 +52,9 @@ class User extends Authenticatable
                 $query->where('username', 'like', $param)->where('name', 'like', $param)->orWhere('email', 'like', $param);
             });
         });
+    }
+    public function unit()
+    {
+        return $this->hasOne(MsSKPDUnit::class, 'id', 'fk_skpd_unit_id');
     }
 }

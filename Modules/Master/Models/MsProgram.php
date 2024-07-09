@@ -16,9 +16,12 @@ class MsProgram extends Model
         $query->when(request('q'), function ($query) {
             $query->where(function ($query) {
                 $param = '%' . request('q') . '%';
-                $query->where('nama_program', 'like', $param)->orWhere('nama_program', 'like', $param);
+                $query->where('kode_program', 'like', $param)->orWhere('nama_program', 'like', $param);
             });
         });
+        if (auth()->user()->hasRole("OPD")) {
+            $query->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
+        }
     }
     public function unit()
     {

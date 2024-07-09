@@ -26,6 +26,10 @@ class KegiatanController extends Controller
             'type_menu' => $this->type_menu,
             'kegiatan' => MsKegiatan::with('program')->whereHas('program', function($q){
                 $q->where('tahun', '=', session('tahunSession'));
+
+                if (auth()->user()->hasRole("OPD")) {
+                    $q->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
+                }
             })->filter()->paginate(10)
         ];
         return view('master::kegiatan.index', compact('data'));
@@ -73,7 +77,7 @@ class KegiatanController extends Controller
      */
     public function edit($id)
     {
-        // $this->authorize('master.kegiatan.update');
+        $this->authorize('master.update');
         $data =  (object)[
             'type_menu' => $this->type_menu,
             'kegiatan' => MsKegiatan::find($id),
