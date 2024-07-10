@@ -24,4 +24,8 @@ class MsKegiatan extends Model
     {
         return $this->hasOne(MsProgram::class, 'id', 'fk_program_id');
     }
+    public function indikator()
+    {
+        return $this->hasMany(MsKegiatanIndikator::class, 'fk_kegiatan_id', 'id');
+    }
 }

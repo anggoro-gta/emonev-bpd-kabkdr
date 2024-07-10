@@ -29,4 +29,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'master', 'as' => 'master.']
     Route::resource('/program', ProgramController::class);
     Route::resource('/kegiatan', KegiatanController::class);
     Route::resource('/sub_kegiatan', SubKegiatanController::class);
+    Route::delete('/program/{id}/indikator', [ProgramController::class, 'destroyIndikator']);
+    Route::delete('/kegiatan/{id}/indikator', [KegiatanController::class, 'destroyIndikator']);
 });

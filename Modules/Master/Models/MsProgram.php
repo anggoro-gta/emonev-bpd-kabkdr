@@ -31,4 +31,8 @@ class MsProgram extends Model
     {
         return $this->hasOne(MsBidangUrusan::class, 'id', 'fk_bidang_urusan_id');
     }
+    public function indikator()
+    {
+        return $this->hasMany(MsProgramIndikator::class, 'fk_program_id', 'id');
+    }
 }

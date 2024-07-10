@@ -12,29 +12,34 @@
             confirmButtonText: 'ya, hapus!'
         }).then((result) => {
             if (result.isConfirmed) {
-                let csrf_token = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url: urlDelete,
-                    type: "POST",
-                    data: {
-                        '_token': csrf_token,
-                        '_method': 'DELETE',
-                    },
-                    beforeSend: function() {
-                        $('.swal2-confirm').prop('disabled', true);
-                        $('.swal2-confirm').html('Loading...');
-                        $that.closest('tr').css('background', '#f7f1f1')
-                    },
-                    success: function(data) {
-                        $that.hide('slow', function(){
-                            $that.closest('tr').remove();
-                            // $that.remove();
-                        });
-                    },
-                    error: function(data) {
-                        swalError(data.msg);
-                    }
-                });
+                if (urlDelete=='') {
+                    $that.closest('tr').remove();
+                } else{
+
+                    let csrf_token = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: urlDelete,
+                        type: "POST",
+                        data: {
+                            '_token': csrf_token,
+                            '_method': 'DELETE',
+                        },
+                        beforeSend: function() {
+                            $('.swal2-confirm').prop('disabled', true);
+                            $('.swal2-confirm').html('Loading...');
+                            $that.closest('tr').css('background', '#f7f1f1')
+                        },
+                        success: function(data) {
+                            $that.hide('slow', function(){
+                                $that.closest('tr').remove();
+                                // $that.remove();
+                            });
+                        },
+                        error: function(data) {
+                            swalError(data.msg);
+                        }
+                    });
+                }
             }
         })
     })

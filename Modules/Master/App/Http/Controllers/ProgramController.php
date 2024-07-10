@@ -4,9 +4,11 @@ namespace Modules\Master\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Modules\Master\Models\MsBidangUrusan;
 use Modules\Master\Models\MsSKPD;
 use Modules\Master\Models\MsProgram;
+use Modules\Master\Models\MsProgramIndikator;
 use Modules\Master\Models\MsSKPDUnit;
 
 class ProgramController extends Controller
@@ -58,6 +60,8 @@ class ProgramController extends Controller
             'kode_program' => $request->kode_program,
             'nama_program' => $request->nama_program,
         ]);
+        $id = DB::getPdo()->lastInsertId();
+        $this->insertOrUpdateIndikator($request,$id);
         return redirect(route('master.program.index'))
             ->with('flash_message', "Data berhasil disimpan")
             ->with('flash_type', 'primary');
@@ -79,13 +83,16 @@ class ProgramController extends Controller
         $this->authorize('master.update');
         $data =  (object)[
             'type_menu' => $this->type_menu,
-            'program' => MsProgram::find($id),
+            'program' => MsProgram::with('indikator')->find($id),
             'action' => route('master.program.update', $id),
             'method' => 'PUT',
             'unit' => MsSKPDUnit::get(),
             'bidang' => MsBidangUrusan::get()
         ];
         return view('master::program.form', compact('data'));
+    }
+    function destroyIndikator($id) {
+        MsProgramIndikator::find($id)->delete();
     }
 
     /**
@@ -100,11 +107,25 @@ class ProgramController extends Controller
         $program->kode_program = $request->kode_program;
         $program->nama_program = $request->nama_program;
         $program->save();
+        $this->insertOrUpdateIndikator($request,$id);
         return redirect(route('master.program.index'))
             ->with('flash_message', "Data berhasil disimpan")
             ->with('flash_type', 'primary');
     }
 
+    function insertOrUpdateIndikator($request,$id) {
+        for ($i=0; $i < count($request->program_indikator_id) ; $i++) {
+            MsProgramIndikator::updateOrCreate(
+                ['id' => $request->program_indikator_id[$i]],
+                [
+                    'fk_program_id' => $id,
+                    'indikator_prog' => $request->indikator_prog[$i],
+                    'volume_prog' => $request->volume_prog[$i] ? str_replace(',', '', $request->volume_prog[$i]):null,
+                    'satuan_prog' => $request->satuan_prog[$i],
+                ]
+            );
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */

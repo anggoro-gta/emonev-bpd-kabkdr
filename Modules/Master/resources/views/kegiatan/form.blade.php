@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'OPD')
+@section('title', 'Kegiatan')
 
 @push('style')
 <!-- CSS Libraries -->
@@ -81,6 +81,42 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <table class="table" width="100%" id="indikator">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" class="text-center">No</th>
+                                            <th>Indikator</th>
+                                            <th width="15%">Volume</th>
+                                            <th width="15%">Satuan</th>
+                                            <th class="text-center" width="10%">
+
+                                                <a style="cursor: pointer; " class="text-primary tambah" title="Tambah"><i class="fas fa-plus"></i></a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (isset($data->kegiatan->indikator ))
+
+                                            @foreach ($data->kegiatan->indikator as $item)
+                                            <tr>
+                                                <input type="hidden" name="kegiatan_indikator_id[]" value="{{ $item->id }}">
+                                                <td valign="top" class="text-center">{{ $loop->iteration }}</td>
+                                                <td valign="top" class="text-center"><textarea name="indikator_keg[]"
+                                                        class="form-control" data-height="150" rows="5"> {{ $item->indikator_keg }}</textarea></td>
+                                                <td valign="top" class="text-center"><input type="text"
+                                                        name="volume_keg[]" class="form-control dec" value="{{ $item->volume_keg }}"></td>
+                                                <td valign="top" class="text-center"><input type="text" name="satuan_keg[]" value="{{ $item->satuan_keg }}"  class="form-control"></td>
+                                                <td class="text-center">
+                                                    <a data-url="/master/kegiatan/{{ $item->id }}/indikator" data-url="" class="text-danger delete" title="Hapus"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="card-footer">
                                 <button class="btn btn-primary">Submit</button>
                             </div>
@@ -101,4 +137,6 @@
 <script src="{{ asset('js/page/components-table.js') }}"></script>
 <script src="{{ asset('library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
 @include('setting::user.script')
+@include('master::kegiatan.script')
+@include('layouts._delete')
 @endpush

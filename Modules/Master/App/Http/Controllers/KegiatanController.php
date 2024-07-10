@@ -4,8 +4,10 @@ namespace Modules\Master\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Modules\Master\Models\MsProgram;
 use Modules\Master\Models\MsKegiatan;
+use Modules\Master\Models\MsKegiatanIndikator;
 
 class KegiatanController extends Controller
 {
@@ -59,11 +61,29 @@ class KegiatanController extends Controller
             'kode_kegiatan' => $request->kode_kegiatan,
             'nama_kegiatan' => $request->nama_kegiatan,
         ]);
+        $id = DB::getPdo()->lastInsertId();
+        $this->insertOrUpdateIndikator($request,$id);
         return redirect(route('master.kegiatan.index'))
             ->with('flash_message', "Data berhasil disimpan")
             ->with('flash_type', 'primary');
     }
 
+    function destroyIndikator($id) {
+        MsKegiatanIndikator::find($id)->delete();
+    }
+    function insertOrUpdateIndikator($request,$id) {
+        for ($i=0; $i < count($request->kegiatan_indikator_id) ; $i++) {
+            MsKegiatanIndikator::updateOrCreate(
+                ['id' => $request->kegiatan_indikator_id[$i]],
+                [
+                    'fk_kegiatan_id' => $id,
+                    'indikator_keg' => $request->indikator_keg[$i],
+                    'volume_keg' => $request->volume_keg[$i] ? str_replace(',', '', $request->volume_keg[$i]):null,
+                    'satuan_keg' => $request->satuan_keg[$i],
+                ]
+            );
+        }
+    }
     /**
      * Show the specified resource.
      */
@@ -98,6 +118,7 @@ class KegiatanController extends Controller
         $kegiatan->nama_kegiatan = $request->nama_kegiatan;
         $kegiatan->fk_program_id = $request->fk_program_id;
         $kegiatan->save();
+        $this->insertOrUpdateIndikator($request,$id);
         return redirect(route('master.kegiatan.index'))
             ->with('flash_message', "Data berhasil disimpan")
             ->with('flash_type', 'primary');
