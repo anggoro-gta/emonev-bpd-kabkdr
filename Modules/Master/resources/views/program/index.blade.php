@@ -26,7 +26,9 @@
         <div class="section-header">
             <h1>Program</h1>
             <div class="section-header-breadcrumb">
+                @if (auth()->user()->hasRole("Admin"))
                 <a href="{{ route('master.program.create') }}" class="btn btn-success" title="Tambah Program"><i class="fas fa-plus"></i></a>
+                @endif
             </div>
         </div>
 
@@ -79,12 +81,12 @@
                                                     class="btn btn-primary" title="Edit skpd"><i
                                                         class="fas fa-pencil"></i></a>
                                                 @endcan
-                                                @can('setting.user.destroy')
+                                                @if (auth()->user()->hasRole("Admin"))
                                                     <a data-url="{{ route('master.program.destroy',$item->id) }}" title="Hapus"
                                                         class="btn btn-danger delete">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
-                                                @endcan
+                                                @endif
 
                                             </td>
                                         </tr>

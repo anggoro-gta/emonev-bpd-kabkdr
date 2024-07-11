@@ -37,13 +37,15 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Form Program {{ session('tahunSession') }}</h4>
+                            <h4>Form Program</h4>
                         </div>
 
                         <form method="POST" action="{{ $data->action }}">
                             @csrf
                             @method($data->method)
                             <div class="card-body">
+
+                             @if (auth()->user()->hasRole("Admin"))
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputPassword4">
@@ -103,6 +105,25 @@
                                             value="{{ $data->program->nama_program ??old('nama_program') }}">
                                     </div>
                                 </div>
+                            @else
+                            <input type="hidden" name="kode_sub_unit_skpd" value="{{ $data->program->kode_sub_unit_skpd }}">
+                            <input type="hidden" name="fk_bidang_urusan_id" value="{{ $data->program->fk_bidang_urusan_id }}">
+                            <input type="hidden" name="kode_program" value="{{ $data->program->kode_program }}">
+                            <input type="hidden" name="nama_program" value="{{ $data->program->nama_program }}">
+                            <table>
+                                <tr>
+                                    <th>Kode Program</th>
+                                    <th>:</th>
+                                    <th>{{ $data->program->kode_program  }}</th>
+                                </tr>
+                                <tr>
+                                    <th>Nama Program</th>
+                                    <th>:</th>
+                                    <th>{{ $data->program->nama_program  }}</th>
+                                </tr>
+                            </table>
+                            <br>
+                            @endif
                                 <div class="form-row">
                                     <table class="table" width="100%" id="indikator">
                                         <thead>

@@ -44,6 +44,7 @@
                             @csrf
                             @method($data->method)
                             <div class="card-body">
+                                @if (auth()->user()->hasRole("Admin"))
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label for="inputPassword4">
@@ -81,6 +82,34 @@
                                     </div>
                                 </div>
                             </div>
+                            @else
+                            <input type="hidden" name="fk_program_id" value="{{ $data->kegiatan->fk_program_id }}">
+                            <input type="hidden" name="kode_kegiatan" value="{{ $data->kegiatan->kode_kegiatan }}">
+                            <input type="hidden" name="nama_kegiatan" value="{{ $data->kegiatan->nama_kegiatan }}">
+                            <table>
+                                <tr>
+                                    <th>Kode Program</th>
+                                    <th>:</th>
+                                    <th>{{ $data->kegiatan->program->kode_program ?? ''  }}</th>
+                                </tr>
+                                <tr>
+                                    <th>Nama Program</th>
+                                    <th>:</th>
+                                    <th>{{ $data->kegiatan->program->nama_program ?? ''  }}</th>
+                                </tr>
+                                <tr>
+                                    <th>Kode Kegiatan</th>
+                                    <th>:</th>
+                                    <th>{{ $data->kegiatan->kode_kegiatan  }}</th>
+                                </tr>
+                                <tr>
+                                    <th>Nama Kegiatan</th>
+                                    <th>:</th>
+                                    <th>{{ $data->kegiatan->nama_kegiatan  }}</th>
+                                </tr>
+                            </table>
+                            <br>
+                            @endif
                             <div class="form-row">
                                 <table class="table" width="100%" id="indikator">
                                     <thead>
