@@ -28,7 +28,7 @@
 
             <div class="section-header-breadcrumb">
                 <a href="{{ route('master.skpd_unit.index') }}" class="btn btn-primary" title="Kembali"><i
-                        class="fas fa-back"></i></a>
+                        class="fa-solid fa-chevron-left"></i></a>
             </div>
         </div>
 

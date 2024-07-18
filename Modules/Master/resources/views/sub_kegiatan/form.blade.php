@@ -27,8 +27,7 @@
             <h1>Sub Kegiatan</h1>
 
             <div class="section-header-breadcrumb">
-                <a href="{{ route('master.sub_kegiatan.index') }}" class="btn btn-primary" title="Kembali"><i
-                        class="fas fa-back"></i></a>
+                <a href="{{ route('master.sub_kegiatan.index') }}" class="btn btn-primary" title="Kembali"><i class="fa-solid fa-chevron-left"></i></a>
             </div>
         </div>
 
@@ -137,6 +136,36 @@
                                             @enderror
                                         </label>
                                         <input type="text" class="form-control dec" placeholder="Perubahan Anggaran" name="perubahan_anggaran" value="{{ $data->sub_kegiatan->perubahan_anggaran ??old('perubahan_anggaran') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="inputPassword4">
+                                            Indikator
+                                            @error('indikator_sub')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                            <textarea style="height: 150px;" name="indikator_sub" class="form-control" data-height="150" rows="5">{{ $data->sub_kegiatan->indikator_sub ?? old('indikator_sub') }}</textarea>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="inputPassword4">
+                                            Volume
+                                            @error('volume_sub')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control dec" placeholder="Volume" name="volume_sub" value="{{ $data->sub_kegiatan->volume_sub ?? old('volume_sub') }}">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="inputPassword4">
+                                            Satuan
+                                            @error('satuan_sub')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control" placeholder="Satuan" name="satuan_sub" value="{{ $data->sub_kegiatan->satuan_sub ??old('satuan_sub') }}">
                                     </div>
                                 </div>
                             </div>

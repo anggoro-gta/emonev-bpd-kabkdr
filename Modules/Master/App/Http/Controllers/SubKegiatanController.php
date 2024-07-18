@@ -61,6 +61,9 @@ class SubKegiatanController extends Controller
             'perubahan_perbup3' => $request->perubahan_perbup3 ? str_replace(',', '', $request->perubahan_perbup3):null,
             'perubahan_perbup4' => $request->perubahan_perbup4 ? str_replace(',', '', $request->perubahan_perbup4):null,
             'perubahan_anggaran' => $request->perubahan_anggaran ? str_replace(',', '', $request->perubahan_anggaran):null,
+            'indikator_sub' => $request->indikator_sub,
+            'volume_sub' => $request->volume_sub ? str_replace(',', '', $request->volume_sub):null,
+            'satuan_sub' => $request->satuan_sub,
         ];
     }
 

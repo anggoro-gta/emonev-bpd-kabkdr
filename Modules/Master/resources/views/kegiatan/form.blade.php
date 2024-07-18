@@ -27,8 +27,7 @@
             <h1>Kegiatan</h1>
 
             <div class="section-header-breadcrumb">
-                <a href="{{ route('master.kegiatan.index') }}" class="btn btn-primary" title="Kembali"><i
-                        class="fas fa-back"></i></a>
+                <a href="{{ route('master.kegiatan.index') }}" class="btn btn-primary" title="Kembali"><i class="fa-solid fa-chevron-left"></i></a>
             </div>
         </div>
 

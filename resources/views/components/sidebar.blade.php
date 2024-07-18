@@ -81,6 +81,30 @@
                     {{-- @endcan --}}
                 </ul>
             </li>
+
+            <li class="nav-item dropdown {{ isset($data->type_menu) && $data->type_menu === 'entri' ? 'active' : '' }}">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-gear"></i> <span>Entri Data</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
+                        <a href="#">Input OPD</a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li class="nav-item dropdown {{ isset($data->type_menu) && $data->type_menu === 'laporan' ? 'active' : '' }}">
+                <a href="#"
+                    class="nav-link has-dropdown"><i class="fas fa-gear"></i> <span>Laporan</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
+                        <a href="#">Monitoring OPD</a>
+                    </li>
+                    <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
+                        <a href="#">Laporan Triwulan</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </aside>
 </div>

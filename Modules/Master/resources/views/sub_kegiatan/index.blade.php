@@ -26,7 +26,9 @@
         <div class="section-header">
             <h1>Sub Kegiatan</h1>
             <div class="section-header-breadcrumb">
+                @if (auth()->user()->hasRole("Admin"))
                 <a href="{{ route('master.sub_kegiatan.create') }}" class="btn btn-success" title="Tambah User"><i class="fas fa-plus"></i></a>
+                @endif
             </div>
         </div>
 
