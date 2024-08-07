@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/realisasi",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Realisasi\\": "",
+            "Modules\\Realisasi\\App\\": "app/",
+            "Modules\\Realisasi\\Database\\Factories\\": "database/factories/",
+            "Modules\\Realisasi\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Realisasi\\Tests\\": "tests/"
+        }
+    }
+}

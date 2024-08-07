@@ -1,0 +1,11 @@
+{
+    "name": "Realisasi",
+    "alias": "realisasi",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Realisasi\\App\\Providers\\RealisasiServiceProvider"
+    ],
+    "files": []
+}

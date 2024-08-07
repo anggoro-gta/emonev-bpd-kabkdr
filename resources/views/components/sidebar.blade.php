@@ -82,12 +82,18 @@
                 </ul>
             </li>
 
-            <li class="nav-item dropdown {{ isset($data->type_menu) && $data->type_menu === 'entri' ? 'active' : '' }}">
+            <li class="nav-item dropdown {{ isset($data->type_menu) && $data->type_menu === 'realisasi' ? 'active' : '' }}">
                 <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-gear"></i> <span>Entri Data</span></a>
+                    class="nav-link has-dropdown"><i class="fas fa-gear"></i> <span>Realisasi</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
-                        <a href="#">Input OPD</a>
+                    {{-- <li class="{{ Request::is('realisasi/realisasi_program') ? 'active' : '' }}">
+                        <a href="{{ route('realisasi.program.index') }}">Program</a>
+                    </li>
+                    <li class="{{ Request::is('realisasi/realisasi_kegiatan') ? 'active' : '' }}">
+                        <a href="{{ route('realisasi.kegiatan.index') }}">Kegiatan</a>
+                    </li> --}}
+                    <li class="{{ Request::is('realisasi/realisasi_sub_kegiatan') ? 'active' : '' }}">
+                        <a href="{{ route('realisasi.sub_kegiatan.index') }}">Sub Kegiatan</a>
                     </li>
                 </ul>
             </li>
