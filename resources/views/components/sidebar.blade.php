@@ -86,9 +86,9 @@
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-gear"></i> <span>Realisasi</span></a>
                 <ul class="dropdown-menu">
-                    {{-- <li class="{{ Request::is('realisasi/realisasi_program') ? 'active' : '' }}">
+                    <li class="{{ Request::is('realisasi/realisasi_program') ? 'active' : '' }}">
                         <a href="{{ route('realisasi.program.index') }}">Program</a>
-                    </li>--}}
+                    </li>
                     <li class="{{ Request::is('realisasi/realisasi_kegiatan') ? 'active' : '' }}">
                         <a href="{{ route('realisasi.kegiatan.index') }}">Kegiatan</a>
                     </li>

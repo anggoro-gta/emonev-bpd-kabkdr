@@ -27,7 +27,7 @@
             <h1>Realisasi Kegiatan</h1>
 
             <div class="section-header-breadcrumb">
-                <a href="{{ route('realisasi.kegiatan.index') }}" class="btn btn-primary" title="Kembali"><i
+                <a href="{{ route('realisasi.program.index') }}" class="btn btn-primary" title="Kembali"><i
                         class="fa-solid fa-chevron-left"></i></a>
             </div>
         </div>
@@ -100,7 +100,7 @@
                                                 <table class="table table-bordered table-md">
                                                     <tr>
                                                         <th class="text-center">No</th>
-                                                        <th class="text-center">Kegiatan</th>
+                                                        <th class="text-center">Program</th>
                                                         <th class="text-center">Indikator</th>
                                                         <th class="text-center">Volume</th>
                                                         <th class="text-center">Satuan</th>
@@ -113,13 +113,13 @@
                                                     <input type="hidden" name="id[]" value="{{ $item->id ?? null}}">
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $item->nama_kegiatan }}</td>
-                                                        <input type="hidden" name="indikator_kegiatan[]" value="{{ $item->indikator_kegiatan }}">
-                                                        <input type="hidden" name="satuan_kegiatan[]" value="{{ $item->volume_kegiatan }}">
-                                                        <input type="hidden" name="volume_kegiatan[]" value="{{ $item->satuan_kegiatan }}">
-                                                            <td>{{ $item->indikator_kegiatan }}</td>
-                                                            <td>{{ number_format($item->volume_kegiatan) }}</td>
-                                                            <td>{{ $item->satuan_kegiatan }}</td>
+                                                        <td>{{ $item->nama_program }}</td>
+                                                        <input type="hidden" name="indikator_prog[]" value="{{ $item->indikator_prog }}">
+                                                        <input type="hidden" name="satuan_prog[]" value="{{ $item->volume_prog }}">
+                                                        <input type="hidden" name="volume_prog[]" value="{{ $item->satuan_prog }}">
+                                                            <td>{{ $item->indikator_prog }}</td>
+                                                            <td>{{ number_format($item->volume_prog) }}</td>
+                                                            <td>{{ $item->satuan_prog }}</td>
                                                             <td>
                                                                 <input type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi}}" class="form-control mb-2 mr-sm-2 dec" placeholder="Volume">
                                                             </td>
@@ -147,5 +147,5 @@
 @push('scripts')
 <!-- JS Libraies -->
 <script src="{{ asset('library/jquery-ui-dist/jquery-ui.min.js') }}"></script>
-@include('realisasi::kegiatan.script')
+@include('realisasi::program.script')
 @endpush
