@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Realisasi\App\Http\Controllers\KegiatanController;
 use Modules\Realisasi\App\Http\Controllers\SubKegiatanController;
-use Modules\Realisasi\App\Http\Controllers\RealisasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +19,12 @@ Route::group([], function () {
     Route::group(['middleware' => ['auth'], 'prefix' => 'realisasi', 'as' => 'realisasi.'], function () {
         // Route::resource('/program', UrusanController::class);
         // Route::resource('/kegiatan', UrusanController::class);
+
+
+        Route::resource('/kegiatan', KegiatanController::class);
+        Route::get('/get_kegiatan', [KegiatanController::class, 'getKegiatan']);
+        Route::post('/kegiatan/{id}/toogle_posting', [KegiatanController::class, 'tooglePosting'])->name('kegiatan.tooglePosting');
+
         Route::resource('/sub_kegiatan', SubKegiatanController::class);
         Route::get('/get_sub_kegiatan', [SubKegiatanController::class, 'getSubKegiatan']);
         Route::post('/sub_kegiatan/{id}/toogle_posting', [SubKegiatanController::class, 'tooglePosting'])->name('sub_kegiatan.tooglePosting');

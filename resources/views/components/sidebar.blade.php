@@ -88,10 +88,10 @@
                 <ul class="dropdown-menu">
                     {{-- <li class="{{ Request::is('realisasi/realisasi_program') ? 'active' : '' }}">
                         <a href="{{ route('realisasi.program.index') }}">Program</a>
-                    </li>
+                    </li>--}}
                     <li class="{{ Request::is('realisasi/realisasi_kegiatan') ? 'active' : '' }}">
                         <a href="{{ route('realisasi.kegiatan.index') }}">Kegiatan</a>
-                    </li> --}}
+                    </li>
                     <li class="{{ Request::is('realisasi/realisasi_sub_kegiatan') ? 'active' : '' }}">
                         <a href="{{ route('realisasi.sub_kegiatan.index') }}">Sub Kegiatan</a>
                     </li>

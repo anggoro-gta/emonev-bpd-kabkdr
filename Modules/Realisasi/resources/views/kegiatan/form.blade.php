@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Realisasi Sub Kegiatan')
+@section('title', 'Realisasi Kegiatan')
 
 @push('style')
 <!-- CSS Libraries -->
@@ -24,10 +24,10 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Realisasi Sub Kegiatan</h1>
+            <h1>Realisasi Kegiatan</h1>
 
             <div class="section-header-breadcrumb">
-                <a href="{{ route('realisasi.sub_kegiatan.index') }}" class="btn btn-primary" title="Kembali"><i
+                <a href="{{ route('realisasi.kegiatan.index') }}" class="btn btn-primary" title="Kembali"><i
                         class="fa-solid fa-chevron-left"></i></a>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Form Realisasi Sub Kegiatan</h4>
+                            <h4>Form Realisasi Kegiatan</h4>
                         </div>
 
                         <form method="POST" action="{{ $data->action }}">
@@ -49,12 +49,12 @@
                                         <tr>
                                             <th width="10%">SKPD</th>
                                             <th width="2%">:</th>
-                                            <th>{{ $data->realisasi->skpd->nama_skpd  }}</th>
+                                            <th>{{ $data->header->skpd->nama_skpd  }}</th>
                                         </tr>
                                         <tr>
                                             <th>Triwulan</th>
                                             <th>:</th>
-                                            <th>{{ $data->realisasi->triwulan  }}</th>
+                                            <th>{{ $data->header->triwulan  }}</th>
                                         </tr>
                                     </table>
                                 @else
@@ -71,7 +71,7 @@
                                         <select class="form-control select2 getData"  name="fk_skpd_id" id="fk_skpd_id" required>
                                             <option value="">Pilih SKPD</option>
                                             @foreach ($data->skpd as $item)
-                                                <option {{ isset($data->realisasi) && $data->realisasi->fk_skpd_id==$item->id ? 'selected':''  }} value="{{ $item->id }}">{{ $item->nama_skpd }}</option>
+                                                <option {{ isset($data->header) && $data->header->fk_skpd_id==$item->id ? 'selected':''  }} value="{{ $item->id }}">{{ $item->nama_skpd }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -84,53 +84,51 @@
                                         </label>
                                         <select class="form-control select2 getData"  name="triwulan" id="triwulan" required>
                                             <option value="">Pilih Triwulan</option>
-                                            <option {{ isset($data->realisasi) && $data->realisasi->triwulan=='1' ? 'selected':''  }} value="1">1</option>
-                                            <option {{ isset($data->realisasi) && $data->realisasi->triwulan=='2' ? 'selected':''  }} value="2">2</option>
-                                            <option {{ isset($data->realisasi) && $data->realisasi->triwulan=='3' ? 'selected':''  }} value="3">3</option>
-                                            <option {{ isset($data->realisasi) && $data->realisasi->triwulan=='4' ? 'selected':''  }} value="4">4</option>
+                                            <option {{ isset($data->header) && $data->header->triwulan=='1' ? 'selected':''  }} value="1">1</option>
+                                            <option {{ isset($data->header) && $data->header->triwulan=='2' ? 'selected':''  }} value="2">2</option>
+                                            <option {{ isset($data->header) && $data->header->triwulan=='3' ? 'selected':''  }} value="3">3</option>
+                                            <option {{ isset($data->header) && $data->header->triwulan=='4' ? 'selected':''  }} value="4">4</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 @endif
                                 <div class="form-row" id="wrapDetail">
-                                    @if (isset($data->realisasi))
+                                    @if (isset($data->header))
                                         <div class="table-responsive">
-                                            <table class="table table-bordered table-md">
-                                                <tr>
-                                                    <th rowspan="2" class="text-center">No</th>
-                                                    <th rowspan="2" class="text-center">Sub Kegiatan</th>
-                                                    <th rowspan="2" class="text-center">Anggaran</th>
-                                                    <th rowspan="2" class="text-center">Indikator</th>
-                                                    <th rowspan="2" class="text-center">Volume</th>
-                                                    <th rowspan="2" class="text-center">Satuan</th>
-                                                    <th colspan="2" class="text-center">Realisasi</th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="text-center">Anggaran</th>
-                                                    <th class="text-center">Volume</th>
-                                                </tr>
-                                                @foreach ($data->realisasi->detail as $item)
-                                                <input type="hidden" name="id[]" value="{{ $item->id }}">
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $item->subKegiatan->nama_sub_kegiatan ?? null }}</td>
-                                                    <td class="text-right">{{ number_format($item->anggaran_sub_kegiatan) }}</td>
-                                                    <td>{{ $item->indikator_sub_kegiatan }}</td>
-                                                    <td class="text-right">{{ number_format($item->volume_sub_kegiatan) }}</td>
-                                                    <td>{{ $item->satuan_sub_kegiatan }}</td>
-                                                    <td>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-md">
+                                                    <tr>
+                                                        <th class="text-center">No</th>
+                                                        <th class="text-center">Kegiatan</th>
+                                                        <th class="text-center">Indikator</th>
+                                                        <th class="text-center">Volume</th>
+                                                        <th class="text-center">Satuan</th>
+                                                        <th class="text-center">Realisasi Volume</th>
+                                                    </tr>
+                                                    @php
+                                                        $indikatorKosong = 0;
+                                                    @endphp
+                                                    @foreach ($data->realisasi as $item)
+                                                    <input type="hidden" name="id[]" value="{{ $item->id ?? null}}">
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $item->nama_kegiatan }}</td>
+                                                        <input type="hidden" name="indikator_kegiatan[]" value="{{ $item->indikator_kegiatan }}">
+                                                        <input type="hidden" name="satuan_kegiatan[]" value="{{ $item->volume_kegiatan }}">
+                                                        <input type="hidden" name="volume_kegiatan[]" value="{{ $item->satuan_kegiatan }}">
+                                                            <td>{{ $item->indikator_kegiatan }}</td>
+                                                            <td>{{ number_format($item->volume_kegiatan) }}</td>
+                                                            <td>{{ number_format($item->satuan_kegiatan) }}</td>
+                                                            <td>
+                                                                <input type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi}}" class="form-control mb-2 mr-sm-2 dec" placeholder="Volume">
+                                                            </td>
+                                                    </tr>
 
-                                                        <input type="text" name="anggaran_realisasi[]" value="{{ $item->anggaran_realisasi  }}" class="form-control mb-2 mr-sm-2 dec" placeholder="Anggaran">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi  }}" class="form-control mb-2 mr-sm-2 dec" placeholder="Volume">
-                                                    </td>
-                                                </tr>
-
-                                                @endforeach
-                                            </table>
-                                            @if ($data->realisasi->status_posting==0)
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                            @if ($data->header->status_posting==0)
                                                 <button class="btn btn-primary">Submit </button>
                                             @endif
                                         </div>
@@ -149,5 +147,5 @@
 @push('scripts')
 <!-- JS Libraies -->
 <script src="{{ asset('library/jquery-ui-dist/jquery-ui.min.js') }}"></script>
-@include('realisasi::sub_kegiatan.script')
+@include('realisasi::kegiatan.script')
 @endpush
