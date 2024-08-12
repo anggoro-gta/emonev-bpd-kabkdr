@@ -148,7 +148,7 @@
                                                     <td valign="top" class="text-center"><textarea name="indikator_prog[]"
                                                             class="form-control" data-height="150" rows="5"> {{ $item->indikator_prog }}</textarea></td>
                                                     <td valign="top" class="text-center"><input type="text"
-                                                            name="volume_prog[]" class="form-control dec" value="{{ $item->volume_prog }}"></td>
+                                                            name="volume_prog[]" class="form-control nominal" value="{{ $item->volume_prog }}"></td>
                                                     <td valign="top" class="text-center"><input type="text" name="satuan_prog[]" value="{{ $item->satuan_prog }}"  class="form-control"></td>
                                                     <td class="text-center">
                                                         <a data-url="/master/program/{{ $item->id }}/indikator" data-url="" class="text-danger delete" title="Hapus"><i class="fas fa-trash"></i></a>

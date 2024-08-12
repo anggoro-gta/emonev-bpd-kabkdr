@@ -24,11 +24,14 @@
                 <td>{{ $item->satuan_prog }}</td>
                 <td>{{ number_format($item->volume_prog) }}</td>
                 <td>
-                    <input type="text" name="volume_realisasi[]" value="" class="form-control mb-2 mr-sm-2 dec" placeholder="Volume">
+                    <input required type="text" name="volume_realisasi[]" value="" class="form-control mb-2 mr-sm-2 nominal" placeholder="Volume">
                 </td>
             @else
-            <input type="hidden" name="volume_realisasi[]" value="" class="form-control mb-2 mr-sm-2 dec" placeholder="Volume">
+            <input type="hidden" name="volume_realisasi[]" value="" class="form-control mb-2 mr-sm-2 nominal" placeholder="Volume">
             <td colspan="4" class="text-danger">Indikator Belum Ada</td>
+            @php
+                $indikatorKosong++;
+            @endphp
             @endif
         </tr>
 
@@ -39,9 +42,8 @@
     @endif
 </div>
 <script>
-    $(".dec").autoNumeric("init", {
+    $(".nominal").autoNumeric("init", {
         vMax: 9999999999999,
-        vMin: -9999999999999,
-        mDec: 2
+        vMin: -9999999999999
     });
 </script>

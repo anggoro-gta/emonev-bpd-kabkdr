@@ -121,7 +121,7 @@
                                                             <td>{{ number_format($item->volume_kegiatan) }}</td>
                                                             <td>{{ $item->satuan_kegiatan }}</td>
                                                             <td>
-                                                                <input type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi}}" class="form-control mb-2 mr-sm-2 dec" placeholder="Volume">
+                                                                <input @if ($data->readonly) readonly @endif required type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi}}" class="form-control mb-2 mr-sm-2 nominal" placeholder="Volume">
                                                             </td>
                                                     </tr>
 

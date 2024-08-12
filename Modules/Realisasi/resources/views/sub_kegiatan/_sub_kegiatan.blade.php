@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-bordered table-md">
+    <table class="table table-bordered table-md" width='100%'>
         <tr>
             <th rowspan="2" class="text-center">No</th>
             <th rowspan="2" class="text-center">Sub Kegiatan</th>
@@ -10,7 +10,7 @@
             <th colspan="2" class="text-center">Realisasi</th>
         </tr>
         <tr>
-            <th class="text-center">Anggaran</th>
+            <th class="text-center" width='16%'>Anggaran</th>
             <th class="text-center">Volume</th>
         </tr>
         @php
@@ -43,10 +43,10 @@
                 <td>{{ $item->satuan_sub_kegiatan ?? $item->satuan_sub }}</td>
                 <td>
 
-                    <input type="text" name="anggaran_realisasi[]" value="{{ $item->anggaran_realisasi ?? '' }}" class="form-control mb-2 mr-sm-2 dec" placeholder="Anggaran">
+                    <input required type="text" name="anggaran_realisasi[]" value="{{ $item->anggaran_realisasi ?? '' }}" class="form-control mb-2 mr-sm-2 nominal text-right" placeholder="Anggaran">
                 </td>
                 <td>
-                    <input type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi ?? '' }}" class="form-control mb-2 mr-sm-2 dec" placeholder="Volume">
+                    <input required type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi ?? '' }}" class="form-control mb-2 mr-sm-2 nominal" placeholder="Volume">
                 </td>
             @endif
         </tr>
@@ -58,9 +58,8 @@
     @endif
 </div>
 <script>
-    $(".dec").autoNumeric("init", {
+    $(".nominal").autoNumeric("init", {
         vMax: 9999999999999,
         vMin: -9999999999999,
-        mDec: 2
     });
 </script>

@@ -133,7 +133,7 @@
                                                 <td valign="top" class="text-center"><textarea name="indikator_keg[]"
                                                         class="form-control" data-height="150" rows="5"> {{ $item->indikator_keg }}</textarea></td>
                                                 <td valign="top" class="text-center"><input type="text"
-                                                        name="volume_keg[]" class="form-control dec" value="{{ $item->volume_keg }}"></td>
+                                                        name="volume_keg[]" class="form-control nominal" value="{{ $item->volume_keg }}"></td>
                                                 <td valign="top" class="text-center"><input type="text" name="satuan_keg[]" value="{{ $item->satuan_keg }}"  class="form-control"></td>
                                                 <td class="text-center">
                                                     <a data-url="/master/kegiatan/{{ $item->id }}/indikator" data-url="" class="text-danger delete" title="Hapus"><i class="fas fa-trash"></i></a>

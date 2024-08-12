@@ -7,7 +7,7 @@
                     <td valign="top" class="text-center"><textarea style="height: 150px;" name="indikator_keg[]"
                             class="form-control" data-height="150" rows="5"></textarea></td>
                     <td valign="top" class="text-center"><input type="text"
-                            name="volume_keg[]" class="form-control dec"></td>
+                            name="volume_keg[]" class="form-control nominal"></td>
                     <td valign="top" class="text-center"><input type="text" name="satuan_keg[]"
                             class="form-control"></td>
                     <td class="text-center">
@@ -15,10 +15,9 @@
                     </td>
                 </tr>`
         $("#indikator tbody").append(row)
-        $(".dec").autoNumeric("init", {
+        $(".nominal").autoNumeric("init", {
             vMax: 9999999999999,
             vMin: -9999999999999,
-            mDec: 2
         });
     })
 </script>

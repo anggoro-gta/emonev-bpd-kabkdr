@@ -121,10 +121,10 @@
                                                     <td>{{ $item->satuan_sub_kegiatan }}</td>
                                                     <td>
 
-                                                        <input type="text" name="anggaran_realisasi[]" value="{{ $item->anggaran_realisasi  }}" class="form-control mb-2 mr-sm-2 dec" placeholder="Anggaran">
+                                                        <input @if ($data->readonly) readonly @endif required type="text" name="anggaran_realisasi[]" value="{{ $item->anggaran_realisasi  }}" class="form-control mb-2 mr-sm-2 nominal" placeholder="Anggaran">
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi  }}" class="form-control mb-2 mr-sm-2 dec" placeholder="Volume">
+                                                        <input @if ($data->readonly) readonly @endif required type="text" name="volume_realisasi[]" value="{{ $item->volume_realisasi  }}" class="form-control mb-2 mr-sm-2 nominal" placeholder="Volume">
                                                     </td>
                                                 </tr>
 
