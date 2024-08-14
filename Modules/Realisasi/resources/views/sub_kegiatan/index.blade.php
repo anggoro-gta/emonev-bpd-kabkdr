@@ -41,7 +41,6 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body">
                             <form>
                                 <div class="card-body">
                                     <div class="form-row">
@@ -72,8 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        </div>
-                        </form>
+                            </form>
                         <div class="table-responsive">
                             <table class="table-striped table" id="table-userx">
                                 <thead>

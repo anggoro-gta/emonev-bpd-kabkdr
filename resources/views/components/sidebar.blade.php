@@ -103,8 +103,8 @@
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-gear"></i> <span>Laporan</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
-                        <a href="#">Monitoring OPD</a>
+                    <li class="{{ Request::is('laporan/monitoring_opd') ? 'active' : '' }}">
+                        <a href="{{ route('laporan.monitoring_opd.index') }}">Monitoring OPD</a>
                     </li>
                     <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
                         <a href="#">Laporan Triwulan</a>
