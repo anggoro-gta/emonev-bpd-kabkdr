@@ -31,7 +31,7 @@ class MonitoringOpdController extends Controller
            $table = [
             'Program' => 'program',
             'Kegiatan' => 'kegiatan',
-            'Sub Kegitan' => 'sub_kegiatan',
+            'Sub Kegiatan' => 'sub_kegiatan',
            ];
            $data->realisasi = DB::select("select
                ms.*,
