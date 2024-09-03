@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head>    
+    <link rel="icon" href="{{ asset('img/logo/logo-emonev-svg.svg') }}">
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') &mdash; Stisla</title>
+    <title>@yield('title') &mdash; emonev</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('library/bootstrap/dist/css/bootstrap.min.css') }}">

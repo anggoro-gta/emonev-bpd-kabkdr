@@ -190,7 +190,8 @@ p, ul:not(.list-unstyled), ol {
 .custom-select:focus,
 .custom-file-label:focus {
   background-color: #fefeff;
-  border-color: #95a0f4;
+  /* border-color: #95a0f4; */
+  border-color: #cd0b45;
 }
 
 .input-group-text,
@@ -784,10 +785,12 @@ select.form-control:not([size]):not([multiple]) {
 .card .card-header .form-control + .input-group-btn .btn {
   margin-top: -1px;
 }
+
 .card .card-header h4 {
   font-size: 16px;
   line-height: 28px;
-  color: #6777ef;
+  /* color: #6777ef; */
+  color: #b5020e;
   padding-right: 10px;
   margin-bottom: 0;
 }

@@ -9,7 +9,7 @@
 @endpush
 
 @section('main')
-    <div class="card card-primary">
+    <div class="card card-danger">
         <div class="card-header">
             <h4>Login</h4>
         </div>
@@ -70,7 +70,7 @@
 
                 <div class="form-group">
                     <button type="submit"
-                        class="btn btn-primary btn-lg btn-block"
+                        class="btn btn-danger btn-lg btn-block"
                         tabindex="4">
                         Login
                     </button>

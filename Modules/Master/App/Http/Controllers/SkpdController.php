@@ -25,6 +25,7 @@ class SkpdController extends Controller
             'type_menu' => $this->type_menu,
             'skpd' => MsSKPD::filter()->paginate(10)
         ];
+    
         return view('master::skpd.index', compact('data'));
     }
     /**
