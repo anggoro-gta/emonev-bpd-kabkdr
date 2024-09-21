@@ -26,9 +26,10 @@ class ProgramController extends Controller
     public function index(Request $request)
     {
         // $this->authorize('master.program.read');
+        $program = MsProgram::with('unit','bidang')->join('ms_skpd_unit','ms_skpd_unit.kode_unit','=','ms_program.kode_sub_unit_skpd')->where('tahun',session('tahunSession'))->filter()->paginate(10);
         $data =  (object)[
             'type_menu' => $this->type_menu,
-            'program' => MsProgram::with('unit','bidang')->where('tahun',session('tahunSession'))->filter()->paginate(10)
+            'program' => $program
         ];
         return view('master::program.index', compact('data'));
     }
@@ -120,6 +121,8 @@ class ProgramController extends Controller
                 [
                     'fk_program_id' => $id,
                     'indikator_prog' => $request->indikator_prog[$i],
+                    'volume_prog_rpjmd' => $request->volume_prog_rpjmd[$i] ? str_replace(',', '', $request->volume_prog_rpjmd[$i]):null,
+                    'satuan_prog_rpjmd' => $request->satuan_prog_rpjmd[$i],
                     'volume_prog' => $request->volume_prog[$i] ? str_replace(',', '', $request->volume_prog[$i]):null,
                     'satuan_prog' => $request->satuan_prog[$i],
                 ]

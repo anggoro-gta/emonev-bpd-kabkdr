@@ -17,6 +17,7 @@ class MsSubKegiatan extends Model
             $query->where(function ($query) {
                 $param = '%' . request('q') . '%';
                 $query->where('nama_sub_kegiatan', 'like', $param)->orWhere('nama_sub_kegiatan', 'like', $param);
+                $query->orwhere('nama_kegiatan', 'like', $param)->orWhere('nama_kegiatan', 'like', $param);
             });
         });
     }

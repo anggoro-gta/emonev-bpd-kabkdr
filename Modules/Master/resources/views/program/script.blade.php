@@ -7,6 +7,10 @@
                     <td valign="top" class="text-center"><textarea style="height: 150px;" name="indikator_prog[]"
                             class="form-control" data-height="150" rows="5"></textarea></td>
                     <td valign="top" class="text-center"><input type="text"
+                            name="volume_prog_rpjmd[]" class="form-control nominal"></td>
+                    <td valign="top" class="text-center"><input type="text" name="satuan_prog_rpjmd[]"
+                            class="form-control"></td>
+                    <td valign="top" class="text-center"><input type="text"
                             name="volume_prog[]" class="form-control nominal"></td>
                     <td valign="top" class="text-center"><input type="text" name="satuan_prog[]"
                             class="form-control"></td>

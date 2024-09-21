@@ -130,8 +130,10 @@
                                             <tr>
                                                 <th width="5%" class="text-center">No</th>
                                                 <th>Indikator</th>
-                                                <th width="15%">Volume</th>
-                                                <th width="15%">Satuan</th>
+                                                <th width="15%">Volume RPJMD</th>
+                                                <th width="15%">Satuan RPJMD</th>
+                                                <th width="15%">Volume RKPD</th>
+                                                <th width="15%">Satuan RKPD</th>
                                                 <th class="text-center" width="10%">
 
                                                     <a style="cursor: pointer; " class="text-primary tambah" title="Tambah"><i class="fas fa-plus"></i></a>
@@ -147,6 +149,9 @@
                                                     <td valign="top" class="text-center">{{ $loop->iteration }}</td>
                                                     <td valign="top" class="text-center"><textarea name="indikator_prog[]"
                                                             class="form-control" data-height="150" rows="5"> {{ $item->indikator_prog }}</textarea></td>
+                                                    <td valign="top" class="text-center"><input type="text"
+                                                            name="volume_prog_rpjmd[]" class="form-control nominal" value="{{ $item->volume_prog_rpjmd }}"></td>
+                                                    <td valign="top" class="text-center"><input type="text" name="satuan_prog_rpjmd[]" value="{{ $item->satuan_prog_rpjmd }}"  class="form-control"></td>
                                                     <td valign="top" class="text-center"><input type="text"
                                                             name="volume_prog[]" class="form-control nominal" value="{{ $item->volume_prog }}"></td>
                                                     <td valign="top" class="text-center"><input type="text" name="satuan_prog[]" value="{{ $item->satuan_prog }}"  class="form-control"></td>

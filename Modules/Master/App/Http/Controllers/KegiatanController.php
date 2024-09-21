@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Master\Models\MsProgram;
 use Modules\Master\Models\MsKegiatan;
 use Modules\Master\Models\MsKegiatanIndikator;
+use Modules\Realisasi\Models\Kegiatan;
 
 class KegiatanController extends Controller
 {
@@ -24,15 +25,14 @@ class KegiatanController extends Controller
     public function index(Request $request)
     {
         // $this->authorize('master.kegiatan.read');
+        $kegiatan = MsKegiatan::filter()->with('program')->join('ms_program','ms_program.id','=','ms_kegiatan.fk_program_id')->where('ms_program.tahun', '=', session('tahunSession'));
+        if (auth()->user()->hasRole("OPD")) {
+            $kegiatan->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
+        }
+        $kegiatan = $kegiatan->paginate(10);
         $data =  (object)[
             'type_menu' => $this->type_menu,
-            'kegiatan' => MsKegiatan::with('program')->whereHas('program', function($q){
-                $q->where('tahun', '=', session('tahunSession'));
-
-                if (auth()->user()->hasRole("OPD")) {
-                    $q->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
-                }
-            })->filter()->paginate(10)
+            'kegiatan' => $kegiatan
         ];
         return view('master::kegiatan.index', compact('data'));
     }
@@ -78,6 +78,8 @@ class KegiatanController extends Controller
                 [
                     'fk_kegiatan_id' => $id,
                     'indikator_keg' => $request->indikator_keg[$i],
+                    'volume_keg_rpjmd' => $request->volume_keg_rpjmd[$i] ? str_replace(',', '', $request->volume_keg_rpjmd[$i]):null,
+                    'satuan_keg_rpjmd' => $request->satuan_keg_rpjmd[$i],
                     'volume_keg' => $request->volume_keg[$i] ? str_replace(',', '', $request->volume_keg[$i]):null,
                     'satuan_keg' => $request->satuan_keg[$i],
                 ]

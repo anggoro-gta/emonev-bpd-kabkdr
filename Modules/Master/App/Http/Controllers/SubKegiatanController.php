@@ -22,15 +22,14 @@ class SubKegiatanController extends Controller
     public function index(Request $request)
     {
         // $this->authorize('master.sub_kegiatan.read');
+        $sub_kegiatan = MsSubKegiatan::with('kegiatan.program')->join('ms_kegiatan','ms_kegiatan.id','=','fk_kegiatan_id')->join('ms_program','ms_program.id','=','ms_kegiatan.fk_program_id')->filter();
+        if (auth()->user()->hasRole("OPD")) {
+            $sub_kegiatan->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
+        }
+        $sub_kegiatan = $sub_kegiatan->where('tahun', '=', session('tahunSession'))->paginate(10);
         $data =  (object)[
             'type_menu' => $this->type_menu,
-            'sub_kegiatan' => MsSubKegiatan::with('kegiatan.program')->whereHas('kegiatan.program', function($q){
-                $q->where('tahun', '=', session('tahunSession'));
-
-                if (auth()->user()->hasRole("OPD")) {
-                    $q->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
-                }
-            })->filter()->paginate(10)
+            'sub_kegiatan' => $sub_kegiatan
         ];
         return view('master::sub_kegiatan.index', compact('data'));
     }
@@ -56,6 +55,7 @@ class SubKegiatanController extends Controller
             'kode_sub_kegiatan' => $request->kode_sub_kegiatan,
             'nama_sub_kegiatan' => $request->nama_sub_kegiatan,
             'anggaran_murni' => $request->anggaran_murni ? str_replace(',', '', $request->anggaran_murni):null,
+            'anggaran_rpjmd' => $request->anggaran_rpjmd ? str_replace(',', '', $request->anggaran_rpjmd):null,
             'perubahan_perbup1' => $request->perubahan_perbup1 ? str_replace(',', '', $request->perubahan_perbup1):null,
             'perubahan_perbup2' => $request->perubahan_perbup2 ? str_replace(',', '', $request->perubahan_perbup2):null,
             'perubahan_perbup3' => $request->perubahan_perbup3 ? str_replace(',', '', $request->perubahan_perbup3):null,
@@ -64,6 +64,8 @@ class SubKegiatanController extends Controller
             'indikator_sub' => $request->indikator_sub,
             'volume_sub' => $request->volume_sub ? str_replace(',', '', $request->volume_sub):null,
             'satuan_sub' => $request->satuan_sub,
+            'volume_sub_rpjmd' => $request->volume_sub_rpjmd ? str_replace(',', '', $request->volume_sub_rpjmd):null,
+            'satuan_sub_rpjmd' => $request->satuan_sub_rpjmd,
         ];
     }
 

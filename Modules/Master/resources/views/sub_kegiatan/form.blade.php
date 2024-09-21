@@ -85,21 +85,12 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
-                                            Anggaran Murni
-                                            @error('anggaran_murni')
-                                            <code>{{ $message }}</code>
-                                            @enderror
-                                        </label>
-                                        <input type="text" class="form-control " placeholder="Anggaran Murni" name="anggaran_murni" value="{{ $data->sub_kegiatan->anggaran_murni ??old('anggaran_murni') }}">
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="inputPassword4">
                                             Perubahan Perbup 1
                                             @error('perubahan_perbup1')
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input type="text" class="form-control " placeholder="Perubahan Perbup 1" name="perubahan_perbup1" value="{{ $data->sub_kegiatan->perubahan_perbup1 ??old('perubahan_perbup1') }}">
+                                        <input type="text" class="form-control nominal" placeholder="Perubahan Perbup 1" name="perubahan_perbup1" value="{{ $data->sub_kegiatan->perubahan_perbup1 ??old('perubahan_perbup1') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -108,7 +99,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input type="text" class="form-control " placeholder="Perubahan Perbup 2" name="perubahan_perbup2" value="{{ $data->sub_kegiatan->perubahan_perbup2 ??old('perubahan_perbup2') }}">
+                                        <input type="text" class="form-control nominal" placeholder="Perubahan Perbup 2" name="perubahan_perbup2" value="{{ $data->sub_kegiatan->perubahan_perbup2 ??old('perubahan_perbup2') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -117,7 +108,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input type="text" class="form-control " placeholder="Perubahan Perbup 3" name="perubahan_perbup3" value="{{ $data->sub_kegiatan->perubahan_perbup3 ??old('perubahan_perbup3') }}">
+                                        <input type="text" class="form-control nominal" placeholder="Perubahan Perbup 3" name="perubahan_perbup3" value="{{ $data->sub_kegiatan->perubahan_perbup3 ??old('perubahan_perbup3') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -126,7 +117,7 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input type="text" class="form-control " placeholder="Perubahan Perbup 4" name="perubahan_perbup4" value="{{ $data->sub_kegiatan->perubahan_perbup4 ??old('perubahan_perbup4') }}">
+                                        <input type="text" class="form-control nominal" placeholder="Perubahan Perbup 4" name="perubahan_perbup4" value="{{ $data->sub_kegiatan->perubahan_perbup4 ??old('perubahan_perbup4') }}">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
@@ -135,10 +126,66 @@
                                             <code>{{ $message }}</code>
                                             @enderror
                                         </label>
-                                        <input type="text" class="form-control " placeholder="Perubahan Anggaran" name="perubahan_anggaran" value="{{ $data->sub_kegiatan->perubahan_anggaran ??old('perubahan_anggaran') }}">
+                                        <input type="text" class="form-control nominal" placeholder="Perubahan Anggaran" name="perubahan_anggaran" value="{{ $data->sub_kegiatan->perubahan_anggaran ??old('perubahan_anggaran') }}">
                                     </div>
                                 </div>
 
+                                <div class="form-row">
+                                    <div class="form-group col-md-2">
+                                        <label for="inputPassword4">
+                                            Anggaran RPJMD
+                                            @error('anggaran_rpjmd')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control nominal" placeholder="Anggaran RPJMD" name="anggaran_rpjmd" value="{{ $data->sub_kegiatan->anggaran_rpjmd ??old('anggaran_rpjmd') }}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputPassword4">
+                                            Anggaran Murni
+                                            @error('anggaran_murni')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control nominal" placeholder="Anggaran Murni" name="anggaran_murni" value="{{ $data->sub_kegiatan->anggaran_murni ??old('anggaran_murni') }}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputPassword4">
+                                            Volume RPJMD
+                                            @error('volume_sub_rpjmd')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control nominal" placeholder="Volume" name="volume_sub_rpjmd" value="{{ $data->sub_kegiatan->volume_sub_rpjmd ?? old('volume_sub_rpjmd') }}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputPassword4">
+                                            Satuan RPJMD
+                                            @error('satuan_sub_rpjmd')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control" placeholder="Satuan" name="satuan_sub_rpjmd" value="{{ $data->sub_kegiatan->satuan_sub_rpjmd ??old('satuan_sub_rpjmd') }}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputPassword4">
+                                            Volume RKPD
+                                            @error('volume_sub')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control nominal" placeholder="Volume" name="volume_sub" value="{{ $data->sub_kegiatan->volume_sub ?? old('volume_sub') }}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputPassword4">
+                                            Satuan RKPD
+                                            @error('satuan_sub')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                        <input type="text" class="form-control" placeholder="Satuan" name="satuan_sub" value="{{ $data->sub_kegiatan->satuan_sub ??old('satuan_sub') }}">
+                                    </div>
+                                </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label for="inputPassword4">
@@ -148,24 +195,6 @@
                                             @enderror
                                         </label>
                                             <textarea style="height: 150px;" name="indikator_sub" class="form-control" data-height="150" rows="5">{{ $data->sub_kegiatan->indikator_sub ?? old('indikator_sub') }}</textarea>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="inputPassword4">
-                                            Volume
-                                            @error('volume_sub')
-                                            <code>{{ $message }}</code>
-                                            @enderror
-                                        </label>
-                                        <input type="text" class="form-control " placeholder="Volume" name="volume_sub" value="{{ $data->sub_kegiatan->volume_sub ?? old('volume_sub') }}">
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="inputPassword4">
-                                            Satuan
-                                            @error('satuan_sub')
-                                            <code>{{ $message }}</code>
-                                            @enderror
-                                        </label>
-                                        <input type="text" class="form-control" placeholder="Satuan" name="satuan_sub" value="{{ $data->sub_kegiatan->satuan_sub ??old('satuan_sub') }}">
                                     </div>
                                 </div>
                             </div>
