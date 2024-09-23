@@ -2,10 +2,12 @@
 
 namespace Modules\Master\Models;
 
+use Alexmg86\LaravelSubQuery\Traits\LaravelSubQueryTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class MsKegiatan extends Model
 {
+    use LaravelSubQueryTrait;
     protected $guarded = [''];
     protected $table = 'ms_kegiatan';
     protected $primaryKey  = 'id';
@@ -28,5 +30,13 @@ class MsKegiatan extends Model
     public function indikator()
     {
         return $this->hasMany(MsKegiatanIndikator::class, 'fk_kegiatan_id', 'id');
+    }
+    public function sub_kegiatan()
+    {
+        return $this->hasMany(MsSubKegiatan::class, 'fk_kegiatan_id', 'id');
+    }
+    public function kegiatanTahunLalu()
+    {
+        return $this->hasOne(MsProgram::class, 'kode_program', 'kode_program')->where('tahun', session('tahunSession') - 1);
     }
 }

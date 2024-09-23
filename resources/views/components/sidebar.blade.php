@@ -104,8 +104,8 @@
                 <li class="{{ Request::is('laporan/monitoring_opd') ? 'active' : '' }}">
                     <a href="{{ route('laporan.monitoring_opd.index') }}">Monitoring OPD</a>
                 </li>
-                <li class="{{ Request::is('master/sub_kegiatan') ? 'active' : '' }}">
-                    <a href="#">Laporan Triwulan</a>
+                <li class="{{ Request::is('laporan/triwulan') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.triwulan.index') }}">Laporan Triwulan</a>
                 </li>
             </ul>
         </li>

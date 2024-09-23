@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Laporan\App\Http\Controllers\LaporanController;
 use Modules\Laporan\App\Http\Controllers\MonitoringOpdController;
+use Modules\Laporan\App\Http\Controllers\TriwulanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,4 +18,6 @@ use Modules\Laporan\App\Http\Controllers\MonitoringOpdController;
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'laporan', 'as' => 'laporan.'], function () {
     Route::resource('/monitoring_opd', MonitoringOpdController::class)->only('index');
+    Route::resource('/triwulan', TriwulanController::class)->only('index');
+    Route::post('/triwulan/cetak', [TriwulanController::class,'cetak'])->name('triwulan.cetak');
 });

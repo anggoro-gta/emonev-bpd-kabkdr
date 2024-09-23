@@ -25,7 +25,7 @@ class KegiatanController extends Controller
     public function index(Request $request)
     {
         // $this->authorize('master.kegiatan.read');
-        $kegiatan = MsKegiatan::filter()->with('program')->join('ms_program','ms_program.id','=','ms_kegiatan.fk_program_id')->where('ms_program.tahun', '=', session('tahunSession'));
+        $kegiatan = MsKegiatan::select('ms_kegiatan.*')->filter()->with('program')->join('ms_program','ms_program.id','=','ms_kegiatan.fk_program_id')->where('ms_program.tahun', '=', session('tahunSession'));
         if (auth()->user()->hasRole("OPD")) {
             $kegiatan->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
         }

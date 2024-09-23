@@ -26,7 +26,7 @@ class ProgramController extends Controller
     public function index(Request $request)
     {
         // $this->authorize('master.program.read');
-        $program = MsProgram::with('unit','bidang')->join('ms_skpd_unit','ms_skpd_unit.kode_unit','=','ms_program.kode_sub_unit_skpd')->where('tahun',session('tahunSession'))->filter()->paginate(10);
+        $program = MsProgram::select("ms_program.*")->with('unit','bidang')->join('ms_skpd_unit','ms_skpd_unit.kode_unit','=','ms_program.kode_sub_unit_skpd')->where('tahun',session('tahunSession'))->filter()->paginate(10);
         $data =  (object)[
             'type_menu' => $this->type_menu,
             'program' => $program
