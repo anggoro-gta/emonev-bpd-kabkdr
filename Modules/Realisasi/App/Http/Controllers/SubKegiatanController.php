@@ -68,6 +68,8 @@ class SubKegiatanController extends Controller
                 $inputDetail[] = [
                     'fk_t_realisasi_sub_kegiatan_header_id' => $idHeader,
                     'fk_sub_kegiatan_id' => $request->fk_sub_kegiatan_id[$i],
+                    'fk_kegiatan_id' => $request->fk_kegiatan_id[$i],
+                    'fk_program_id' => $request->fk_program_id[$i],
                     'indikator_sub_kegiatan' => $request->indikator_sub_kegiatan[$i] ?? null,
                     'anggaran_sub_kegiatan' => $request->anggaran_sub_kegiatan[$i] ?? null,
                     'volume_sub_kegiatan' => $request->volume_sub_kegiatan[$i]  ?? null,

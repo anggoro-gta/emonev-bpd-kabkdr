@@ -108,6 +108,9 @@
                 <td>{{ $program->indikator->pluck('keterangan')->implode(';') }}</td>
                 <td align="right">{{ number_format($program->sub_kegiatan->sum('anggaran_murni'))}}</td>
                 {{-- start Realisasi Program--}}
+                @php
+                    $totalRealisasi = 0;
+                @endphp
                 @if (in_array($triwulan,[1,2,3,4]))
                     <td>
                         @if ($data->r_program->where('fk_program_id',$program->id)->where('triwulan',1)->first()!=null)
@@ -115,7 +118,11 @@
                         @endif
                     </td>
                     <td>
-                        sum dari sub kegiatan
+                        @php
+                            $r = $data->r_sub_kegiatan->where('fk_program_id',$program->id)->where('triwulan',1)->sum('anggaran_realisasi');
+                            $totalRealisasi +=$r??0;
+                        @endphp
+                        {{ number_format($r??0) }}
                     </td>
                 @endif
                 @if (in_array($triwulan,[2,3,4]))
@@ -125,7 +132,11 @@
                         @endif
                     </td>
                     <td>
-                        sum dari sub kegiatan
+                        @php
+                            $r = $data->r_sub_kegiatan->where('fk_program_id',$program->id)->where('triwulan',2)->sum('anggaran_realisasi');
+                            $totalRealisasi +=$r??0;
+                        @endphp
+                        {{ number_format($r??0) }}
                     </td>
                 @endif
                 @if (in_array($triwulan,[3,4]))
@@ -135,7 +146,11 @@
                         @endif
                     </td>
                     <td>
-                        sum dari sub kegiatan
+                        @php
+                            $r = $data->r_sub_kegiatan->where('fk_program_id',$program->id)->where('triwulan',3)->sum('anggaran_realisasi');
+                            $totalRealisasi +=$r??0;
+                        @endphp
+                        {{ number_format($r??0) }}
                     </td>
                 @endif
                 @if (in_array($triwulan,[4]))
@@ -145,9 +160,17 @@
                         @endif
                     </td>
                     <td>
-                        sum dari sub kegiatan
+                        @php
+                            $r = $data->r_sub_kegiatan->where('fk_program_id',$program->id)->where('triwulan',4)->sum('anggaran_realisasi');
+                            $totalRealisasi +=$r??0;
+                        @endphp
+                        {{ number_format($r??0) }}
                     </td>
                 @endif
+                <td></td>
+                <td>{{ number_format($totalRealisasi??0) }}</td>
+                <td></td>
+                <td></td>
                 {{-- end Realisasi Program--}}
             </tr>
             @foreach ($program->kegiatan as $kegiatan)
@@ -174,7 +197,10 @@
                         @endif
                     </td>
                     <td>
-                        sum dari sub kegiatan
+                        @php
+                            $r = $data->r_sub_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',1)->sum('anggaran_realisasi');
+                        @endphp
+                        {{ number_format($r??0) }}
                     </td>
                 @endif
                 @if (in_array($triwulan,[2,3,4]))
@@ -184,7 +210,10 @@
                         @endif
                     </td>
                     <td>
-                        sum dari sub kegiatan
+                        @php
+                            $r = $data->r_sub_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',2)->sum('anggaran_realisasi');
+                        @endphp
+                        {{ number_format($r??0) }}
                     </td>
                 @endif
                 @if (in_array($triwulan,[3,4]))
@@ -194,7 +223,10 @@
                         @endif
                     </td>
                     <td>
-                        sum dari sub kegiatan
+                        @php
+                            $r = $data->r_sub_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',3)->sum('anggaran_realisasi');
+                        @endphp
+                        {{ number_format($r??0) }}
                     </td>
                 @endif
                 @if (in_array($triwulan,[4]))
@@ -204,7 +236,10 @@
                         @endif
                     </td>
                     <td>
-                        sum dari sub kegiatan
+                        @php
+                            $r = $data->r_sub_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',4)->sum('anggaran_realisasi');
+                        @endphp
+                        {{ number_format($r??0) }}
                     </td>
                 @endif
                 {{-- end Realisasi Kegiatan --}}
@@ -224,6 +259,37 @@
                         <td align="right">{{ number_format($subKegiatanTahunLalu->anggaran_rpjmd ?? null)}}</td>
                         <td>{{ $sub_kegiatan->keterangan }}</td>
                         <td align="right">{{ number_format($sub_kegiatan->anggaran_murni)}}</td>
+                        {{-- start Realisasi Kegiatan --}}
+
+                        @if (in_array($triwulan,[1,2,3,4]))
+                            @php
+                                $r = $data->r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',1)->first();
+                            @endphp
+                            <td>{{ $r->volume_realisasi ?? null }} {{ $r->satuan_sub_kegiatan ?? null }}</td>
+                            <td>{{ number_format($r->anggaran_realisasi ?? 0) }} </td>
+                        @endif
+                        @if (in_array($triwulan,[2,3,4]))
+                            @php
+                                $r = $data->r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',1)->first();
+                            @endphp
+                            <td>{{ $r->volume_realisasi ?? null }} {{ $r->satuan_sub_kegiatan ?? null }}</td>
+                            <td>{{ number_format($r->anggaran_realisasi ?? 0) }}</td>
+                        @endif
+                        @if (in_array($triwulan,[3,4]))
+                            @php
+                                $r = $data->r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',3)->first();
+                            @endphp
+                            <td>{{ $r->volume_realisasi ?? null }} {{ $r->satuan_sub_kegiatan ?? null }}</td>
+                            <td>{{ number_format($r->anggaran_realisasi ?? 0) }}</td>
+                        @endif
+                        @if (in_array($triwulan,[4]))
+                            @php
+                                $r = $data->r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',4)->first();
+                            @endphp
+                            <td>{{ $r->volume_realisasi ?? null }} {{ $r->satuan_sub_kegiatan ?? null }}</td>
+                            <td>{{ number_format($r->anggaran_realisasi ?? 0) }}</td>
+                        @endif
+                        {{-- end Realisasi Kegiatan --}}
                     </tr>
                 @endforeach
             @endforeach

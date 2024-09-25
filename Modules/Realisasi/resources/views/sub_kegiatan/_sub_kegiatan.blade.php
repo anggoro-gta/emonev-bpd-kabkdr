@@ -20,8 +20,11 @@
         <input type="hidden" name="fk_sub_kegiatan_id[]" value="{{ $item->fk_sub_kegiatan_id ?? $item->id }}" class="form-control mb-2 mr-sm-2">
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $item->nama_sub_kegiatan }}</td>
+            <td>{{ $item->nama_sub_kegiatan }} </td>
             <td class="text-right">{{ number_format($item->anggaran_murni) }}</td>
+
+            <input type="hidden" name="fk_kegiatan_id[]" value="{{ $item->kegiatan->id }}">
+            <input type="hidden" name="fk_program_id[]" value="{{ $item->kegiatan->fk_program_id }}">
             @if ($item->indikator_sub ==null)
                 @php
                     $indikatorKosong ++;
@@ -53,9 +56,9 @@
 
         @endforeach
     </table>
-    {{-- @if ($indikatorKosong==0) --}}
+    @if ($indikatorKosong==0)
         <button class="btn btn-primary">Submit </button>
-    {{-- @endif --}}
+    @endif
 </div>
 <script>
     $(".nominal").autoNumeric("init", {
