@@ -4,6 +4,7 @@ namespace Modules\Master\Models;
 
 use Alexmg86\LaravelSubQuery\Traits\LaravelSubQueryTrait;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Realisasi\Models\Program;
 
 class MsProgram extends Model
 {
@@ -50,5 +51,9 @@ class MsProgram extends Model
     public function sub_kegiatan()
     {
         return $this->hasManyThrough(MsSubKegiatan::class, MsKegiatan::class, 'fk_program_id', 'fk_kegiatan_id', 'id');
+    }
+    public function realisasiProgram()
+    {
+        return $this->hasMany(Program::class, 'fk_program_id', 'id');
     }
 }

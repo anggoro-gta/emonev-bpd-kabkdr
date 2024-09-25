@@ -22,7 +22,7 @@ class SubKegiatanController extends Controller
     public function index(Request $request)
     {
         // $this->authorize('master.sub_kegiatan.read');
-        $sub_kegiatan = MsSubKegiatan::with('kegiatan.program')->join('ms_kegiatan','ms_kegiatan.id','=','fk_kegiatan_id')->join('ms_program','ms_program.id','=','ms_kegiatan.fk_program_id')->filter();
+        $sub_kegiatan = MsSubKegiatan::select('ms_sub_kegiatan.*')->with('kegiatan.program')->join('ms_kegiatan','ms_kegiatan.id','=','fk_kegiatan_id')->join('ms_program','ms_program.id','=','ms_kegiatan.fk_program_id')->filter();
         if (auth()->user()->hasRole("OPD")) {
             $sub_kegiatan->where('kode_sub_unit_skpd',auth()->user()->unit->kode_unit);
         }

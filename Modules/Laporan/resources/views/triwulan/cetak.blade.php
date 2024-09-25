@@ -90,9 +90,10 @@
         </tr>
     </thead>
     <tbody>
+
         @foreach ($data->program as $program)
             <tr>
-                <td align="center">{{ $loop->iteration }} </td>
+                <td align="center">{{ $loop->iteration }} {{ $program->id }}</td>
                 <td>{{ $program->kode_program }}</td>
                 <td>{{ $program->nama_program }}</td>
                 <td>{{ $program->indikator->pluck('indikator_prog')->implode(';') }}</td>
@@ -102,6 +103,9 @@
                 <td align="right">{{ number_format($program->programTahunLalu->sub_kegiatan->sum('anggaran_murni'))}}</td>
                 <td>{{ $program->indikator->pluck('keterangan')->implode(';') }}</td>
                 <td align="right">{{ number_format($program->sub_kegiatan->sum('anggaran_murni'))}}</td>
+                <td>
+
+                </td>
             </tr>
             @foreach ($program->kegiatan as $kegiatan)
             <tr>

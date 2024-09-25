@@ -23,4 +23,8 @@ class ProgramHeader extends Model
     {
         return $this->hasOne(MsSKPD::class, 'id', 'fk_skpd_id');
     }
+    public function detail()
+    {
+        return $this->hasMany(Program::class, 'fk_t_realisasi_program_header_id', 'id');
+    }
 }

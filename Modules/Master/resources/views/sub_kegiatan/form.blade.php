@@ -149,6 +149,17 @@
                                         </label>
                                         <input type="text" class="form-control nominal" placeholder="Anggaran Murni" name="anggaran_murni" value="{{ $data->sub_kegiatan->anggaran_murni ??old('anggaran_murni') }}">
                                     </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputPassword4">
+                                            Indikator
+                                            @error('indikator_sub')
+                                            <code>{{ $message }}</code>
+                                            @enderror
+                                        </label>
+                                            <textarea style="height: 150px;" name="indikator_sub" class="form-control" data-height="150" rows="5">{{ $data->sub_kegiatan->indikator_sub ?? old('indikator_sub') }}</textarea>
+                                    </div>
                                     <div class="form-group col-md-2">
                                         <label for="inputPassword4">
                                             Volume RPJMD
@@ -184,17 +195,6 @@
                                             @enderror
                                         </label>
                                         <input type="text" class="form-control" placeholder="Satuan" name="satuan_sub" value="{{ $data->sub_kegiatan->satuan_sub ??old('satuan_sub') }}">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-3">
-                                        <label for="inputPassword4">
-                                            Indikator
-                                            @error('indikator_sub')
-                                            <code>{{ $message }}</code>
-                                            @enderror
-                                        </label>
-                                            <textarea style="height: 150px;" name="indikator_sub" class="form-control" data-height="150" rows="5">{{ $data->sub_kegiatan->indikator_sub ?? old('indikator_sub') }}</textarea>
                                     </div>
                                 </div>
                             </div>
