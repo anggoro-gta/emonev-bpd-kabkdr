@@ -61,12 +61,12 @@
             @for ($i = 8; $i < $triwulan +8; $i++)
             <td colspan="2" align="center">{{ $i }}</td>
             @endfor
-            <td colspan="2" align="center">12</td>
-            <td colspan="2" align="center">13</td>
-            <td colspan="2" align="center">14</td>
-            <td colspan="2" align="center">15</td>
-            <td rowspan="2" align="center">16</td>
-            <td rowspan="2" align="center">17</td>
+            <td colspan="2" align="center">{{ 8+$triwulan }}</td>
+            <td colspan="2" align="center">{{ 9+$triwulan }}</td>
+            <td colspan="2" align="center">{{ 10+$triwulan }}</td>
+            <td colspan="2" align="center">{{ 11+$triwulan }}</td>
+            <td rowspan="2" align="center">{{ 12+$triwulan }}</td>
+            <td rowspan="2" align="center">{{ 13+$triwulan }}</td>
         </tr>
         <tr>
             @for ($i = 1; $i < $triwulan+1; $i++)
@@ -93,19 +93,62 @@
 
         @foreach ($data->program as $program)
             <tr>
-                <td align="center">{{ $loop->iteration }} {{ $program->id }}</td>
+                <td align="center">{{ $loop->iteration }}</td>
                 <td>{{ $program->kode_program }}</td>
                 <td>{{ $program->nama_program }}</td>
                 <td>{{ $program->indikator->pluck('indikator_prog')->implode(';') }}</td>
                 <td>{{ $program->indikator->pluck('keterangan_rpjmd')->implode(';') }}</td>
                 <td align="right">{{ number_format($program->sub_kegiatan->sum('anggaran_rpjmd'))}}</td>
-                <td>{{ $program->programTahunLalu->indikator->pluck('keterangan_rpjmd')->implode(';') }}</td>
-                <td align="right">{{ number_format($program->programTahunLalu->sub_kegiatan->sum('anggaran_murni'))}}</td>
+
+                @php
+                    $programTahunLalu = $program->programTahunLalu;
+                @endphp
+                <td>{{ isset($programTahunLalu )?  $program->programTahunLalu->indikator->pluck('keterangan_rpjmd')->implode(';') :''}}</td>
+                <td align="right">{{ isset($programTahunLalu )?  number_format($program->programTahunLalu->sub_kegiatan->sum('anggaran_murni')):0}}</td>
                 <td>{{ $program->indikator->pluck('keterangan')->implode(';') }}</td>
                 <td align="right">{{ number_format($program->sub_kegiatan->sum('anggaran_murni'))}}</td>
-                <td>
-
-                </td>
+                {{-- start Realisasi Program--}}
+                @if (in_array($triwulan,[1,2,3,4]))
+                    <td>
+                        @if ($data->r_program->where('fk_program_id',$program->id)->where('triwulan',1)->first()!=null)
+                        {{ $data->r_program->where('fk_program_id',$program->id)->where('triwulan',1)->first()->k ?? null }}
+                        @endif
+                    </td>
+                    <td>
+                        sum dari sub kegiatan
+                    </td>
+                @endif
+                @if (in_array($triwulan,[2,3,4]))
+                    <td>
+                        @if ($data->r_program->where('fk_program_id',$program->id)->where('triwulan',2)->first()!=null)
+                        {{ $data->r_program->where('fk_program_id',$program->id)->where('triwulan',2)->first()->k ?? null }}
+                        @endif
+                    </td>
+                    <td>
+                        sum dari sub kegiatan
+                    </td>
+                @endif
+                @if (in_array($triwulan,[3,4]))
+                    <td>
+                        @if ($data->r_program->where('fk_program_id',$program->id)->where('triwulan',3)->first()!=null)
+                        {{ $data->r_program->where('fk_program_id',$program->id)->where('triwulan',3)->first()->k ?? null }}
+                        @endif
+                    </td>
+                    <td>
+                        sum dari sub kegiatan
+                    </td>
+                @endif
+                @if (in_array($triwulan,[4]))
+                    <td>
+                        @if ($data->r_program->where('fk_program_id',$program->id)->where('triwulan',4)->first()!=null)
+                        {{ $data->r_program->where('fk_program_id',$program->id)->where('triwulan',4)->first()->k ?? null }}
+                        @endif
+                    </td>
+                    <td>
+                        sum dari sub kegiatan
+                    </td>
+                @endif
+                {{-- end Realisasi Program--}}
             </tr>
             @foreach ($program->kegiatan as $kegiatan)
             <tr>
@@ -114,19 +157,62 @@
                 <td>{{ $kegiatan->nama_kegiatan }}</td>
                 <td>{{ $kegiatan->indikator->pluck('indikator_keg')->implode(';') }}</td>
                 <td>{{ $kegiatan->indikator->pluck('keterangan_rpjmd')->implode(';') }}</td>
-                <td align="right">{{ number_format($kegiatan->sub_kegiatan->sum('anggaran_rpjmd'))}}</td>
+                <td align="right">{{ isset($kegiatan->sub_kegiatan) ? number_format($kegiatan->sub_kegiatan->sum('anggaran_rpjmd') ) : null}}</td>
                 @php
-                    $kegiatanTahunLalu = $program->programTahunLalu->kegiatan->where('kode_kegiatan',$kegiatan->kode_kegiatan)->first();
+                    $kegiatanTahunLalu = $program->programTahunLalu?->kegiatan->where('kode_kegiatan',$kegiatan->kode_kegiatan)->first() ?? null;
                 @endphp
                 <td>{{ isset($kegiatanTahunLalu->indikator) ?  $kegiatanTahunLalu->indikator->pluck('keterangan')->implode(';') : ''}}</td>
                 <td align="right">{{ isset($kegiatanTahunLalu->indikator) ? number_format($kegiatanTahunLalu->sub_kegiatan->sum('anggaran_rpjmd')): ''}}</td>
                 <td>{{ $kegiatan->indikator->pluck('keterangan')->implode(';') }}</td>
                 <td align="right">{{ number_format($kegiatan->sub_kegiatan->sum('anggaran_murni'))}}</td>
+
+                {{-- start Realisasi Kegiatan --}}
+                @if (in_array($triwulan,[1,2,3,4]))
+                    <td>
+                        @if ($data->r_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',1)->first()!=null)
+                        {{ $data->r_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',1)->first()->k ?? null }}
+                        @endif
+                    </td>
+                    <td>
+                        sum dari sub kegiatan
+                    </td>
+                @endif
+                @if (in_array($triwulan,[2,3,4]))
+                    <td>
+                        @if ($data->r_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',2)->first()!=null)
+                        {{ $data->r_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',2)->first()->k ?? null }}
+                        @endif
+                    </td>
+                    <td>
+                        sum dari sub kegiatan
+                    </td>
+                @endif
+                @if (in_array($triwulan,[3,4]))
+                    <td>
+                        @if ($data->r_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',3)->first()!=null)
+                        {{ $data->r_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',3)->first()->k ?? null }}
+                        @endif
+                    </td>
+                    <td>
+                        sum dari sub kegiatan
+                    </td>
+                @endif
+                @if (in_array($triwulan,[4]))
+                    <td>
+                        @if ($data->r_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',4)->first()!=null)
+                        {{ $data->r_kegiatan->where('fk_kegiatan_id',$kegiatan->id)->where('triwulan',4)->first()->k ?? null }}
+                        @endif
+                    </td>
+                    <td>
+                        sum dari sub kegiatan
+                    </td>
+                @endif
+                {{-- end Realisasi Kegiatan --}}
             </tr>
                 @foreach ($kegiatan->sub_kegiatan as $sub_kegiatan)
                     <tr>
                         <td></td>
-                        <td>{{ $sub_kegiatan->kode_sub_kegiatan }}</td>
+                        <td>{{ $sub_kegiatan->kode_sub_kegiatan }} {{ $sub_kegiatan->id }}</td>
                         <td>{{ $sub_kegiatan->nama_sub_kegiatan }}</td>
                         <td>{{ $sub_kegiatan->indikator_sub }}</td>
                         <td>{{ $sub_kegiatan->keterangan_rpjmd }}</td>

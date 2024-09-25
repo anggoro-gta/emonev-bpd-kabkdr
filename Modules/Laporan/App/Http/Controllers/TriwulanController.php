@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Modules\Master\Models\MsProgram;
 use Modules\Master\Models\MsSKPDUnit;
 use Modules\Realisasi\Models\ProgramHeader;
+use Modules\Realisasi\Models\VRKegiatan;
+use Modules\Realisasi\Models\VRProgram;
 
 class TriwulanController extends Controller
 {
@@ -38,8 +40,8 @@ class TriwulanController extends Controller
             3 => [1,2,3],
             4 => [1,2,3,4],
         ];
-        $r_program = ProgramHeader::with('detail')->where('fk_skpd_id',$skpd->fk_skpd_id)->where('status_posting',1)->whereIn('triwulan',$triwulanArray[request()->triwulan])->where('tahun',session('tahunSession'))->get();
-        // dd($r_program->where('triwulan',1));
+        $r_program = VRProgram::where('fk_skpd_id',$skpd->fk_skpd_id)->whereIn('triwulan',$triwulanArray[request()->triwulan])->where('tahun',session('tahunSession'))->get();
+        $r_kegiatan = VRKegiatan::where('fk_skpd_id',$skpd->fk_skpd_id)->whereIn('triwulan',$triwulanArray[request()->triwulan])->where('tahun',session('tahunSession'))->get();
         $data = (object)[
             'program' => MsProgram::with([
                 'kegiatan.sub_kegiatan',
@@ -52,6 +54,8 @@ class TriwulanController extends Controller
                 'programTahunLalu.kegiatan.sub_kegiatan',
             ])->where('tahun',session('tahunSession'))
             ->where('kode_sub_unit_skpd',$request->kode_sub_unit_skpd ?? auth()->user()->unit->kode_unit)->get(),
+            'r_program' => $r_program,
+            'r_kegiatan' => $r_kegiatan,
         ];
         return view('laporan::triwulan.cetak', compact('data'));
     }

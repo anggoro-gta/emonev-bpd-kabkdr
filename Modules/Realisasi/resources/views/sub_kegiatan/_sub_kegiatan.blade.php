@@ -53,9 +53,9 @@
 
         @endforeach
     </table>
-    @if ($indikatorKosong==0)
+    {{-- @if ($indikatorKosong==0) --}}
         <button class="btn btn-primary">Submit </button>
-    @endif
+    {{-- @endif --}}
 </div>
 <script>
     $(".nominal").autoNumeric("init", {
