@@ -112,6 +112,8 @@
                                                 </tr>
                                                 @foreach ($data->realisasi->detail as $item)
                                                 <input type="hidden" name="id[]" value="{{ $item->id }}">
+                                                <input type="hidden" name="fk_kegiatan_id[]" value="{{ $item->subKegiatan->fk_kegiatan_id }}">
+                                                <input type="hidden" name="fk_program_id[]" value="{{ $item->subKegiatan->kegiatan->fk_program_id}}">
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->subKegiatan->nama_sub_kegiatan ?? null }}</td>

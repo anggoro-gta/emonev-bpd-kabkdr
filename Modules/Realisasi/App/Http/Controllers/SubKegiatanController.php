@@ -133,6 +133,8 @@ class SubKegiatanController extends Controller
             SubKegiatanHeader::where('id',$id)->update($input);
             for ($i = 0; $i < count($request->id); $i++) {
                 $inputDetail = [
+                    'fk_kegiatan_id' => $request->fk_kegiatan_id[$i],
+                    'fk_program_id' => $request->fk_program_id[$i],
                     'volume_realisasi' => isset($request->volume_realisasi[$i]) ? str_replace(',', '', $request->volume_realisasi[$i]) : null,
                     'anggaran_realisasi' => isset($request->anggaran_realisasi[$i]) ? str_replace(',', '', $request->anggaran_realisasi[$i]) : null,
                 ];

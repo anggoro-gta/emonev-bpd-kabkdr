@@ -43,6 +43,7 @@ class TriwulanController extends Controller
             4 => [1,2,3,4],
         ];
         $r_program = VRProgram::where('fk_skpd_id',$skpd->fk_skpd_id)->whereIn('triwulan',$triwulanArray[request()->triwulan])->where('tahun',session('tahunSession'))->get();
+        // dd(VRProgram::all());
         $r_kegiatan = VRKegiatan::where('fk_skpd_id',$skpd->fk_skpd_id)->whereIn('triwulan',$triwulanArray[request()->triwulan])->where('tahun',session('tahunSession'))->get();
         $r_sub_kegiatan = SubKegiatan::selectRaw("	t_realisasi_sub_kegiatan.id,
         fk_skpd_id,
