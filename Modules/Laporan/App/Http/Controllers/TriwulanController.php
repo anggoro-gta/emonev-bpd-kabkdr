@@ -212,13 +212,14 @@ class TriwulanController extends Controller
             'realisasi' => $realisasi
         ];
         // return view('laporan::triwulan.cetak2', compact('data'));
+        $tahun = session('tahunSession');
+        $title = "Monitoring OPD Realisasi Triwulan {$request->triwulan} Tahun {$tahun} ";
         if ($request->type == 'PDF') {
 
             $pdf = Pdf::loadView('laporan::triwulan.cetak2', (array)$data)->setPaper('a4', 'landscape');
-            $tahun = session('tahunSession');
-            return $pdf->download("Monitoring OPD Realisasi Triwulan {$request->triwulan} Tahun {$tahun} .pdf");
+            return $pdf->download("$title.pdf");
         } else {
-            return Excel::download(new TriwulanExport($data), 'invoices.xlsx');
+            return Excel::download(new TriwulanExport($data), "$title.xlsx");
         }
         return view('laporan::triwulan.cetak', compact('data'));
     }

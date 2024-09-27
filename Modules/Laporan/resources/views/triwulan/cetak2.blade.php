@@ -46,7 +46,7 @@
             <th rowspan="2" colspan="2">Realisasi Capaian Kinerja dan Anggaran RKPD yang dievaluasi {{ session('tahunSession') }}</th>
             <th rowspan="2" colspan="2">Tingkat Capaian Kinerja dan Realisasi Anggaran RKPD (%)	</th>
             <th rowspan="2" colspan="2">Realisasi Kinerja dan Anggaran RKPD s/d Tahun {{ session('tahunSession') }}</th>
-            <th rowspan="2" colspan="2">Tingkat Capaian Kinerja & Realisasi Anggaran RPJMD s/d Tahun  {{ session('tahunSession') }} (%)</th>
+            <th rowspan="2" colspan="2">Tingkat Capaian Kinerja dan Realisasi Anggaran RPJMD s/d Tahun  {{ session('tahunSession') }} (%)</th>
             <th rowspan="2">Perangkat Daerah Penanggung jawab</th>
             <th rowspan="2">Ket</th>
         </tr>
