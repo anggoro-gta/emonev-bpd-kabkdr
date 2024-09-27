@@ -104,7 +104,10 @@
                     $programTahunLalu = $program->programTahunLalu;
                 @endphp
                 <td>{{ isset($programTahunLalu )?  $program->programTahunLalu->indikator->pluck('keterangan_rpjmd')->implode(';') :''}}</td>
-                <td align="right">{{ isset($programTahunLalu )?  number_format($program->programTahunLalu->sub_kegiatan->sum('anggaran_murni')):0}}</td>
+                @php
+                    $anggaranProgramTahunLalu = isset($programTahunLalu )?  $program->programTahunLalu->sub_kegiatan->sum('anggaran_murni'):0;
+                @endphp
+                <td align="right">{{ number_format($anggaranProgramTahunLalu )}}</td>
                 <td>{{ $program->indikator->pluck('keterangan')->implode(';') }}</td>
                 @php
                     $col7 = $program->sub_kegiatan->sum('anggaran_murni');
@@ -174,8 +177,11 @@
                 @endif
                 <td> {{ number_format($totalVolumeRealiasi??0) }} {{  $satuan_prog  }}</td>
                 <td align="right">{{ number_format($totalRealisasi??0) }}</td>
+
                 <td> {{ number_format($totalVolumeRealiasi??0) }} {{  $satuan_prog  }}</td>
                 <td>{{ number_format($totalRealisasi/$col7*100, 2, '.', '') }} %</td>
+                <td></td>
+                <td>{{ number_format($anggaranProgramTahunLalu + $totalRealisasi??0) }}</td>
                 {{-- end Realisasi Program--}}
             </tr>
             @foreach ($program->kegiatan as $kegiatan)
@@ -190,7 +196,10 @@
                     $kegiatanTahunLalu = $program->programTahunLalu?->kegiatan->where('kode_kegiatan',$kegiatan->kode_kegiatan)->first() ?? null;
                 @endphp
                 <td>{{ isset($kegiatanTahunLalu->indikator) ?  $kegiatanTahunLalu->indikator->pluck('keterangan')->implode(';') : ''}}</td>
-                <td align="right">{{ isset($kegiatanTahunLalu->indikator) ? number_format($kegiatanTahunLalu->sub_kegiatan->sum('anggaran_rpjmd')): ''}}</td>
+                @php
+                    $anggaranKegiatanTahunLalu = isset($kegiatanTahunLalu->indikator) ? $kegiatanTahunLalu->sub_kegiatan->sum('anggaran_rpjmd'): 0;
+                @endphp
+                <td align="right">{{ number_format($anggaranKegiatanTahunLalu)}}</td>
                 <td>{{ $kegiatan->indikator->pluck('keterangan')->implode(';') }}</td>
                 <td align="right">{{ number_format($kegiatan->sub_kegiatan->sum('anggaran_murni'))}}</td>
 
@@ -261,6 +270,8 @@
                 <td align="right">{{ number_format($totalRealisasi??0) }}</td>
                 <td> {{ number_format($totalVolumeRealiasi??0) }} {{  $satuanKegiatan  }}</td>
                 <td>{{ number_format($totalRealisasi/$col7*100, 2, '.', '') }} %</td>
+                <td></td>
+                <td>{{ number_format($anggaranKegiatanTahunLalu + $totalRealisasi??0) }}</td>
                 {{-- end Realisasi Kegiatan --}}
             </tr>
                 @foreach ($kegiatan->sub_kegiatan as $sub_kegiatan)
@@ -326,6 +337,10 @@
                         <td align="right">{{ number_format($totalRealisasi??0) }}</td>
                         <td>{{ $totalVolumeRealiasi ?? null }} {{ $satuan_sub_kegiatan ?? null }}</td>
                         <td>{{ number_format($totalRealisasi/$col7*100, 2, '.', '') }} %</td>
+                        <td></td>
+                        <td>{{ number_format($subKegiatanTahunLalu->anggaran_rpjmd ?? 0 + $totalRealisasi??0) }}</td>
+                        <td></td>
+                        <td>{{ number_format($subKegiatanTahunLalu->anggaran_rpjmd ?? 0 + $totalRealisasi??0 ) }}</td>
                     </tr>
                 @endforeach
             @endforeach
