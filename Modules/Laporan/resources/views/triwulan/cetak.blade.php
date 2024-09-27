@@ -90,8 +90,13 @@
         </tr>
     </thead>
     <tbody>
-
-        @foreach ($data->program as $program)
+        @php
+            $data_program = $data_program ?? $data->data_program;
+            $data_r_program = $data_r_program ?? $data->data_r_program;
+            $data_r_kegiatan = $data_r_kegiatan ?? $data->data_r_kegiatan;
+            $data_r_sub_kegiatan = $data_r_sub_kegiatan ?? $data->data_r_sub_kegiatan;
+        @endphp
+        @foreach ($data_program as $program)
             <tr style="background-color: #87d1eb;">
                 <td align="center">{{ $loop->iteration }}</td>
                 <td>{{ $program->kode_program }}</td>
@@ -120,10 +125,10 @@
                 @endphp
                 @if (in_array($triwulan,[1,2,3,4]))
                     @php
-                        $rp = realisasiProgram($data->r_program,$program->id,1);
+                        $rp = realisasiProgram($data_r_program,$program->id,1);
                         $satuan_prog =$rp['satuan_prog'];
                         $totalVolumeRealiasi += $rp['volume_realisasi'];
-                        $r_anggaran_program = realisasiAnggaranProgram($data->r_sub_kegiatan,$program->id,1);
+                        $r_anggaran_program = realisasiAnggaranProgram($data_r_sub_kegiatan,$program->id,1);
                         $totalRealisasi +=$r_anggaran_program??0;
                     @endphp
                     <td>
@@ -135,9 +140,9 @@
                 @endif
                 @if (in_array($triwulan,[2,3,4]))
                     @php
-                        $rp = realisasiProgram($data->r_program,$program->id,2);
+                        $rp = realisasiProgram($data_r_program,$program->id,2);
                         $totalVolumeRealiasi += $rp['volume_realisasi'];
-                        $r_anggaran_program = realisasiAnggaranProgram($data->r_sub_kegiatan,$program->id,2);
+                        $r_anggaran_program = realisasiAnggaranProgram($data_r_sub_kegiatan,$program->id,2);
                         $totalRealisasi +=$r_anggaran_program??0;
                     @endphp
                     <td>
@@ -149,9 +154,9 @@
                 @endif
                 @if (in_array($triwulan,[3,4]))
                     @php
-                        $rp = realisasiProgram($data->r_program,$program->id,3);
+                        $rp = realisasiProgram($data_r_program,$program->id,3);
                         $totalVolumeRealiasi += $rp['volume_realisasi'];
-                        $r_anggaran_program = realisasiAnggaranProgram($data->r_sub_kegiatan,$program->id,3);
+                        $r_anggaran_program = realisasiAnggaranProgram($data_r_sub_kegiatan,$program->id,3);
                         $totalRealisasi +=$r_anggaran_program??0;
                     @endphp
                     <td>
@@ -163,9 +168,9 @@
                 @endif
                 @if (in_array($triwulan,[4]))
                     @php
-                        $rp = realisasiProgram($data->r_program,$program->id,4);
+                        $rp = realisasiProgram($data_r_program,$program->id,4);
                         $totalVolumeRealiasi += $rp['volume_realisasi'];
-                        $r_anggaran_program = realisasiAnggaranProgram($data->r_sub_kegiatan,$program->id,4);
+                        $r_anggaran_program = realisasiAnggaranProgram($data_r_sub_kegiatan,$program->id,4);
                         $totalRealisasi +=$r_anggaran_program??0;
                     @endphp
                     <td>
@@ -211,10 +216,10 @@
                 @endphp
                 @if (in_array($triwulan,[1,2,3,4]))
                     @php
-                        $rk = realisasiKegiatan($data->r_kegiatan,$kegiatan->id,1);
+                        $rk = realisasiKegiatan($data_r_kegiatan,$kegiatan->id,1);
                         $satuanKegiatan =$rk['satuan_kegiatan'];
                         $totalVolumeRealiasi += $rk['volume_realisasi'];
-                        $r_anggaran_kegiatan = realisasiAnggaranKegiatan($data->r_sub_kegiatan,$kegiatan->id,1);
+                        $r_anggaran_kegiatan = realisasiAnggaranKegiatan($data_r_sub_kegiatan,$kegiatan->id,1);
                         $totalRealisasi +=$r_anggaran_kegiatan??0;
                     @endphp
                     <td>
@@ -226,9 +231,9 @@
                 @endif
                 @if (in_array($triwulan,[2,3,4]))
                     @php
-                        $rk = realisasiKegiatan($data->r_kegiatan,$kegiatan->id,2);
+                        $rk = realisasiKegiatan($data_r_kegiatan,$kegiatan->id,2);
                         $totalVolumeRealiasi += $rk['volume_realisasi'];
-                        $r_anggaran_kegiatan = realisasiAnggaranKegiatan($data->r_sub_kegiatan,$kegiatan->id,2);
+                        $r_anggaran_kegiatan = realisasiAnggaranKegiatan($data_r_sub_kegiatan,$kegiatan->id,2);
                         $totalRealisasi +=$r_anggaran_kegiatan??0;
                     @endphp
                     <td>
@@ -240,9 +245,9 @@
                 @endif
                 @if (in_array($triwulan,[3,4]))
                     @php
-                        $rk = realisasiKegiatan($data->r_kegiatan,$kegiatan->id,3);
+                        $rk = realisasiKegiatan($data_r_kegiatan,$kegiatan->id,3);
                         $totalVolumeRealiasi += $rk['volume_realisasi'];
-                        $r_anggaran_kegiatan = realisasiAnggaranKegiatan($data->r_sub_kegiatan,$kegiatan->id,3);
+                        $r_anggaran_kegiatan = realisasiAnggaranKegiatan($data_r_sub_kegiatan,$kegiatan->id,3);
                         $totalRealisasi +=$r_anggaran_kegiatan??0;
                     @endphp
                     <td>
@@ -254,9 +259,9 @@
                 @endif
                 @if (in_array($triwulan,[4]))
                     @php
-                        $rk = realisasiKegiatan($data->r_kegiatan,$kegiatan->id,4);
+                        $rk = realisasiKegiatan($data_r_kegiatan,$kegiatan->id,4);
                         $totalVolumeRealiasi += $rk['volume_realisasi'];
-                        $r_anggaran_kegiatan = realisasiAnggaranKegiatan($data->r_sub_kegiatan,$kegiatan->id,4);
+                        $r_anggaran_kegiatan = realisasiAnggaranKegiatan($data_r_sub_kegiatan,$kegiatan->id,4);
                         $totalRealisasi +=$r_anggaran_kegiatan??0;
                     @endphp
                     <td>
@@ -297,7 +302,7 @@
                         @endphp
                         @if (in_array($triwulan,[1,2,3,4]))
                             @php
-                                $r = $data->r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',1)->first();
+                                $r = $data_r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',1)->first();
                                 $totalRealisasi += $r->anggaran_realisasi ?? 0;
                                 $totalVolumeRealiasi += $r->volume_realisasi ?? 0;
                                 $satuan_sub_kegiatan = $r->satuan_sub_kegiatan;
@@ -307,7 +312,7 @@
                         @endif
                         @if (in_array($triwulan,[2,3,4]))
                             @php
-                                $r = $data->r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',2)->first();
+                                $r = $data_r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',2)->first();
                                 $totalRealisasi += $r->anggaran_realisasi ?? 0;
                                 $totalVolumeRealiasi += $r->volume_realisasi ?? 0;
                             @endphp
@@ -316,7 +321,7 @@
                         @endif
                         @if (in_array($triwulan,[3,4]))
                             @php
-                                $r = $data->r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',3)->first();
+                                $r = $data_r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',3)->first();
                                 $totalRealisasi += $r->anggaran_realisasi ?? 0;
                                 $totalVolumeRealiasi += $r->volume_realisasi ?? 0;
                             @endphp
@@ -325,7 +330,7 @@
                         @endif
                         @if (in_array($triwulan,[4]))
                             @php
-                                $r = $data->r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',4)->first();
+                                $r = $data_r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',4)->first();
                                 $totalRealisasi += $r->anggaran_realisasi ?? 0;
                                 $totalVolumeRealiasi += $r->volume_realisasi ?? 0;
                             @endphp
