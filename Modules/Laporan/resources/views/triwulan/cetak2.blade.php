@@ -31,6 +31,23 @@
     $triwulan = request()->triwulan;
     $row1 = 2 * $triwulan;
 @endphp
+@php
+    $realisasi = $data->realisasi ?? $realisasi;
+    $dinas = $data->dinas ?? $dinas;
+
+@endphp
+
+<table width="100%">
+    <tr>
+        <td align="center" colspan="{{ 21+request()->triwulan }}">Evaluasi Terhadap Hasil RKPD</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="{{ 21+request()->triwulan }}">{{ $dinas }}</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="{{ 21+request()->triwulan }}">{{ session('tahunSession') }}</td>
+    </tr>
+</table>
 <table class="table-striped table bordered" id="table-userx" style="{{ request()->type == 'PDF' ? 'font-size:6px':'' }}">
 
     <thead>
@@ -94,10 +111,6 @@
             <td>Rp</td>
         </tr>
     </thead>
-    @php
-        $realisasi = $data->realisasi ?? $realisasi;
-
-    @endphp
     <tbody>
         @foreach ($realisasi as $item)
             <tr style="background-color: {{ $item['background-color'] }}">
@@ -127,19 +140,19 @@
                 @if (isset($item['col23']))
                 <td class="{{ isNumberData($item['col23']) ? 'text-right':'' }}">{{ getRowData($item['col23']) }}</td>
                 @endif
-                @if (isset($item['col23']))
+                @if (isset($item['col24']))
                 <td class="{{ isNumberData($item['col24']) ? 'text-right':'' }}">{{ getRowData($item['col24']) }}</td>
                 @endif
-                @if (isset($item['col23']))
+                @if (isset($item['col25']))
                 <td class="{{ isNumberData($item['col25']) ? 'text-right':'' }}">{{ getRowData($item['col25']) }}</td>
                 @endif
-                @if (isset($item['col23']))
+                @if (isset($item['col26']))
                 <td class="{{ isNumberData($item['col26']) ? 'text-right':'' }}">{{ getRowData($item['col26']) }}</td>
                 @endif
-                @if (isset($item['col23']))
+                @if (isset($item['col27']))
                 <td class="{{ isNumberData($item['col27']) ? 'text-right':'' }}">{{ getRowData($item['col27']) }}</td>
                 @endif
-                @if (isset($item['col23']))
+                @if (isset($item['col28']))
                 <td class="{{ isNumberData($item['col28']) ? 'text-right':'' }}">{{ getRowData($item['col28']) }}</td>
                 @endif
             </tr>

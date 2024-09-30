@@ -108,7 +108,7 @@ class TriwulanController extends Controller
             }
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
             $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $totalRealisasi];
-            $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
+            $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $program->indikator->sum('volume_prog')> 0 ? $totalVolume/$program->indikator->sum('volume_prog')*100: 0];
             $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => ($totalRealisasi / $program->sub_kegiatan->sum('anggaran_murni') * 100)];
 
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
@@ -151,7 +151,7 @@ class TriwulanController extends Controller
                 }
                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $totalRealisasi];
-                $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
+                $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->indikator->sum('volume_kegiatan') > 0 ? $totalVolume/$kegiatan->indikator->sum('volume_kegiatan')*100:0];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->sub_kegiatan->sum('anggaran_murni') > 0 ? ($totalRealisasi / $kegiatan->sub_kegiatan->sum('anggaran_murni') * 100):0];
 
                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
@@ -194,7 +194,7 @@ class TriwulanController extends Controller
                     }
                     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                     $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $totalRealisasi];
-                    $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
+                    $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $sub_kegiatan->volume_sub >  0 ? $totalVolume/$sub_kegiatan->volume_sub*100:0];
                     $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $sub_kegiatan->anggaran_murni > 0 ? ($totalRealisasi / $sub_kegiatan->anggaran_murni * 100):0];
 
                     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
@@ -209,7 +209,8 @@ class TriwulanController extends Controller
             // dd($realisasi);
         }
         $data = (object)[
-            'realisasi' => $realisasi
+            'realisasi' => $realisasi,
+            'dinas' => $skpd->nama_unit
         ];
         // return view('laporan::triwulan.cetak2', compact('data'));
         $tahun = session('tahunSession');
