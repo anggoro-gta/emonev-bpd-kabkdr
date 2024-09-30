@@ -185,8 +185,8 @@ class TriwulanController extends Controller
                     for ($i = 1; $i < $request->triwulan + 1; $i++) {
                         $rp = $r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',$i)->first();
                         $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ($rp->volume_realisasi ?? 0) . ' ' . ($rp->satuan_sub_kegiatan ?? '')];
-                        $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $sub_kegiatan->anggaran_murni ?? 0];
-                        $totalRealisasi += $sub_kegiatan->anggaran_murni;
+                        $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $rp->anggaran_realisasi ?? 0];
+                        $totalRealisasi += $rp->anggaran_realisasi;
                         $totalVolume += $rp->volume_realisasi ?? 0;
                         if ($i == 1) {
                             $satuanVolume = $rp->satuan_sub_kegiatan;
