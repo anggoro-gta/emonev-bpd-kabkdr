@@ -58,7 +58,7 @@ class TriwulanController extends Controller
         tahun,fk_kegiatan_id,fk_program_id,
         TRIM(TRAILING '.' FROM TRIM(TRAILING '0' from volume_realisasi )) as volume_realisasi  ,
         satuan_sub_kegiatan ,
-        anggaran_realisasi")->join('t_realisasi_sub_kegiatan_header', 't_realisasi_sub_kegiatan_header.id', '=', 't_realisasi_sub_kegiatan.fk_t_realisasi_sub_kegiatan_header_id')
+        anggaran_realisasi,anggaran_sub_kegiatan")->join('t_realisasi_sub_kegiatan_header', 't_realisasi_sub_kegiatan_header.id', '=', 't_realisasi_sub_kegiatan.fk_t_realisasi_sub_kegiatan_header_id')
             ->where('fk_skpd_id', $skpd->fk_skpd_id)->whereIn('triwulan', $triwulanArray[request()->triwulan])->where('tahun', session('tahunSession'))
             ->where('status_posting', 1)->orderBy('fk_sub_kegiatan_id')->get();
         $programs = MsProgram::with([
@@ -76,12 +76,15 @@ class TriwulanController extends Controller
         $realisasi = [];
         $no = 1;
         $index = 0;
+        $kp_per_t = 0;
+        $kinerja_program = [];
         foreach ($programs as  $program) {
             $programTahunLalu = $program->programTahunLalu;
             $anggaranProgramTahunLalu = isset($programTahunLalu) ?  $program->programTahunLalu->sub_kegiatan->sum('anggaran_murni') : 0;
             $col = 0;
             $realisasi[$index] = [
                 'background-color' => '#87d1eb;',
+                'type' => 'program',
                 'col' . ++$col => ['type' => 'string', 'value' => $no++],
                 'col' . ++$col => ['type' => 'string', 'value' => $program->kode_program],
                 'col' . ++$col => ['type' => 'string', 'value' => $program->nama_program],
@@ -96,9 +99,13 @@ class TriwulanController extends Controller
             $totalRealisasi = 0;
             $totalVolume = 0;
             $satuanVolume = null;
+            $volume_prog = $program->indikator->first()->volume_prog;
+            $kinerja_program_triwulan = [];
             for ($i = 1; $i < $request->triwulan + 1; $i++) {
                 $rp = realisasiProgram($r_program, $program->id, $i);
+                $kinerja_program_triwulan[] = $rp['volume_realisasi']/$volume_prog*100;
                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $rp['volume_realisasi'] . ' ' . $rp['satuan_prog']];
+                $realisasi[$index]['kinerja_program' . $i] = $rp['volume_realisasi']/$volume_prog*100;
                 $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => realisasiAnggaranProgram($r_sub_kegiatan, $program->id, $i)];
                 $totalRealisasi += realisasiAnggaranProgram($r_sub_kegiatan, $program->id, $i);
                 $totalVolume += $rp['volume_realisasi'];
@@ -106,6 +113,7 @@ class TriwulanController extends Controller
                     $satuanVolume = $rp['satuan_prog'];
                 }
             }
+            $kinerja_program[] = $kinerja_program_triwulan;
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
             $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $totalRealisasi];
             $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $program->indikator->sum('volume_prog')> 0 ? $totalVolume/$program->indikator->sum('volume_prog')*100: 0];
@@ -115,8 +123,7 @@ class TriwulanController extends Controller
             $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => ($anggaranProgramTahunLalu + $totalRealisasi)];
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
             $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranProgramTahunLalu > 0 ? ($program->sub_kegiatan->sum('anggaran_murni') + $totalRealisasi) / $program->sub_kegiatan->sum('anggaran_murni') * 100 : 0];
-            $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => 'xxx'];
-            $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => 'xxx'];
+            $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ''];
 
             foreach ($program->kegiatan as  $kegiatan) {
 
@@ -125,6 +132,7 @@ class TriwulanController extends Controller
                 $col = 0;
                 $realisasi[++$index] = [
                     'background-color' => '#e7b763',
+                    'type' => 'kegiatan',
                     'col' . ++$col => ['type' => 'string', 'value' => null],
                     'col' . ++$col => ['type' => 'string', 'value' => $kegiatan->kode_kegiatan],
                     'col' . ++$col => ['type' => 'string', 'value' => $kegiatan->nama_kegiatan],
@@ -139,9 +147,11 @@ class TriwulanController extends Controller
                 $totalRealisasi = 0;
                 $totalVolume = 0;
                 $satuanVolume = null;
+                $volume_keg = $kegiatan->indikator->first()->volume_keg;
                 for ($i = 1; $i < $request->triwulan + 1; $i++) {
                     $rp = realisasiKegiatan($r_kegiatan, $kegiatan->id, $i);
                     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $rp['volume_realisasi'] . ' ' . $rp['satuan_kegiatan']];
+                    $realisasi[$index]['kinerja_kegiatan' . $i] = $rp['volume_realisasi']/$volume_keg*100;
                     $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i)];
                     $totalRealisasi += realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i);
                     $totalVolume += $rp['volume_realisasi'];
@@ -158,8 +168,7 @@ class TriwulanController extends Controller
                 $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => ($anggaranKegiatanTahunLalu + $totalRealisasi)];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranKegiatanTahunLalu > 0 ? ($kegiatan->sub_kegiatan->sum('anggaran_murni') + $totalRealisasi) / $program->sub_kegiatan->sum('anggaran_murni') * 100 : 0];
-                $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => 'xxx'];
-                $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => 'xxx'];
+                $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ''];
 
 
                 foreach ($kegiatan->sub_kegiatan as $sub_kegiatan) {
@@ -168,6 +177,7 @@ class TriwulanController extends Controller
                     $col = 0;
                     $realisasi[++$index] = [
                         'background-color' => 'none',
+                        'type' => 'sub_kegiatan',
                         'col' . ++$col => ['type' => 'string', 'value' => null],
                         'col' . ++$col => ['type' => 'string', 'value' => $sub_kegiatan->kode_sub_kegiatan],
                         'col' . ++$col => ['type' => 'string', 'value' => $sub_kegiatan->nama_sub_kegiatan],
@@ -184,9 +194,13 @@ class TriwulanController extends Controller
                     $satuanVolume = null;
                     for ($i = 1; $i < $request->triwulan + 1; $i++) {
                         $rp = $r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',$i)->first();
+                        // dd($rp->volume_realisasi);
                         $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ($rp->volume_realisasi ?? 0) . ' ' . ($rp->satuan_sub_kegiatan ?? '')];
+                        $realisasi[$index]['kinerja_sub_kegiatan' . $i] = $sub_kegiatan!=null && $sub_kegiatan->volume_sub>0 ? ($rp->volume_realisasi??0)/$sub_kegiatan->volume_sub*100:0;
+                        $realisasi[$index]['target_anggaran_sub_kegiatan' . $i] = $rp->anggaran_murni ?? 0;
+                        $realisasi[$index]['realisasi_anggaran_sub_kegiatan' . $i] = $rp->anggaran_realisasi ?? 0;
                         $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $rp->anggaran_realisasi ?? 0];
-                        $totalRealisasi += $rp->anggaran_realisasi;
+                        $totalRealisasi += $rp->anggaran_realisasi ?? 0;
                         $totalVolume += $rp->volume_realisasi ?? 0;
                         if ($i == 1) {
                             $satuanVolume = $rp->satuan_sub_kegiatan;
@@ -201,16 +215,15 @@ class TriwulanController extends Controller
                     $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => ($anggaranSubKegiatanTahunLalu + $totalRealisasi)];
                     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                     $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranSubKegiatanTahunLalu > 0 ? ($sub_kegiatan->anggaran_murni + $totalRealisasi) / $sub_kegiatan->anggaran_murni * 100 : 0];
-                    $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => 'xxx'];
-                    $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => 'xxx'];
+                    $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ''];
                 }
             }
             ++$index;
-            // dd($realisasi);
         }
         $data = (object)[
             'realisasi' => $realisasi,
-            'dinas' => $skpd->nama_unit
+            'dinas' => $skpd->nama_unit,
+            'r_sub_kegiatan' => $r_sub_kegiatan
         ];
         // return view('laporan::triwulan.cetak2', compact('data'));
         $tahun = session('tahunSession');

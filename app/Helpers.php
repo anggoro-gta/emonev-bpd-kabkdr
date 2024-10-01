@@ -61,3 +61,20 @@ if (! function_exists('isNumberData')) {
         return  in_array($data['type'], ['persentase','int'])? true : false;
     }
 }
+
+if (! function_exists('getPredikat')) {
+    function getPredikat($number)
+    {
+        if ($number >= 91) {
+            return 'ST';
+        } elseif ($number >=76) {
+            return 'T';
+        }elseif ($number >=66) {
+            return 'S';
+        }elseif ($number >=51) {
+            return 'R';
+        } else {
+            return 'SR';
+        }
+    }
+}
