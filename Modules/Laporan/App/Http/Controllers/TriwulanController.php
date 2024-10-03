@@ -228,7 +228,7 @@ class TriwulanController extends Controller
             'r_sub_kegiatan' => $r_sub_kegiatan,
             'faktortl' => $faktortl
         ];
-        return view('laporan::triwulan.cetak2', compact('data'));
+        // return view('laporan::triwulan.cetak2', compact('data'));
         $tahun = session('tahunSession');
         $title = "Monitoring OPD Realisasi Triwulan {$request->triwulan} Tahun {$tahun} ";
         if ($request->type == 'PDF') {
