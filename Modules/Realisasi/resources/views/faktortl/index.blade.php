@@ -29,9 +29,9 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Realisasi Program</h1>
+            <h1>Faktor & TL</h1>
             <div class="section-header-breadcrumb">
-                <a href="{{ route('realisasi.program.create') }}" class="btn btn-success" title="Tambah"><i
+                <a href="{{ route('realisasi.faktortl.create') }}" class="btn btn-success" title="Tambah"><i
                         class="fas fa-plus"></i></a>
             </div>
         </div>
@@ -91,29 +91,9 @@
                                         <td>{{ $item->skpd->nama_skpd }}</td>
                                         <td>{{ $item->triwulan }}</td>
                                         <td>
-                                            @if ($item->status_posting==0)
-                                                <a href="{{ route('realisasi.program.edit',$item->id) }}"
-                                                    class="btn btn-primary" title="Edit"><i
-                                                        class="fas fa-pencil"></i></a>
-
-                                                <a data-url="{{ route('realisasi.program.tooglePosting',$item->id) }}" data-text="Anda Yakin Posting" data-status_posting="1"
-                                                    title="Posting" class="btn btn-success togglePosting">
-                                                    <i class="fas fa-check"></i>
-                                                </a>
-                                            @else
-
-                                            <a href="{{ route('realisasi.program.show',$item->id) }}"
+                                            <a href="{{ route('realisasi.faktortl.edit',$item->id) }}"
                                                 class="btn btn-primary" title="Edit"><i
-                                                    class="fas fa-eye"></i></a>
-                                                @if(auth()->user()->hasRole('Admin'))
-                                                    <a data-url="{{ route('realisasi.program.tooglePosting',$item->id) }}" data-text="Anda Yakin Batal Posting" data-status_posting="0"
-                                                        title="Batal Posting" class="btn btn-danger togglePosting">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-
-                                                @endif
-                                            @endif
-
+                                                    class="fas fa-pencil"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach

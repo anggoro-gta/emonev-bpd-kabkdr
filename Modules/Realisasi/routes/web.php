@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Realisasi\App\Http\Controllers\FaktorTLController;
 use Modules\Realisasi\App\Http\Controllers\KegiatanController;
 use Modules\Realisasi\App\Http\Controllers\ProgramController;
 use Modules\Realisasi\App\Http\Controllers\SubKegiatanController;
@@ -18,6 +19,8 @@ use Modules\Realisasi\App\Http\Controllers\SubKegiatanController;
 
 Route::group([], function () {
     Route::group(['middleware' => ['auth'], 'prefix' => 'realisasi', 'as' => 'realisasi.'], function () {
+
+        Route::resource('/faktortl', FaktorTLController::class);
 
         Route::resource('/program', ProgramController::class);
         Route::get('/get_program', [ProgramController::class, 'getKegiatan']);

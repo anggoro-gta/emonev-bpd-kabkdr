@@ -93,8 +93,8 @@
                 <li class="{{ Request::is('realisasi/realisasi_sub_kegiatan') ? 'active' : '' }}">
                     <a href="{{ route('realisasi.sub_kegiatan.index') }}">Sub Kegiatan</a>
                 </li>
-                <li class="{{ Request::is('realisasi/realisasi_sub_kegiatan') ? 'active' : '' }}">
-                    <a href="{{ route('realisasi.sub_kegiatan.index') }}">Faktor dan TL</a>
+                <li class="{{ Request::is('realisasi/faktortl') ? 'active' : '' }}">
+                    <a href="{{ route('realisasi.faktortl.index') }}">Faktor dan TL</a>
                 </li>
             </ul>
         </li>

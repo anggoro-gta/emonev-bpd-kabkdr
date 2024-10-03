@@ -35,6 +35,7 @@
     $realisasi = $data->realisasi ?? $realisasi;
     $dinas = $data->dinas ?? $dinas;
     $r_sub_kegiatan = $data->r_sub_kegiatan ?? $r_sub_kegiatan;
+    $faktortl = $data->faktortl ?? $faktortl ?? null;
 
 @endphp
 
@@ -233,6 +234,18 @@
             <td>{{ getPredikat($kinerja) }}</td>
             <td align="right">{{ getPredikat($target > 0 ? $realisasi/$target*100 : 0) }}</td>
             <td colspan="7"></td>
+        </tr>
+        <tr>
+            <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Pendorong Keberhasilan Kinerja: {{ $faktortl->faktor_pendorong }}</td>
+        </tr>
+        <tr>
+            <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Penghambat pencapaian Kinerja: {{ $faktortl->faktor_penghambat }}</td>
+        </tr>
+        <tr>
+            <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam triwulan berikutnya: {{ $faktortl->tindaklanjut_tw_berikutnya }}</td>
+        </tr>
+        <tr>
+            <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam RKPD berikutnya: {{ $faktortl->tindaklanjut_rkpd_berikutnya }}</td>
         </tr>
     </tbody>
 </table>

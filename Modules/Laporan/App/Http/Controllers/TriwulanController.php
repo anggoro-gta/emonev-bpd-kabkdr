@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Modules\Laporan\Exports\TriwulanExport;
 use Modules\Master\Models\MsProgram;
 use Modules\Master\Models\MsSKPDUnit;
+use Modules\Realisasi\Models\FaktorTL;
 use Modules\Realisasi\Models\ProgramHeader;
 use Modules\Realisasi\Models\SubKegiatan;
 use Modules\Realisasi\Models\VRKegiatan;
@@ -42,6 +43,7 @@ class TriwulanController extends Controller
     function cetak(Request $request)
     {
         $skpd = MsSKPDUnit::where('kode_unit', $request->kode_sub_unit_skpd ?? auth()->user()->unit->kode_unit)->first();
+        $faktortl = FaktorTL::where('fk_skpd_id',$skpd->id)->where('triwulan', request()->triwulan)->where('tahun', session('tahunSession'))->first();
         $triwulanArray = [
             1 => [1],
             2 => [1, 2],
@@ -223,9 +225,10 @@ class TriwulanController extends Controller
         $data = (object)[
             'realisasi' => $realisasi,
             'dinas' => $skpd->nama_unit,
-            'r_sub_kegiatan' => $r_sub_kegiatan
+            'r_sub_kegiatan' => $r_sub_kegiatan,
+            'faktortl' => $faktortl
         ];
-        // return view('laporan::triwulan.cetak2', compact('data'));
+        return view('laporan::triwulan.cetak2', compact('data'));
         $tahun = session('tahunSession');
         $title = "Monitoring OPD Realisasi Triwulan {$request->triwulan} Tahun {$tahun} ";
         if ($request->type == 'PDF') {
