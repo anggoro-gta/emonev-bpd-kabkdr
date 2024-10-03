@@ -236,16 +236,16 @@
             <td colspan="7"></td>
         </tr>
         <tr>
-            <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Pendorong Keberhasilan Kinerja: {{ $faktortl->faktor_pendorong }}</td>
+            <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Pendorong Keberhasilan Kinerja: {{ $faktortl->faktor_pendorong ?? null }}</td>
         </tr>
         <tr>
-            <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Penghambat pencapaian Kinerja: {{ $faktortl->faktor_penghambat }}</td>
+            <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Penghambat pencapaian Kinerja: {{ $faktortl->faktor_penghambat ?? null }}</td>
         </tr>
         <tr>
-            <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam triwulan berikutnya: {{ $faktortl->tindaklanjut_tw_berikutnya }}</td>
+            <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam triwulan berikutnya: {{ $faktortl->tindaklanjut_tw_berikutnya ?? null }}</td>
         </tr>
         <tr>
-            <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam RKPD berikutnya: {{ $faktortl->tindaklanjut_rkpd_berikutnya }}</td>
+            <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam RKPD berikutnya: {{ $faktortl->tindaklanjut_rkpd_berikutnya ?? null }}</td>
         </tr>
     </tbody>
 </table>
