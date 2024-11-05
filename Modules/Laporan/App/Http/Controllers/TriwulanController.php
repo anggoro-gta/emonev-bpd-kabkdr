@@ -74,15 +74,16 @@ class TriwulanController extends Controller
             'programTahunLalu.kegiatan.sub_kegiatan',
         ])->where('tahun', session('tahunSession'))
             ->where('kode_sub_unit_skpd', $request->kode_sub_unit_skpd ?? auth()->user()->unit->kode_unit)->get();
-
         $realisasi = [];
         $no = 1;
         $index = 0;
         $kp_per_t = 0;
         $kinerja_program = [];
+        $anggaran_kegiatan = 0;
+        $jenis_anggaran = $request->anggaran;
         foreach ($programs as  $program) {
             $programTahunLalu = $program->programTahunLalu;
-            $anggaranProgramTahunLalu = isset($programTahunLalu) ?  $program->programTahunLalu->sub_kegiatan->sum('anggaran_murni') : 0;
+            $anggaranProgramTahunLalu = isset($programTahunLalu) ?  $program->programTahunLalu->sub_kegiatan->sum($jenis_anggaran) : 0;
             $col = 0;
             $realisasi[$index] = [
                 'background-color' => '#87d1eb;',
@@ -96,8 +97,9 @@ class TriwulanController extends Controller
                 'col' . ++$col => ['type' => 'string', 'value' => isset($programTahunLalu) ?  $program->programTahunLalu->indikator->pluck('keterangan_rpjmd')->implode(';') : ''],
                 'col' . ++$col => ['type' => 'int', 'value' => $anggaranProgramTahunLalu],
                 'col' . ++$col => ['type' => 'string', 'value' => $program->indikator->pluck('keterangan')->implode(';')],
-                'col' . ++$col => ['type' => 'int', 'value' => $program->sub_kegiatan->sum('anggaran_murni')],
+                'col' . ++$col => ['type' => 'int', 'value' => $program->sub_kegiatan->sum($jenis_anggaran)],
             ];
+            $anggaran_kegiatan +=$program->sub_kegiatan->sum($jenis_anggaran);
             $totalRealisasi = 0;
             $totalVolume = 0;
             $satuanVolume = null;
@@ -119,12 +121,12 @@ class TriwulanController extends Controller
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
             $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $totalRealisasi];
             $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $program->indikator->sum('volume_prog')> 0 ? $totalVolume/$program->indikator->sum('volume_prog')*100: 0];
-            $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => ($totalRealisasi / $program->sub_kegiatan->sum('anggaran_murni') * 100)];
+            $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $program->sub_kegiatan->sum($jenis_anggaran) > 0 ?  ($totalRealisasi / $program->sub_kegiatan->sum($jenis_anggaran) * 100):0];
 
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
             $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => ($anggaranProgramTahunLalu + $totalRealisasi)];
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
-            $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranProgramTahunLalu > 0 ? ($program->sub_kegiatan->sum('anggaran_murni') + $totalRealisasi) / $program->sub_kegiatan->sum('anggaran_murni') * 100 : 0];
+            $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranProgramTahunLalu > 0 ? ($program->sub_kegiatan->sum($jenis_anggaran) + $totalRealisasi) / $program->sub_kegiatan->sum($jenis_anggaran) * 100 : 0];
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ''];
 
             foreach ($program->kegiatan as  $kegiatan) {
@@ -144,7 +146,7 @@ class TriwulanController extends Controller
                     'col' . ++$col => ['type' => 'string', 'value' => isset($kegiatanTahunLalu) ?  $kegiatan->programTahunLalu->indikator->pluck('keterangan')->implode(';') : ''],
                     'col' . ++$col => ['type' => 'int', 'value' => $anggaranProgramTahunLalu],
                     'col' . ++$col => ['type' => 'string', 'value' => $kegiatan->indikator->pluck('keterangan')->implode(';')],
-                    'col' . ++$col => ['type' => 'int', 'value' => $kegiatan->sub_kegiatan->sum('anggaran_murni')],
+                    'col' . ++$col => ['type' => 'int', 'value' => $kegiatan->sub_kegiatan->sum($jenis_anggaran)],
                 ];
                 $totalRealisasi = 0;
                 $totalVolume = 0;
@@ -161,15 +163,16 @@ class TriwulanController extends Controller
                         $satuanVolume = $rp['satuan_kegiatan'];
                     }
                 }
+                // dd($totalVolume);
                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $totalRealisasi];
-                $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->indikator->sum('volume_kegiatan') > 0 ? $totalVolume/$kegiatan->indikator->sum('volume_kegiatan')*100:0];
-                $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->sub_kegiatan->sum('anggaran_murni') > 0 ? ($totalRealisasi / $kegiatan->sub_kegiatan->sum('anggaran_murni') * 100):0];
+                $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->indikator->sum('volume_keg') > 0 ? $totalVolume/$kegiatan->indikator->sum('volume_keg')*100:0];
+                $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->sub_kegiatan->sum($jenis_anggaran) > 0 ? ($totalRealisasi / $kegiatan->sub_kegiatan->sum($jenis_anggaran) * 100):0];
 
                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => ($anggaranKegiatanTahunLalu + $totalRealisasi)];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
-                $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranKegiatanTahunLalu > 0 ? ($kegiatan->sub_kegiatan->sum('anggaran_murni') + $totalRealisasi) / $program->sub_kegiatan->sum('anggaran_murni') * 100 : 0];
+                $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranKegiatanTahunLalu > 0 ? ($kegiatan->sub_kegiatan->sum($jenis_anggaran) + $totalRealisasi) / $program->sub_kegiatan->sum($jenis_anggaran) * 100 : 0];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ''];
 
 
@@ -226,7 +229,9 @@ class TriwulanController extends Controller
             'realisasi' => $realisasi,
             'dinas' => $skpd->nama_unit,
             'r_sub_kegiatan' => $r_sub_kegiatan,
-            'faktortl' => $faktortl
+            'faktortl' => $faktortl,
+            'anggaran_kegiatan' => $anggaran_kegiatan,
+            'jenis_anggaran' => $jenis_anggaran
         ];
         // return view('laporan::triwulan.cetak2', compact('data'));
         $tahun = session('tahunSession');
@@ -239,5 +244,14 @@ class TriwulanController extends Controller
             return Excel::download(new TriwulanExport($data), "$title.xlsx");
         }
         return view('laporan::triwulan.cetak', compact('data'));
+    }
+    function cekFaktor(Request $request) {
+        $skpd = MsSKPDUnit::where('kode_unit', $request->kode_sub_unit_skpd ?? auth()->user()->unit->kode_unit)->first();
+        $faktor_tl = FaktorTL::where('tahun',session('tahunSession'))->where('fk_skpd_id', $skpd->fk_skpd_id)->where('triwulan',$request->triwulan)->count('Id');
+        $data = (object)[
+            'faktor_tl' => $faktor_tl
+        ];
+        return view('laporan::triwulan._form', compact('data'));
+
     }
 }

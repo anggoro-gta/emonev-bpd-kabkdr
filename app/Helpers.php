@@ -78,3 +78,13 @@ if (! function_exists('getPredikat')) {
         }
     }
 }
+function TglIndo($date, $lc = 'IND')
+{
+    if ($date != null) {
+        $dt = new  \Carbon\Carbon($date);
+        setlocale(LC_TIME, $lc);
+        return $dt->formatLocalized('%e %B %Y'); // Senin, 3 September 2018
+    } else {
+        return null;
+    }
+}

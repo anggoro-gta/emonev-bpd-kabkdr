@@ -160,7 +160,7 @@ class UserController extends Controller
         $user->fk_skpd_unit_id = $request->fk_skpd_unit_id;
         $user->username = $request->username;
         if ($request->password) {
-            $user->password = $request->password;
+            $user->password = Hash::make($request->password);
         }
         $user->save();
         if ($user->roles->isEmpty() == false) {

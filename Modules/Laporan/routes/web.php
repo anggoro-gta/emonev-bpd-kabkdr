@@ -20,4 +20,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'laporan', 'as' => 'laporan.
     Route::resource('/monitoring_opd', MonitoringOpdController::class)->only('index');
     Route::resource('/triwulan', TriwulanController::class)->only('index');
     Route::post('/triwulan/cetak', [TriwulanController::class,'cetak'])->name('triwulan.cetak');
+    Route::get('/triwulan/cek-faktor', [TriwulanController::class,'cekFaktor'])->name('triwulan.cekFaktor');
 });

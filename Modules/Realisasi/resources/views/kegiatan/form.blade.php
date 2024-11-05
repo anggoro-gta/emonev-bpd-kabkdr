@@ -63,7 +63,7 @@
                                     @if(auth()->user()->hasRole('Admin'))
                                     <div class="form-group col-md-3">
                                         <label for="inputPassword4">
-                                            SKPDaa
+                                            SKPD
                                             @error('fk_skpd_id')
                                             <code>{{ $message }}</code>
                                             @enderror

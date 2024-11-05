@@ -36,6 +36,8 @@
     $dinas = $data->dinas ?? $dinas;
     $r_sub_kegiatan = $data->r_sub_kegiatan ?? $r_sub_kegiatan;
     $faktortl = $data->faktortl ?? $faktortl ?? null;
+    $anggaran_kegiatan = $data->anggaran_kegiatan ?? $anggaran_kegiatan ?? null;
+    $jenis_anggaran = $data->jenis_anggaran ?? $jenis_anggaran ?? null;
 
 @endphp
 
@@ -200,6 +202,7 @@
         @php
             $kinerja = 0;
             $anggaran = 0;
+            $r_anggaran = 0;
         @endphp
         <tr>
             <td align="right" colspan="10">Rata- rata Capaian Kinerja (%)</td>
@@ -208,18 +211,14 @@
                     $kinerjaTriwulan =(${'kinerjaProgram' . $i}/$jumlahProgram + ${'kinerjaKegiatan' . $i}/$jumlahKegiatan + ${'kinerjaSubKegiatan' . $i}/$jumlahSubKegiatan )/3;
                     $kinerja +=$kinerjaTriwulan;
                     $realisasi = $r_sub_kegiatan->where('triwulan',$i)->sum('anggaran_realisasi');
+                    $r_anggaran += $r_sub_kegiatan->where('triwulan',$i)->sum('anggaran_realisasi');
                     $target = $r_sub_kegiatan->where('triwulan',$i)->sum('anggaran_sub_kegiatan');
                 @endphp
                 <td align="right">{{  number_format($kinerjaTriwulan, 2, '.', ''). ' %' }}</td>
-                <td>{{  $target > 0 ? number_format($realisasi/$target*100  ): 0 }} %</td>
+                <td>{{  $target > 0 ? number_format($realisasi/$target*100  ): 0 }} % </td>
             @endfor
             <td align="right">{{  number_format($kinerja, 2, '.', ''). ' %' }}</td>
-            @php
-
-                $realisasi = $r_sub_kegiatan->sum('anggaran_realisasi');
-                $target = $r_sub_kegiatan->sum('anggaran_sub_kegiatan');
-            @endphp
-                <td align="right">{{  $target > 0 ? number_format($realisasi/$target*100  ): 0 }} %</td>
+                <td align="right">{{  $target > 0 && $anggaran_kegiatan > 0 ? number_format($r_anggaran/$anggaran_kegiatan*100 , 2, '.', '' ): 0 }} % </td>
                 <td colspan="7"></td>
         </tr>
         <tr>
@@ -232,7 +231,7 @@
                 <td>{{  getPredikat($anggaranTriwulan ?? 0) }}</td>
             @endfor
             <td>{{ getPredikat($kinerja) }}</td>
-            <td align="right">{{ getPredikat($target > 0 ? $realisasi/$target*100 : 0) }}</td>
+            <td align="right">{{ getPredikat($target > 0 && $anggaran_kegiatan>0 ? $r_anggaran/$anggaran_kegiatan*100 : 0) }}</td>
             <td colspan="7"></td>
         </tr>
         <tr>
@@ -247,5 +246,35 @@
         <tr>
             <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam RKPD berikutnya: {{ $faktortl->tindaklanjut_rkpd_berikutnya ?? null }}</td>
         </tr>
+        @if (request()->type == 'PDF')
+            <tr>
+                <td style="border: 0px" colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px" align="center" colspan="3">Kediri, {{ TglIndo(request()->tanggal) }}</td>
+            </tr>
+            <tr>
+                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px" align="center" colspan="3">{{ request()->jabatan }}</td>
+            </tr>
+            <tr>
+                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px" align="center" colspan="3"></td>
+            </tr>
+            <tr>
+                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px" align="center" colspan="3"></td>
+            </tr>
+            <tr>
+                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px" align="center" colspan="3"></td>
+            </tr>
+            <tr>
+                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px" align="center" colspan="3"><b><u>{{ request()->nama }}</u></b></td>
+            </tr>
+            <tr>
+                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px" align="center" colspan="3">NIP. {{ request()->nip }}</td>
+            </tr>
+        @endif
     </tbody>
 </table>
