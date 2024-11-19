@@ -249,15 +249,11 @@
         @if (request()->type == 'PDF')
             <tr>
                 <td style="border: 0px" colspan="{{ 16+request()->triwulan*2 }}"></td>
-                <td style="border: 0px" align="center" colspan="3">Kediri, {{ TglIndo(request()->tanggal) }}</td>
+                <td style="border: 0px;padding-bottom: 0px" align="center" colspan="3">Kediri, {{ TglIndo(request()->tanggal) }}</td>
             </tr>
             <tr>
                 <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
-                <td style="border: 0px" align="center" colspan="3">{{ request()->jabatan }}</td>
-            </tr>
-            <tr>
-                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
-                <td style="border: 0px" align="center" colspan="3"></td>
+                <td style="border: 0px;padding-top: 0px" align="center" colspan="3">{{ request()->jabatan }}</td>
             </tr>
             <tr>
                 <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
@@ -269,11 +265,15 @@
             </tr>
             <tr>
                 <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
-                <td style="border: 0px" align="center" colspan="3"><b><u>{{ request()->nama }}</u></b></td>
+                <td style="border: 0px" align="center" colspan="3"></td>
             </tr>
             <tr>
                 <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
-                <td style="border: 0px" align="center" colspan="3">NIP. {{ request()->nip }}</td>
+                <td style="border: 0px;padding-bottom: 0px" align="center" colspan="3"><b><u>{{ request()->nama }}</u></b></td>
+            </tr>
+            <tr>
+                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px;padding-top: 0px" align="center" colspan="3">NIP. {{ request()->nip }}</td>
             </tr>
         @endif
     </tbody>
