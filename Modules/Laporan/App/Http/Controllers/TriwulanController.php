@@ -43,7 +43,7 @@ class TriwulanController extends Controller
     function cetak(Request $request)
     {
         $skpd = MsSKPDUnit::where('kode_unit', $request->kode_sub_unit_skpd ?? auth()->user()->unit->kode_unit)->first();
-        $faktortl = FaktorTL::where('fk_skpd_id',$skpd->id)->where('triwulan', request()->triwulan)->where('tahun', session('tahunSession'))->first();
+        $faktortl = FaktorTL::where('fk_skpd_id',$skpd->fk_skpd_id)->where('triwulan', request()->triwulan)->where('tahun', session('tahunSession'))->first();
         $triwulanArray = [
             1 => [1],
             2 => [1, 2],
