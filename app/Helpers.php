@@ -3,13 +3,15 @@
 if (! function_exists('realisasiProgram')) {
     function realisasiProgram($r_program, $programId, $triwulan)
     {
-
         if ($r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->first() != null) {
             $rp = $r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->first();
         }
         return [
             'volume_realisasi' => $rp->volume_realisasi ?? 0,
-            'satuan_prog' => $rp->satuan_prog ?? null
+            'satuan_prog' => $rp->satuan_prog ?? null,
+            'k' => $r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->pluck('keterangan')->implode('; '),
+            'vArray' => $r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->pluck('volume_prog')->toArray(),
+            'rArray' => $r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->pluck('volume_realisasi')->toArray(),
         ];
     }
 }

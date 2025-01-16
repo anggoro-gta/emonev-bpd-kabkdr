@@ -10,4 +10,9 @@ class VRProgram extends Model
     protected $table = 'v_realisasi_program';
     public $incrementing = false;
     public $timestamps = false;
+    protected $appends = ['keterangan'];
+    public function getKeteranganAttribute()
+    {
+        return number_format($this->volume_realisasi) . ' ' . $this->satuan_prog;
+    }
 }
