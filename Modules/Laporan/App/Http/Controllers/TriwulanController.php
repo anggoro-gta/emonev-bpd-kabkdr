@@ -148,7 +148,7 @@ class TriwulanController extends Controller
                     'col' . ++$col => ['type' => 'string', 'value' => $kegiatan->indikator->pluck('indikator_keg')->implode(';')],
                     'col' . ++$col => ['type' => 'string', 'value' => $kegiatan->indikator->pluck('keterangan_rpjmd')->implode(';')],
                     'col' . ++$col => ['type' => 'int', 'value' => $kegiatan->sub_kegiatan->sum('anggaran_rpjmd')],
-                    'col' . ++$col => ['type' => 'string', 'value' => isset($kegiatanTahunLalu) ?  $kegiatan->programTahunLalu->indikator->pluck('keterangan')->implode(';') : ''],
+                    'col' . ++$col => ['type' => 'string', 'value' => isset($kegiatanTahunLalu->programTahunLalu->indikator) ?  $kegiatan->programTahunLalu->indikator->pluck('keterangan')->implode(';') : ''],
                     'col' . ++$col => ['type' => 'int', 'value' => $anggaranProgramTahunLalu],
                     'col' . ++$col => ['type' => 'string', 'value' => $kegiatan->indikator->pluck('keterangan')->implode(';')],
                     'col' . ++$col => ['type' => 'int', 'value' => $kegiatan->sub_kegiatan->sum($jenis_anggaran)],
