@@ -131,7 +131,7 @@ class TriwulanController extends Controller
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
             $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => ($anggaranProgramTahunLalu + $totalRealisasi)];
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
-            $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranProgramTahunLalu > 0 ? ($program->sub_kegiatan->sum($jenis_anggaran) + $totalRealisasi) / $program->sub_kegiatan->sum($jenis_anggaran) * 100 : 0];
+            $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranProgramTahunLalu > 0 && ($program->sub_kegiatan->sum($jenis_anggaran) * 100) > 0 ? ($program->sub_kegiatan->sum($jenis_anggaran) + $totalRealisasi) / $program->sub_kegiatan->sum($jenis_anggaran) * 100 : 0];
             $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ''];
 
             foreach ($program->kegiatan as  $kegiatan) {
