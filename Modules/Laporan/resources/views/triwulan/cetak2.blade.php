@@ -199,7 +199,7 @@
                 @endif
             </tr>
         @endforeach
-        {{-- @php
+        @php
             $kinerja = 0;
             $anggaran = 0;
             $r_anggaran = 0;
@@ -275,6 +275,6 @@
                 <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
                 <td style="border: 0px;padding-top: 0px" align="center" colspan="3">NIP. {{ request()->nip }}</td>
             </tr>
-        @endif --}}
+        @endif
     </tbody>
 </table>
