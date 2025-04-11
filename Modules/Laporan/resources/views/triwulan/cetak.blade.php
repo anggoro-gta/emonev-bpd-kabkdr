@@ -223,7 +223,7 @@
                         $totalRealisasi +=$r_anggaran_kegiatan??0;
                     @endphp
                     <td>
-                        {{ $rk['k'] ?? null }}
+                        {!! $rk['k'] ?? null !!}
                     </td>
                     <td align="right">
                         {{ number_format($r_anggaran_kegiatan??0) }}
@@ -237,7 +237,7 @@
                         $totalRealisasi +=$r_anggaran_kegiatan??0;
                     @endphp
                     <td>
-                        {{ $rk['k'] ?? null }}
+                        {!! $rk['k'] ?? null !!}
                     </td>
                     <td align="right">
                         {{ number_format($r_anggaran_kegiatan??0) }}
@@ -251,7 +251,7 @@
                         $totalRealisasi +=$r_anggaran_kegiatan??0;
                     @endphp
                     <td>
-                        {{ $rk['k'] ?? null }}
+                        {!! $rk['k'] ?? null !!}
                     </td>
                     <td align="right">
                         {{ number_format($r_anggaran_kegiatan??0) }}
@@ -265,7 +265,7 @@
                         $totalRealisasi +=$r_anggaran_kegiatan??0;
                     @endphp
                     <td>
-                        {{ $rk['k'] ?? null }}
+                        {!! $rk['k'] ?? null !!}
                     </td>
                     <td align="right">
                         {{ number_format($r_anggaran_kegiatan??0) }}

@@ -29,9 +29,15 @@ if (! function_exists('realisasiKegiatan')) {
         if ($r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->first() != null) {
             $rk = $r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->first();
         };
+        // if ($kegiatanId==1254) {
+        //     dd($r_kegiatan->where('fk_kegiatan_id', $kegiatanId));
+        // }
         return [
             'volume_realisasi' => $rk->volume_realisasi ?? 0,
-            'satuan_kegiatan' => $rk->satuan_kegiatan ?? null
+            'satuan_kegiatan' => $rk->satuan_kegiatan ?? null,
+            'k' => $r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->pluck('k')->implode('; '),
+            'vArray' => $r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->pluck('k')->toArray(),
+            'rArray' => $r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->pluck('volume_realisasi')->toArray(),
         ];
     }
 }

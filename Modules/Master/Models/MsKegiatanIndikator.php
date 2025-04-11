@@ -14,10 +14,10 @@ class MsKegiatanIndikator extends Model
     protected $appends = ['keterangan','keterangan_rpjmd'];
     public function getKeteranganAttribute()
     {
-        return number_format($this->volume_keg) . ' ' . $this->satuan_keg;
+        return $this->volume_keg . ' ' . $this->satuan_keg;
     }
     public function getKeteranganRpjmdAttribute()
     {
-        return number_format($this->volume_keg_rpjmd) . ' ' . $this->satuan_keg_rpjmd;
+        return $this->volume_keg_rpjmd . ' ' . $this->satuan_keg_rpjmd;
     }
 }

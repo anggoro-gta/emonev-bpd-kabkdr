@@ -14,10 +14,10 @@ class MsProgramIndikator extends Model
     protected $appends = ['keterangan','keterangan_rpjmd'];
     public function getKeteranganAttribute()
     {
-        return number_format($this->volume_prog) . ' ' . $this->satuan_prog;
+        return $this->volume_prog . ' ' . $this->satuan_prog;
     }
     public function getKeteranganRpjmdAttribute()
     {
-        return number_format($this->volume_prog_rpjmd) . ' ' . $this->satuan_prog_rpjmd;
+        return $this->volume_prog_rpjmd . ' ' . $this->satuan_prog_rpjmd;
     }
 }

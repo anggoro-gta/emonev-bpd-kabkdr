@@ -157,10 +157,19 @@ class TriwulanController extends Controller
                 $totalVolume = 0;
                 $satuanVolume = null;
                 $volume_keg = $kegiatan->indikator->first()->volume_keg;
+                $kinerja_kegiatan_triwulan = [];
+                $volKeg = [];
+                $volRealisasiKeg = [];
                 for ($i = 1; $i < $request->triwulan + 1; $i++) {
                     $rp = realisasiKegiatan($r_kegiatan, $kegiatan->id, $i);
-                    $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $rp['volume_realisasi'] . ' ' . $rp['satuan_kegiatan']];
-                    $realisasi[$index]['kinerja_kegiatan' . $i] = $rp['volume_realisasi']/$volume_keg*100;
+                    // if ($kegiatan->id==1254) {
+                    //     dd($kegiatan->indikator);
+                    // }
+                    $volKeg[] = $rp['vArray'];
+                    $volRealisasiKeg[] = $rp['rArray'];
+                    $kinerja_program_triwulan[] = $rp['volume_realisasi'] / $volume_keg * 100;
+                    $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $rp['k']];
+                    $realisasi[$index]['kinerja_kegiatan' . $i] = $rp['volume_realisasi'] / $volume_keg * 100;
                     $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i)];
                     $totalRealisasi += realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i);
                     $totalVolume += $rp['volume_realisasi'];
@@ -168,8 +177,20 @@ class TriwulanController extends Controller
                         $satuanVolume = $rp['satuan_kegiatan'];
                     }
                 }
+                // for ($i = 1; $i < $request->triwulan + 1; $i++) {
+                //     $rp = realisasiKegiatan($r_kegiatan, $kegiatan->id, $i);
+                //     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $rp['volume_realisasi'] . ' ' . $rp['satuan_kegiatan']];
+                //     $realisasi[$index]['kinerja_kegiatan' . $i] = $rp['volume_realisasi']/$volume_keg*100;
+                //     $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i)];
+                //     $totalRealisasi += realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i);
+                //     $totalVolume += $rp['volume_realisasi'];
+                //     if ($i == 1) {
+                //         $satuanVolume = $rp['satuan_kegiatan'];
+                //     }
+                // }
                 // dd($totalVolume);
-                $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
+                $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' =>  $this->getkinerjaRealisasiK($volRealisasiKeg, $satuanVolume)]; #12k
+                // $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $totalRealisasi];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->indikator->sum('volume_keg') > 0 ? $totalVolume/$kegiatan->indikator->sum('volume_keg')*100:0];
                 $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->sub_kegiatan->sum($jenis_anggaran) > 0 ? ($totalRealisasi / $kegiatan->sub_kegiatan->sum($jenis_anggaran) * 100):0];
@@ -278,8 +299,31 @@ class TriwulanController extends Controller
         // // Print the results
         $totalKinerjaProgram = "";
         foreach ($sums as $index => $sum) {
-            $totalKinerjaProgram .= "$sum $satuanVolume;<br>";
+            $totalKinerjaProgram .= "$sum $satuanVolume;";
         }
         return $totalKinerjaProgram;
+    }
+    function getkinerjaRealisasiK($data, $satuanVolume)
+    {
+
+        // Initialize an array to store the sums by index
+        $sums = [];
+
+        // Loop through the array to sum by index
+        foreach ($data as $subArray) {
+            foreach ($subArray as $index => $value) {
+                if (!isset($sums[$index])) {
+                    $sums[$index] = 0; // Initialize if not set
+                }
+                $sums[$index] += $value;
+            }
+        }
+
+        // // Print the results
+        $totalKinerjaKegiatan = "";
+        foreach ($sums as $index => $sum) {
+            $totalKinerjaKegiatan .= "$sum $satuanVolume;";
+        }
+        return $totalKinerjaKegiatan;
     }
 }
