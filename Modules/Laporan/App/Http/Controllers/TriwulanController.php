@@ -245,7 +245,8 @@ class TriwulanController extends Controller
                     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                     $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => ($anggaranSubKegiatanTahunLalu + $totalRealisasi)];
                     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
-                    $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranSubKegiatanTahunLalu > 0 ? ($sub_kegiatan->anggaran_murni + $totalRealisasi) / $sub_kegiatan->anggaran_murni * 100 : 0];
+                    $xx = $sub_kegiatan->anggaran_murni > 0 ? ($sub_kegiatan->anggaran_murni + $totalRealisasi) / $sub_kegiatan->anggaran_murni * 100 :0;
+                    $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $anggaranSubKegiatanTahunLalu > 0 ? $xx : 0];
                     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ''];
                 }
             }
