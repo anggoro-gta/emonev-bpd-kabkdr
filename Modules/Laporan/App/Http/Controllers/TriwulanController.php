@@ -167,9 +167,9 @@ class TriwulanController extends Controller
                     // }
                     $volKeg[] = $rp['vArray'];
                     $volRealisasiKeg[] = $rp['rArray'];
-                    $kinerja_program_triwulan[] = $rp['volume_realisasi'] / $volume_keg * 100;
+                    $kinerja_program_triwulan[] = $volume_keg > 0 ? $rp['volume_realisasi'] / $volume_keg * 100 :0;
                     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $rp['k']];
-                    $realisasi[$index]['kinerja_kegiatan' . $i] = $rp['volume_realisasi'] / $volume_keg * 100;
+                    $realisasi[$index]['kinerja_kegiatan' . $i] = $volume_keg > 0 ? $rp['volume_realisasi'] / $volume_keg * 100 :0;
                     $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i)];
                     $totalRealisasi += realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i);
                     $totalVolume += $rp['volume_realisasi'];
