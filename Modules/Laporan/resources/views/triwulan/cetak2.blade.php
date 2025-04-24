@@ -203,6 +203,7 @@
             $kinerja = 0;
             $anggaran = 0;
             $r_anggaran = 0;
+            $total_target_realisasi=0;
         @endphp
         <tr>
             <td align="right" colspan="10">Rata- rata Capaian Kinerja (%)</td>
@@ -213,12 +214,15 @@
                     $realisasi = $r_sub_kegiatan->where('triwulan',$i)->sum('anggaran_realisasi');
                     $r_anggaran += $r_sub_kegiatan->where('triwulan',$i)->sum('anggaran_realisasi');
                     $target = $r_sub_kegiatan->where('triwulan',$i)->sum('anggaran_sub_kegiatan');
+                    $target_reallisasi = $target > 0 ? $realisasi/$target*100 : 0;
+
+                    $total_target_realisasi =+$target_reallisasi;
                 @endphp
-                <td align="right">{{  number_format($kinerjaTriwulan, 2, '.', ''). ' %' }}</td>
-                <td>{{  $target > 0 ? number_format($realisasi/$target*100  ): 0 }} % </td>
+                <td align="right">{{  number_format($kinerjaTriwulan, 2, '.', ''). ' %' }} </td>
+                <td>{{  number_format($target_reallisasi , 2, '.', '') }} %</td>
             @endfor
             <td align="right">{{  number_format($kinerja, 2, '.', ''). ' %' }}</td>
-                <td align="right">{{  $target > 0 && $anggaran_kegiatan > 0 ? number_format($r_anggaran/$anggaran_kegiatan*100 , 2, '.', '' ): 0 }} % </td>
+                <td align="right">{{  number_format($total_target_realisasi, 2, '.', '') }} %</td>
                 <td colspan="7"></td>
         </tr>
         <tr>
