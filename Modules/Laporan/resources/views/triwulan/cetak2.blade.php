@@ -39,8 +39,8 @@
     $anggaran_kegiatan = $data->anggaran_kegiatan ?? $anggaran_kegiatan ?? null;
     $jenis_anggaran = $data->jenis_anggaran ?? $jenis_anggaran ?? null;
 
+    $total_target = 0
 @endphp
-
 <table width="100%">
     <tr>
         <td align="center" colspan="{{ 22+request()->triwulan }}">Evaluasi Terhadap Hasil RKPD</td>
@@ -154,6 +154,7 @@
                     $kinerjaSubKegiatan2 +=$item['kinerja_sub_kegiatan2'] ?? 0;
                     $kinerjaSubKegiatan3 +=$item['kinerja_sub_kegiatan3'] ?? 0;
                     $kinerjaSubKegiatan4 +=$item['kinerja_sub_kegiatan4'] ?? 0;
+                    $total_target+=$item['col10']['value'] ?? 0;
                 }
             @endphp
             <tr style="background-color: {{ $item['background-color'] }}">
@@ -204,6 +205,7 @@
             $anggaran = 0;
             $r_anggaran = 0;
             $total_target_realisasi=0;
+            $t_pesentase = 0;
         @endphp
         <tr>
             <td align="right" colspan="10">Rata- rata Capaian Kinerja (%)</td>
@@ -217,12 +219,20 @@
                     $target_reallisasi = $target > 0 ? $realisasi/$target*100 : 0;
 
                     $total_target_realisasi =+$target_reallisasi;
+                    $persentase = $realisasi /$total_target*100;
+                    $t_pesentase+=$persentase;
                 @endphp
                 <td align="right">{{  number_format($kinerjaTriwulan, 2, '.', ''). ' %' }} </td>
-                <td>{{  number_format($target_reallisasi , 2, '.', '') }} %</td>
+                <td>
+                    {{-- {{  number_format($target_reallisasi , 2, '.', '') }} %  --}}
+                    {{  number_format($persentase, 2, '.', '') }} %
+                </td>
             @endfor
             <td align="right">{{  number_format($kinerja, 2, '.', ''). ' %' }}</td>
-                <td align="right">{{  number_format($total_target_realisasi, 2, '.', '') }} %</td>
+                <td align="right">
+                    {{-- {{  number_format($total_target_realisasi, 2, '.', '') }} % --}}
+                    {{  number_format($t_pesentase, 2, '.', '') }} %
+                </td>
                 <td colspan="7"></td>
         </tr>
         <tr>
@@ -231,8 +241,8 @@
                 @php
                     $kinerjaTriwulan =(${'kinerjaProgram' . $i}/$jumlahProgram + ${'kinerjaKegiatan' . $i}/$jumlahKegiatan + ${'kinerjaSubKegiatan' . $i}/$jumlahSubKegiatan )/3;
                 @endphp
-                <td align="right">{{  getPredikat($kinerjaTriwulan) }}</td>
-                <td>{{  getPredikat($anggaranTriwulan ?? 0) }}</td>
+                <td align="right">{{  getPredikat($kinerjaTriwulan) }} </td>
+                <td>{{  getPredikat($anggaranTriwulan ?? 0) }} </td>
             @endfor
             <td>{{ getPredikat($kinerja) }}</td>
             <td align="right">{{ getPredikat($target > 0 && $anggaran_kegiatan>0 ? $r_anggaran/$anggaran_kegiatan*100 : 0) }}</td>
