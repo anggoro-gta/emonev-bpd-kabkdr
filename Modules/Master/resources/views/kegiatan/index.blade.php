@@ -73,9 +73,9 @@
                                             <td>{{ $item->nama_kegiatan }}</td>
                                             <td>
                                                 @can('master.update')
-                                                <a href="{{ route('master.kegiatan.edit',$item->id) }}"
+                                                {{-- <a href="{{ route('master.kegiatan.edit',$item->id) }}"
                                                     class="btn btn-primary" title="Edit Kegiatan"><i
-                                                        class="fas fa-pencil"></i></a>
+                                                        class="fas fa-pencil"></i></a> --}}
                                                 @endcan
                                                 @if (auth()->user()->hasRole("Admin"))
                                                     <a data-url="{{ route('master.kegiatan.destroy',$item->id) }}" title="Hapus"

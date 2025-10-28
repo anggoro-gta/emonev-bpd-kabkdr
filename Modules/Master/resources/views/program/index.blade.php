@@ -77,9 +77,9 @@
                                             <td>{{ $item->nama_program }}</td>
                                             <td>
                                                 @can('master.update')
-                                                <a href="{{ route('master.program.edit',$item->id) }}"
+                                                {{-- <a href="{{ route('master.program.edit',$item->id) }}"
                                                     class="btn btn-primary" title="Edit skpd"><i
-                                                        class="fas fa-pencil"></i></a>
+                                                        class="fas fa-pencil"></i></a> --}}
                                                 @endcan
                                                 @if (auth()->user()->hasRole("Admin"))
                                                     <a data-url="{{ route('master.program.destroy',$item->id) }}" title="Hapus"
