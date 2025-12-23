@@ -69,6 +69,7 @@ class KegiatanController extends Controller
                 $inputDetail[] = [
                     'fk_t_realisasi_kegiatan_header_id' => $idHeader,
                     'fk_kegiatan_id' => $request->fk_kegiatan_id[$i],
+                    'fk_kegiatan_indikator_id' => $request->indikator_kegiatan_id[$i] ?? null,
                     'indikator_kegiatan' => $request->indikator_kegiatan[$i] ?? null,
                     'volume_kegiatan' => $request->volume_kegiatan[$i]  ?? null,
                     'satuan_kegiatan' => $request->satuan_kegiatan[$i]  ?? null,
@@ -138,6 +139,7 @@ class KegiatanController extends Controller
             KegiatanHeader::where('id',$id)->update($input);
             for ($i = 0; $i < count($request->id); $i++) {
                 $inputDetail = [
+                    'fk_kegiatan_indikator_id' => $request->indikator_kegiatan_id[$i] ?? null,
                     'volume_realisasi' => isset($request->volume_realisasi[$i]) ? str_replace(',', '', $request->volume_realisasi[$i]) : null,
                 ];
                 Kegiatan::where('id',$request->id[$i])->update($inputDetail);
@@ -181,7 +183,8 @@ class KegiatanController extends Controller
                 ms_kegiatan.*,
                 mki.indikator_keg,
                 mki.volume_keg,
-                mki.satuan_keg
+                mki.satuan_keg,
+                mki.id as ms_kegiatan_indikator_id
             from
                 `ms_kegiatan`
             left join ms_kegiatan_indikator mki on mki.fk_kegiatan_id =ms_kegiatan.id

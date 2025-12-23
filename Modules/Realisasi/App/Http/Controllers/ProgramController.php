@@ -67,6 +67,7 @@ class ProgramController extends Controller
                 $inputDetail[] = [
                     'fk_t_realisasi_program_header_id' => $idHeader,
                     'fk_program_id' => $request->fk_program_id[$i],
+                    'fk_program_indikator_id' => $request->indikator_prog_id[$i] ?? null,
                     'indikator_prog' => $request->indikator_prog[$i] ?? null,
                     'volume_prog' => $request->volume_prog[$i]  ?? null,
                     'satuan_prog' => $request->satuan_prog[$i]  ?? null,
@@ -120,6 +121,7 @@ class ProgramController extends Controller
             'header' => ProgramHeader::find($id),
             'readonly' => $show
         ];
+        // dd($data);
         return view('realisasi::program.form', compact('data'));
     }
 
@@ -136,6 +138,7 @@ class ProgramController extends Controller
             ProgramHeader::where('id',$id)->update($input);
             for ($i = 0; $i < count($request->id); $i++) {
                 $inputDetail = [
+                    'fk_program_indikator_id' => $request->indikator_prog_id[$i] ?? null,
                     'volume_realisasi' => isset($request->volume_realisasi[$i]) ? str_replace(',', '', $request->volume_realisasi[$i]) : null,
                 ];
                 Program::where('id',$request->id[$i])->update($inputDetail);
@@ -179,7 +182,8 @@ class ProgramController extends Controller
                 ms_program.*,
                 mpi.indikator_prog,
                 mpi.volume_prog ,
-                mpi.satuan_prog
+                mpi.satuan_prog,
+                mpi.id as ms_program_indikator_id
             from
                 `ms_program`
                 left join ms_program_indikator mpi  on mpi.fk_program_id = ms_program.id

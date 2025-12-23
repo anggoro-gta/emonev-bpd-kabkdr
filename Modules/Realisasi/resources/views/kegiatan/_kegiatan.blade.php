@@ -16,6 +16,7 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $item->nama_kegiatan }}</td>
+                <input type="hidden" name="indikator_kegiatan_id[]" value="{{ $item->ms_kegiatan_indikator_id }}">
                 <input type="hidden" name="indikator_kegiatan[]" value="{{ $item->indikator_keg }}">
                 <input type="hidden" name="satuan_kegiatan[]" value="{{ $item->satuan_keg }}">
                 <input type="hidden" name="volume_kegiatan[]" value="{{ $item->volume_keg }}">

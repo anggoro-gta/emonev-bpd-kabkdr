@@ -114,6 +114,7 @@
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->nama_program }}</td>
+                                                        <input type="hidden" name="indikator_prog_id[]" value="{{ $item->fk_program_indikator_id }}">
                                                         <input type="hidden" name="indikator_prog[]" value="{{ $item->indikator_prog }}">
                                                         <input type="hidden" name="satuan_prog[]" value="{{ $item->volume_prog }}">
                                                         <input type="hidden" name="volume_prog[]" value="{{ $item->satuan_prog }}">
