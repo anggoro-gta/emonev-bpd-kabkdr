@@ -7,6 +7,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Laporan\Exports\TriwulanExport;
+use Modules\Laporan\Exports\AllSKPDTriwulanExport;
 use Modules\Master\Models\MsProgram;
 use Modules\Master\Models\MsSKPDUnit;
 use Modules\Realisasi\Models\FaktorTL;
@@ -400,7 +401,7 @@ class TriwulanController extends Controller
                     $anggaranProgramTahunLalu = isset($programTahunLalu) ?  $program->programTahunLalu->sub_kegiatan->sum($jenis_anggaran) : 0;
                     $col = 0;
                     $realisasi[$index] = [
-                        'background-color' => '#87d1eb;',
+                        'background-color' => '#87d1eb',
                         'type' => 'program',
                         'col' . ++$col => ['type' => 'string', 'value' => $no++],
                         'col' . ++$col => ['type' => 'string', 'value' => $program->kode_program],
@@ -491,20 +492,7 @@ class TriwulanController extends Controller
                                 $satuanVolume = $rp['satuan_kegiatan'];
                             }
                         }
-                        // for ($i = 1; $i < $request->triwulan + 1; $i++) {
-                        //     $rp = realisasiKegiatan($r_kegiatan, $kegiatan->id, $i);
-                        //     $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $rp['volume_realisasi'] . ' ' . $rp['satuan_kegiatan']];
-                        //     $realisasi[$index]['kinerja_kegiatan' . $i] = $rp['volume_realisasi']/$volume_keg*100;
-                        //     $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i)];
-                        //     $totalRealisasi += realisasiAnggaranKegiatan($r_sub_kegiatan, $kegiatan->id, $i);
-                        //     $totalVolume += $rp['volume_realisasi'];
-                        //     if ($i == 1) {
-                        //         $satuanVolume = $rp['satuan_kegiatan'];
-                        //     }
-                        // }
-                        // dd($totalVolume);
                         $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' =>  $this->getkinerjaRealisasiK($volRealisasiKeg, $satuanVolume)]; #12k
-                        // $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => $totalVolume . ' ' . $satuanVolume];
                         $realisasi[$index]['col' . ++$col] = ['type' => 'int', 'value' => $totalRealisasi];
                         $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->indikator->sum('volume_keg') > 0 ? $totalVolume/$kegiatan->indikator->sum('volume_keg')*100:0];
                         $realisasi[$index]['col' . ++$col] = ['type' => 'persentase', 'value' => $kegiatan->sub_kegiatan->sum($jenis_anggaran) > 0 ? ($totalRealisasi / $kegiatan->sub_kegiatan->sum($jenis_anggaran) * 100):0];
@@ -539,7 +527,6 @@ class TriwulanController extends Controller
                             $satuanVolume = null;
                             for ($i = 1; $i < $request->triwulan + 1; $i++) {
                                 $rp = $r_sub_kegiatan->where('fk_sub_kegiatan_id',$sub_kegiatan->id)->where('triwulan',$i)->first();
-                                // dd($rp->volume_realisasi);
                                 $realisasi[$index]['col' . ++$col] = ['type' => 'string', 'value' => ($rp->volume_realisasi ?? 0) . ' ' . ($rp->satuan_sub_kegiatan ?? '')];
                                 $realisasi[$index]['kinerja_sub_kegiatan' . $i] = $sub_kegiatan!=null && $sub_kegiatan->volume_sub>0 ? ($rp->volume_realisasi??0)/$sub_kegiatan->volume_sub*100:0;
                                 $realisasi[$index]['target_anggaran_sub_kegiatan' . $i] = $rp->anggaran_murni ?? 0;
@@ -569,6 +556,7 @@ class TriwulanController extends Controller
             }
 
             $data = (object)[
+                'triwulan'          => $request->triwulan,
                 'realisasi'         => $realisasi,
                 'dinas'             => $nama_unit,
                 'r_sub_kegiatan'    => $r_sub_kegiatan,
@@ -649,7 +637,13 @@ class TriwulanController extends Controller
                 }
                 return $pdf->download("$title.pdf");
             } else {
-                return Excel::download(new TriwulanExport($data), "$title.xlsx");
+                
+                if($kode_sub_unit_skpd=='all'){
+                    $title = "Monitoring Semua OPD Realisasi Triwulan {$request->triwulan} Tahun {$tahun} ";
+                    return Excel::download(new AllSKPDTriwulanExport($data), "$title.xlsx");
+                }else{
+                    return Excel::download(new TriwulanExport($data), "$title.xlsx");
+                }
             }
             // return view('laporan::triwulan.cetak', compact('data'));
         } catch (\Throwable $th) {

@@ -28,7 +28,7 @@
         3 => 10,
         4 => 11,
     ];
-    $triwulan = request()->triwulan;
+    $triwulan = $data->triwulan ?? $triwulan;
     $row1 = 2 * $triwulan;
 @endphp
 @php
@@ -43,13 +43,13 @@
 @endphp
 <table width="100%">
     <tr>
-        <td align="center" colspan="{{ 22+request()->triwulan }}">Evaluasi Terhadap Hasil RKPD</td>
+        <td align="center" colspan="{{ 22+$triwulan }}">Evaluasi Terhadap Hasil RKPD</td>
     </tr>
     <tr>
-        <td align="center" colspan="{{ 22+request()->triwulan }}">{{ $dinas }}</td>
+        <td align="center" colspan="{{ 22+$triwulan }}">{{ $dinas }}</td>
     </tr>
     <tr>
-        <td align="center" colspan="{{ 22+request()->triwulan }}">Tahun {{ session('tahunSession') }}</td>
+        <td align="center" colspan="{{ 22+$triwulan }}">Tahun {{ session('tahunSession') }}</td>
     </tr>
 </table>
 <table class="table-striped table bordered" id="table-userx" style="{{ request()->type == 'PDF' ? 'font-size:6px':'' }}">
@@ -249,44 +249,44 @@
             <td colspan="7"></td>
         </tr>
         <tr>
-            <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Pendorong Keberhasilan Kinerja: {{ $faktortl->faktor_pendorong ?? null }}</td>
+            <td colspan="{{ 19+$triwulan*2 }}">Faktor Pendorong Keberhasilan Kinerja: {{ $faktortl->faktor_pendorong ?? null }}</td>
         </tr>
         <tr>
-            <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Penghambat pencapaian Kinerja: {{ $faktortl->faktor_penghambat ?? null }}</td>
+            <td colspan="{{ 19+$triwulan*2 }}">Faktor Penghambat pencapaian Kinerja: {{ $faktortl->faktor_penghambat ?? null }}</td>
         </tr>
         <tr>
-            <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam triwulan berikutnya: {{ $faktortl->tindaklanjut_tw_berikutnya ?? null }}</td>
+            <td colspan="{{ 19+$triwulan*2 }}">Tindak Lanjut yang diperlukan dalam triwulan berikutnya: {{ $faktortl->tindaklanjut_tw_berikutnya ?? null }}</td>
         </tr>
         <tr>
-            <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam RKPD berikutnya: {{ $faktortl->tindaklanjut_rkpd_berikutnya ?? null }}</td>
+            <td colspan="{{ 19+$triwulan*2 }}">Tindak Lanjut yang diperlukan dalam RKPD berikutnya: {{ $faktortl->tindaklanjut_rkpd_berikutnya ?? null }}</td>
         </tr>
         @if (request()->type == 'PDF')
             <tr>
-                <td style="border: 0px" colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px" colspan="{{ 16+$triwulan*2 }}"></td>
                 <td style="border: 0px;padding-bottom: 0px" align="center" colspan="3">Kediri, {{ TglIndo(request()->tanggal) }}</td>
             </tr>
             <tr>
-                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px"colspan="{{ 16+$triwulan*2 }}"></td>
                 <td style="border: 0px;padding-top: 0px" align="center" colspan="3">{{ request()->jabatan }}</td>
             </tr>
             <tr>
-                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px"colspan="{{ 16+$triwulan*2 }}"></td>
                 <td style="border: 0px" align="center" colspan="3"></td>
             </tr>
             <tr>
-                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px"colspan="{{ 16+$triwulan*2 }}"></td>
                 <td style="border: 0px" align="center" colspan="3"></td>
             </tr>
             <tr>
-                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px"colspan="{{ 16+$triwulan*2 }}"></td>
                 <td style="border: 0px" align="center" colspan="3"></td>
             </tr>
             <tr>
-                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px"colspan="{{ 16+$triwulan*2 }}"></td>
                 <td style="border: 0px;padding-bottom: 0px" align="center" colspan="3"><b><u>{{ request()->nama }}</u></b></td>
             </tr>
             <tr>
-                <td style="border: 0px"colspan="{{ 16+request()->triwulan*2 }}"></td>
+                <td style="border: 0px"colspan="{{ 16+$triwulan*2 }}"></td>
                 <td style="border: 0px;padding-top: 0px" align="center" colspan="3">NIP. {{ request()->nip }}</td>
             </tr>
         @endif

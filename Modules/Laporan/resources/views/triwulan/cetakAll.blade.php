@@ -29,7 +29,7 @@
         3 => 10,
         4 => 11,
     ];
-    $triwulan = request()->triwulan;
+    $triwulan = $data->triwulan ?? $triwulan;
     $row1 = 2 * $triwulan;
 @endphp
 @php
@@ -51,10 +51,10 @@
 @endphp
 <table width="100%">
     <tr>
-        <td align="center" colspan="{{ 22+request()->triwulan }}">Evaluasi Terhadap Hasil RKPD</td>
+        <td align="center" colspan="{{ 22+$triwulan }}">Evaluasi Terhadap Hasil RKPD</td>
     </tr>
     <tr>
-        <td align="center" colspan="{{ 22+request()->triwulan }}">Tahun {{ session('tahunSession') }}</td>
+        <td align="center" colspan="{{ 22+$triwulan }}">Tahun {{ session('tahunSession') }}</td>
     </tr>
 </table>
 <table class="table-striped table bordered" id="table-userx" style="{{ request()->type == 'PDF' ? 'font-size:6px':'' }}">
@@ -146,7 +146,7 @@
                 $rowsUnit = $realisasiByUnit->get($skpd_item->kode_unit, collect());
             @endphp
             <tr style="background-color: #e1e1e1">
-                <td colspan="{{ 19+request()->triwulan*2 }}"><b>{{ $skpd_item->nama_unit }}</b></td>
+                <td colspan="{{ 19+$triwulan*2 }}"><b>{{ $skpd_item->nama_unit }}</b></td>
             </tr>
             @if ($rowsUnit->isNotEmpty())
                 @foreach ($rowsUnit as $item)
@@ -283,23 +283,23 @@
                     <td colspan="7"></td>
                 </tr>
                 <tr>
-                    <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Pendorong Keberhasilan Kinerja: {{ $ft->faktor_pendorong ?? null }}</td>
+                    <td colspan="{{ 19+$triwulan*2 }}">Faktor Pendorong Keberhasilan Kinerja: {{ $ft->faktor_pendorong ?? null }}</td>
                 </tr>
                 <tr>
-                    <td colspan="{{ 19+request()->triwulan*2 }}">Faktor Penghambat pencapaian Kinerja: {{ $ft->faktor_penghambat ?? null }}</td>
+                    <td colspan="{{ 19+$triwulan*2 }}">Faktor Penghambat pencapaian Kinerja: {{ $ft->faktor_penghambat ?? null }}</td>
                 </tr>
                 <tr>
-                    <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam triwulan berikutnya: {{ $ft->tindaklanjut_tw_berikutnya ?? null }}</td>
+                    <td colspan="{{ 19+$triwulan*2 }}">Tindak Lanjut yang diperlukan dalam triwulan berikutnya: {{ $ft->tindaklanjut_tw_berikutnya ?? null }}</td>
                 </tr>
                 <tr>
-                    <td colspan="{{ 19+request()->triwulan*2 }}">Tindak Lanjut yang diperlukan dalam RKPD berikutnya: {{ $ft->tindaklanjut_rkpd_berikutnya ?? null }}</td>
+                    <td colspan="{{ 19+$triwulan*2 }}">Tindak Lanjut yang diperlukan dalam RKPD berikutnya: {{ $ft->tindaklanjut_rkpd_berikutnya ?? null }}</td>
                 </tr>
                 <tr>
-                    <td colspan="{{ 19+request()->triwulan*2 }}">&nbsp;</td>
+                    <td colspan="{{ 19+$triwulan*2 }}">&nbsp;</td>
                 </tr>
             @else
                 <tr>
-                    <td colspan="{{ 19+request()->triwulan*2 }}">Belum ada data</td>
+                    <td colspan="{{ 19+$triwulan*2 }}">Belum ada data</td>
                 </tr>
             @endif
         @endforeach
