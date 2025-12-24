@@ -56,6 +56,7 @@
                                             <select class="form-control select2 cek-faktor" name="kode_sub_unit_skpd"
                                                 required>
                                                 <option value="">Pilih SKPD</option>
+                                                <option value="all">Semua SKPD</option>
                                                 @foreach ($data->skpd_unit as $item)
                                                 <option {{ request('kode_sub_unit_skpd')==$item->id ? 'selected':'' }}
                                                     value="{{

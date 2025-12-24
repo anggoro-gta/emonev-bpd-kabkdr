@@ -1,17 +1,21 @@
 <?php
+use Illuminate\Support\Collection;
 
 if (! function_exists('realisasiProgram')) {
-    function realisasiProgram($r_program, $programId, $triwulan)
+    function realisasiProgram(Collection $r_program, $programId, $triwulan): array
     {
-        if ($r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->first() != null) {
-            $rp = $r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->first();
-        }
+        $filtered = $r_program
+            ->where('fk_program_id', $programId)
+            ->where('triwulan', $triwulan);
+
+        $rp = $filtered->first(); // bisa null
+
         return [
-            'volume_realisasi' => $rp->volume_realisasi ?? 0,
-            'satuan_prog' => $rp->satuan_prog ?? null,
-            'k' => $r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->pluck('keterangan')->implode('; '),
-            'vArray' => $r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->pluck('volume_prog')->toArray(),
-            'rArray' => $r_program->where('fk_program_id', $programId)->where('triwulan', $triwulan)->pluck('volume_realisasi')->toArray(),
+            'volume_realisasi' => (float) ($rp->volume_realisasi ?? 0),
+            'satuan_prog'      => $rp->satuan_prog ?? null,
+            'k'                => $filtered->pluck('keterangan')->filter()->implode(';'),
+            'vArray'           => $filtered->pluck('volume_prog')->all(),
+            'rArray'           => $filtered->pluck('volume_realisasi')->all(),
         ];
     }
 }
@@ -23,21 +27,20 @@ if (! function_exists('realisasiAnggaranProgram')) {
     }
 }
 if (! function_exists('realisasiKegiatan')) {
-    function realisasiKegiatan($r_kegiatan, $kegiatanId, $triwulan)
+    function realisasiKegiatan(Collection $r_kegiatan, $kegiatanId, $triwulan): array
     {
+        $filtered = $r_kegiatan
+            ->where('fk_kegiatan_id', $kegiatanId)
+            ->where('triwulan', $triwulan);
 
-        if ($r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->first() != null) {
-            $rk = $r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->first();
-        };
-        // if ($kegiatanId==1254) {
-        //     dd($r_kegiatan->where('fk_kegiatan_id', $kegiatanId));
-        // }
+        $rk = $filtered->first(); // bisa null
+
         return [
-            'volume_realisasi' => $rk->volume_realisasi ?? 0,
-            'satuan_kegiatan' => $rk->satuan_kegiatan ?? null,
-            'k' => $r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->pluck('k')->implode('; '),
-            'vArray' => $r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->pluck('k')->toArray(),
-            'rArray' => $r_kegiatan->where('fk_kegiatan_id', $kegiatanId)->where('triwulan', $triwulan)->pluck('volume_realisasi')->toArray(),
+            'volume_realisasi' => (float) ($rk->volume_realisasi ?? 0),
+            'satuan_kegiatan'  => $rk->satuan_kegiatan ?? null,
+            'k'                => $filtered->pluck('k')->filter()->implode(';'),
+            'vArray'           => $filtered->pluck('k')->all(),
+            'rArray'           => $filtered->pluck('volume_realisasi')->all(),
         ];
     }
 }
