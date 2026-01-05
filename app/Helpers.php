@@ -60,7 +60,7 @@ if (! function_exists('getRowData')) {
         if ( $data['type'] == 'persentase') {
            return number_format($data['value'], 2, '.', ''). ' %';
         }
-        return $data['type'] == 'int' ? number_format($data['value']) : $data['value'];
+        return $data['type'] == 'int' ? number_format($data['value'], 0, ',', '.') : $data['value'];
     }
 }
 if (! function_exists('isNumberData')) {
