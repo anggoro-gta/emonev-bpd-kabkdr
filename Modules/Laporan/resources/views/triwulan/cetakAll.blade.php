@@ -15,6 +15,7 @@
     .text-right{
         text-align: right;
     }
+    @page { margin: 8px 8px 10px 8px; } /* kecilkan margin */
 </style>
 @php
     $triwulanString = [
